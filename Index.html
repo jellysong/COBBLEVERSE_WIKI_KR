@@ -1,0 +1,2418 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COBBLEVERSE 위키 – 한국어 전체 원문 가이드</title>
+  <style>
+    :root {
+      --bg-page: #0a141d;
+      --bg-sidebar: rgba(11, 24, 34, 0.84);
+      --bg-content: rgba(13, 28, 40, 0.86);
+      --bg-card: rgba(19, 41, 58, 0.82);
+      --poke-red: #ef4444;
+      --poke-red-deep: #b91c1c;
+      --poke-gold: #fbbf24;
+      --poke-gold-soft: #fde68a;
+      --poke-cyan: #22d3ee;
+      --poke-sky: #38bdf8;
+      --poke-mint: #34d399;
+      --text-white: #ffffff;
+      --text-body: #f0f9ff;
+      --text-muted: #bae6fd;
+      --border: rgba(125, 211, 252, 0.24);
+      --border-gold: rgba(251, 191, 36, 0.36);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-body);
+      line-height: 1.78;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* 코블버스 배경 이미지(코블버스 위키 배경시안 1.jpg) + 포켓몬 모험 세계감 오버레이 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(180deg, rgba(8, 20, 31, 0.62) 0%, rgba(10, 26, 39, 0.54) 48%, rgba(7, 17, 27, 0.76) 100%),
+        url('images/코블버스 위키 배경시안 1.jpg') center center / cover no-repeat fixed;
+      filter: saturate(1.08) contrast(1.03);
+    }
+
+    /* 은은한 도감 그리드 및 상단 포켓볼 라인 장식 */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    a { color: var(--poke-cyan); text-decoration: none; transition: color 0.15s ease; }
+    a:hover { color: var(--poke-gold-soft); text-decoration: underline; }
+
+    code {
+      background: rgba(34, 211, 238, 0.16);
+      border: 1px solid rgba(34, 211, 238, 0.28);
+      color: #a5f3fc;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9em;
+    }
+
+    /* Top Header — 포켓볼 레드 & 도감 골드 액센트 */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 21, 32, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 2px solid var(--border-gold);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    }
+    header::after {
+      content: "";
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, var(--poke-red) 0%, var(--poke-red) 34%, #ffffff 34%, #ffffff 36%, var(--poke-gold) 36%, var(--poke-sky) 72%, var(--poke-mint) 100%);
+    }
+
+    .header-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    /* 미니 포켓볼 엠블럼 */
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--poke-red) 0%, var(--poke-red-deep) 46%, #1e293b 46%, #1e293b 54%, #f8fafc 54%, #cbd5e1 100%);
+      border: 2.5px solid #f8fafc;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.35), 0 4px 12px rgba(0, 0, 0, 0.4);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      color: transparent;
+      font-size: 0;
+      flex-shrink: 0;
+    }
+    .logo-icon::after {
+      content: "";
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2.5px solid #1e293b;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.85);
+    }
+
+    .logo-text {
+      font-size: 1.38rem;
+      font-weight: 900;
+      letter-spacing: 1.6px;
+      background: linear-gradient(90deg, #fde68a, #7dd3fc, #6ee7b7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+    }
+
+    .lang-pill {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 999px;
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      color: var(--poke-gold-soft);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    /* Two-Column Original Docs Layout (Left Sidebar + Right Reader) */
+    .docs-wrapper {
+      max-width: 1480px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      gap: 28px;
+      padding: 24px 24px 80px;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .docs-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left Sticky Sidebar — 트레이너 도감 내비게이션 패널 */
+    .left-sidebar {
+      background: var(--bg-sidebar);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--poke-red);
+      border-radius: 16px;
+      padding: 18px 14px;
+      position: sticky;
+      top: 80px;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.36);
+    }
+
+    .left-sidebar::-webkit-scrollbar { width: 6px; }
+    .left-sidebar::-webkit-scrollbar-thumb { background: rgba(125, 211, 252, 0.28); border-radius: 999px; }
+
+    .sidebar-search {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(125, 211, 252, 0.28);
+      background: rgba(7, 17, 26, 0.78);
+      color: #fff;
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+    }
+    .sidebar-search::placeholder { color: #93c5fd; opacity: 0.72; }
+    .sidebar-search:focus {
+      outline: none;
+      border-color: var(--poke-gold);
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.18);
+    }
+
+    .cat-group {
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(186, 230, 253, 0.12);
+      padding-bottom: 8px;
+    }
+    .cat-group:last-child { border-bottom: none; margin-bottom: 0; }
+
+    .cat-title {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--poke-gold-soft);
+      padding: 6px 10px;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-list { list-style: none; }
+    .nav-list li { margin-bottom: 2px; }
+
+    .side-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-left: 3px solid transparent;
+      color: var(--text-muted);
+      padding: 7px 12px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      line-height: 1.45;
+      transition: all 0.15s ease;
+      display: block;
+    }
+    .side-btn:hover {
+      background: rgba(251, 191, 36, 0.1);
+      color: #fff;
+      border-left-color: rgba(251, 191, 36, 0.5);
+    }
+    .side-btn.active {
+      background: linear-gradient(90deg, rgba(239, 68, 68, 0.24), rgba(56, 189, 248, 0.16));
+      border-left-color: var(--poke-gold);
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.2);
+    }
+
+    /* Right Content Area — 배경 풍경이 은은하게 비치는 도감 리더 패널 */
+    .right-content {
+      background: var(--bg-content);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--poke-gold);
+      border-radius: 18px;
+      padding: 38px 42px;
+      min-height: calc(100vh - 110px);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42);
+    }
+
+    @media (max-width: 640px) {
+      .right-content { padding: 24px 20px; }
+    }
+
+    .wiki-doc { display: none; }
+    .wiki-doc.active { display: block; animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    .wiki-doc h2 {
+      font-size: 1.85rem;
+      color: #fff;
+      font-weight: 900;
+      margin-bottom: 10px;
+      line-height: 1.3;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    }
+    .wiki-doc .doc-meta {
+      font-size: 0.86rem;
+      color: var(--poke-cyan);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .wiki-doc h3 {
+      color: var(--poke-gold);
+      font-size: 1.25rem;
+      margin: 28px 0 12px;
+      border-left: 4px solid var(--poke-red);
+      padding-left: 11px;
+    }
+    .wiki-doc h4 {
+      color: var(--poke-cyan);
+      font-size: 1.08rem;
+      margin: 18px 0 8px;
+    }
+    .wiki-doc ul, .wiki-doc ol { padding-left: 24px; margin-bottom: 16px; }
+    .wiki-doc li, .wiki-doc p { margin-bottom: 11px; font-size: 0.98rem; }
+
+    .callout-info {
+      background: rgba(14, 165, 233, 0.15);
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-left: 4px solid var(--poke-sky);
+      padding: 14px 18px;
+      border-radius: 0 12px 12px 0;
+      margin: 18px 0;
+    }
+    .callout-warn {
+      background: rgba(251, 191, 36, 0.14);
+      border: 1px solid rgba(251, 191, 36, 0.24);
+      border-left: 4px solid var(--poke-gold);
+      padding: 14px 18px;
+      border-radius: 0 12px 12px 0;
+      margin: 18px 0;
+    }
+
+    /* Wiki Figure & Image Styling */
+    .wiki-figure {
+      margin: 20px 0 26px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.32);
+    }
+    .wiki-figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      margin: 0 auto;
+    }
+    .wiki-figure figcaption {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .wiki-img-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 20px 0 26px;
+    }
+    .wiki-img-grid .wiki-figure {
+      margin: 0;
+    }
+
+    .table-wrap { overflow-x: auto; margin: 16px 0 24px; border-radius: 10px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; background: rgba(11, 24, 34, 0.72); }
+    th, td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; }
+    th { background: linear-gradient(90deg, rgba(185, 28, 28, 0.55), rgba(3, 105, 161, 0.55)); color: #fff; font-weight: 800; }
+    tr:nth-child(even) { background: rgba(255, 255, 255, 0.03); }
+
+    .doc-footer-nav {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .nav-step-btn {
+      padding: 10px 18px;
+      border-radius: 10px;
+      background: rgba(19, 41, 58, 0.85);
+      border: 1px solid var(--border-gold);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .nav-step-btn:hover {
+      border-color: var(--poke-gold);
+      background: linear-gradient(90deg, rgba(239, 68, 68, 0.35), rgba(56, 189, 248, 0.25));
+      transform: translateY(-1px);
+    }
+
+    footer {
+      background: rgba(7, 15, 24, 0.92);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-wrap" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+      <div class="logo-icon">C</div>
+      <div class="logo-text">COBBLEVERSE WIKI</div>
+    </div>
+    <span class="lang-pill">🇰🇷 원본 위키 좌·우 분할 레이아웃 한국어 전체 원문판</span>
+  </div>
+</header>
+
+<div class="docs-wrapper">
+  <!-- LEFT SIDEBAR: 모든 위키 카테고리 및 하위 항목 -->
+  <aside class="left-sidebar">
+    <input type="text" id="wikiSearchInput" class="sidebar-search" placeholder="🔍 목차 검색 (예: 전설, 관장, 레쿠쟈...)" onkeyup="filterSidebar()" />
+
+    <div class="cat-group">
+      <div class="cat-title">📥 설치 (Installation)</div>
+      <ul class="nav-list">
+        <li><button class="side-btn active" onclick="openDoc('doc-modrinth', this)">Modrinth에서 설치하는 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-curseforge', this)">CurseForge에서 설치하는 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-apex-setup', this)">Apex Hosting 서버 설정 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-apex-update', this)">Apex 서버 업데이트 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-nitrado', this)">Nitrado 서버 설정 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-lumymon', this)">LumyMon 확장 모드 전체 안내</button></li>
+      </ul>
+    </div>
+
+    <div class="cat-group">
+      <div class="cat-title">🎮 게임플레이 (Gameplay)</div>
+      <ul class="nav-list">
+        <li><button class="side-btn" onclick="openDoc('doc-why', this)">왜 COBBLEVERSE를 플레이해야 할까요?</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-exclusive-struct', this)">COBBLEVERSE 독점 구조물</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-other-struct', this)">기타 구조물 (Legendary Monuments)</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-money', this)">돈(포켓달러) 버는 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-spawn', this)">모든 포켓몬 스폰 정보</button></li>
+      </ul>
+    </div>
+
+    <div class="cat-group">
+      <div class="cat-title">🧭 튜토리얼 (Tutorials)</div>
+      <ul class="nav-list">
+        <li><button class="side-btn" onclick="openDoc('doc-regions', this)">모든 지방과 구조물 활성화 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-legendary', this)">모든 전설 / 환상의 포켓몬 포획 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-find-leg', this)">전설의 포켓몬 구조물 찾는 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-find-gyms', this)">체육관(Gyms) 찾는 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-forms', this)">특수 포켓몬 폼 얻는 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-items', this)">특수 아이템 획득처 전체 표</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-config', this)">LumyMon 설정(Config) 변경 방법</button></li>
+      </ul>
+    </div>
+
+    <div class="cat-group">
+      <div class="cat-title">🛠️ 자주 발생하는 문제 (Common Issues)</div>
+      <ul class="nav-list">
+        <li><button class="side-btn" onclick="openDoc('doc-models', this)">일부 포켓몬 모델링이 보이지 않아요</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-drops', this)">몹이 안 나오는데 드롭템 얻는 법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-maps', this)">제 지도가 작동하지 않아요</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-modrinth-upd', this)">Modrinth에서 업데이트를 못 찾을 때</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-lvl25', this)">포켓몬이 레벨 25에서 멈춰 있어요</button></li>
+      </ul>
+    </div>
+
+    <div class="cat-group">
+      <div class="cat-title">🏅 체육관 관장 (Gym Leaders)</div>
+      <ul class="nav-list">
+        <li><button class="side-btn" onclick="openDoc('doc-sig', this)">관장들의 시그니처 아이템</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-kanto-gyms', this)">Kanto Gym Leaders [K]</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-johto-gyms', this)">Johto Gym Leaders [J]</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-hoenn-gyms', this)">Hoenn Gym Leaders [H]</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-sinnoh-gyms', this)">Sinnoh Gym Leaders [S]</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-unova-gyms', this)">Unova Gym Leaders [U]</button></li>
+      </ul>
+    </div>
+
+    <div class="cat-group">
+      <div class="cat-title">⚙️ 설정 (Settings)</div>
+      <ul class="nav-list">
+        <li><button class="side-btn" onclick="openDoc('doc-logs', this)">마인크래프트 로그(Logs) 공유 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-camroll', this)">카메라 회전(Camera Roll) 비활성화</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-hunger', this)">배고픔과 몹 활성화 방법</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-rayquaza', this)">엔드(The End)의 레쿠쟈 비활성화</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-hit', this)">포켓몬을 때릴 수 있게 하는 방법</button></li>
+      </ul>
+    </div>
+
+    <div class="cat-group">
+      <div class="cat-title">📋 변경 내역 (Changelogs)</div>
+      <ul class="nav-list">
+        <li><button class="side-btn" onclick="openDoc('doc-180', this)">COBBLEVERSE 1.8.0 (2026년 11월 17일)</button></li>
+        <li><button class="side-btn" onclick="openDoc('doc-oldlogs', this)">이전 버전 목록 (1.7.42 ~ 1.7.0c)</button></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- RIGHT CONTENT AREA: 선택한 항목의 원문 전체 내용 -->
+  <main class="right-content">
+    <article id="doc-modrinth" class="wiki-doc active">
+          <h2>Modrinth에서 COBBLEVERSE 설치하는 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Installation &gt; How To Install COBBLEVERSE From Modrinth</span><a href="https://www.lumyverse.com/cobbleverse/how-to-install-cobbleverse-on-modrinth/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>COBBLEVERSE의 완전한 버전을 설치하려면 먼저 <strong>Modrinth 앱</strong>을 다운로드해야 합니다. 이 앱은 모드팩을 매우 쉽게 관리할 수 있게 해주는 최신 런처입니다.</p>
+          <p>공식 웹사이트에서 직접 다운로드할 수 있습니다. 해당 사이트로 이동해 본인의 운영체제(Windows, macOS 또는 Linux)에 맞는 버전을 다운로드하세요. 다운로드가 완료되면 다른 일반 앱을 설치하는 것과 똑같이 설치를 진행하면 됩니다.</p>
+          <div class="callout-info">
+            COBBLEVERSE는 특히 <strong>Windows</strong> 환경에서 원활하게 작동하도록 구성되어 있습니다. macOS나 Linux에서도 작동할 수는 있지만, 해당 운영체제에 대한 완벽한 호환성이나 기술 지원은 보장할 수 없으므로 주의해서 진행해 주세요.
+          </div>
+          <p>Modrinth 앱을 다운로드하고 설치했다면 런처를 실행하세요. 처음 실행하면 <strong>Minecraft: Java Edition</strong>을 플레이할 때 사용하는 것과 동일한 <strong>Microsoft 계정</strong>으로 로그인하라는 안내가 나타납니다.</p>
+          <p>로그인을 마친 후에는 검색창에 <code>Cobbleverse</code>를 검색하기만 하면 됩니다. 이때 모드팩만 정확히 볼 수 있도록 반드시 <strong>“Modpack”</strong> 필터를 선택해 주세요.</p>
+          <p>Cobbleverse를 찾았다면 클릭한 뒤 <strong>Install(설치)</strong> 버튼을 누르세요. 나머지 다운로드와 모든 초기 설정은 Modrinth가 자동으로 처리해 줍니다.</p>
+          <p>이게 전부입니다! Modrinth가 다운로드부터 세팅까지 모든 과정을 자동으로 완료해 줍니다.</p>
+          <div class="callout-warn">
+            <strong>중요 안내 사항 (IMPORTANT NOTE):</strong> 게임을 처음 실행하기 전에 반드시 <strong>최소 4GB (4096MB) 이상의 RAM</strong>을 할당해 주세요.<br />
+            우측 상단 모서리에 있는 톱니바퀴 아이콘 ⚙️을 클릭해 설정(Settings)을 열 수 있습니다. 이 정도의 메모리를 할당해야 성능 저하 문제 없이 모드팩이 부드럽게 실행됩니다.
+          </div>
+        </article>
+
+        <!-- 2. CurseForge -->
+        <article id="doc-curseforge" class="wiki-doc">
+          <h2>CurseForge에서 COBBLEVERSE 설치하는 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Installation &gt; How To Install COBBLEVERSE From Curseforge</span><a href="https://www.lumyverse.com/cobbleverse/how-to-install-cobbleverse-on-curseforge/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>CurseForge에서 Cobbleverse를 다운로드하려면 먼저 마인크래프트 모드팩 관리를 위한 공식 런처인 <strong>CurseForge 앱</strong>을 설치해야 합니다.</p>
+          <p>공식 사이트에서 앱을 다운로드할 수 있습니다. 설치 과정 중에 <strong>Overwolf</strong>를 함께 설치할 것인지 묻는 창이 나타납니다. 필수 사항은 아니지만, Overwolf는 자동 업데이트를 처리하고 모드팩 관리를 훨씬 간편하게 만들어 주므로 함께 설치하시는 것을 권장합니다.</p>
+          <p>CurseForge 설치가 완료되면 앱을 열고, 검색창에 <code>Cobbleverse</code>를 검색한 다음 <strong>Install(설치)</strong>을 클릭해 모드팩을 다운로드하고 설정합니다.</p>
+          <p>그것으로 끝입니다! 나머지 과정은 모두 자동으로 진행되며, 곧바로 모드팩을 플레이할 준비가 완료됩니다.</p>
+        </article>
+
+        <!-- 3. Apex Setup -->
+        <article id="doc-apex-setup" class="wiki-doc">
+          <h2>Apex Hosting 서버 설정 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Installation &gt; How Set Up A Server for Apex Hosting</span><a href="https://www.lumyverse.com/cobbleverse/how-set-up-a-server-for-apex-hosting-cobbleverse/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <h3>1단계: 서버 선택하기 (STEP 1: Choose Your Server)</h3>
+          <p>서버 선택 페이지에 접속해 우리를 후원하려면 다음 링크를 클릭하세요: <code>https://apexhost.gg/LUMYVERSE</code></p>
+          <p>안내 페이지에서 본인의 필요에 맞는 서버 플랜을 선택하세요. 원활한 게임플레이를 위해 예상되는 접속 플레이어 수에 맞춰 RAM 용량과 플레이어 슬롯을 조정해 주세요.</p>
+          <p>COBBLEVERSE가 정상적으로 구동되려면 <strong>최소 4GB 이상의 RAM</strong>이 필요합니다.</p>
+          <p><strong>Order Now(지금 주문하기)</strong>를 클릭하면 구성(Configuration) 페이지로 이동하며, 이곳에서 서버 위치와 함께 아래 서버 버전(Server Version) 중 하나를 선택할 수 있습니다:</p>
+          <ul>
+            <li><code>COBBLEVERSE Pokémon Adventure [Modrinth]</code></li>
+            <li><code>COBBLEVERSE Pokémon Adventure [CurseForge]</code></li>
+          </ul>
+          <p>설치가 완료되면 Apex Hosting 제어판에 접속할 수 있는 로그인 정보가 담긴 이메일을 받게 됩니다.</p>
+          <h3>2단계: 서버를 시작하고 COBBLEVERSE 즐기기 (STEP 2)</h3>
+          <p>패널에 로그인해 서버를 시작하고 COBBLEVERSE 모험을 즐기세요!</p>
+        </article>
+
+        <!-- 4. Apex Update -->
+        <article id="doc-apex-update" class="wiki-doc">
+          <h2>Apex 서버 업데이트 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Installation &gt; How to update Apex Server</span><a href="https://www.lumyverse.com/cobbleverse/how-to-update-apex-server/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <div class="callout-warn">
+            <strong>월드를 백업하셨나요? 언제나 반드시 백업하세요! (ALWAYS DO IT!)</strong><br />
+            이것은 언제나 가장 먼저 해야 하는 가장 중요한 일입니다.
+          </div>
+          <p>가장 빠른 업데이트 방법은 패널에서 <strong>“Reset Server Files(서버 파일 초기화)”</strong>를 사용하는 것입니다. 이때 월드가 삭제되지 않도록 <strong>“All Server Files(모든 서버 파일)”는 절대 선택하지 마세요.</strong> Apex 측에 해당 업데이트가 이미 등록되어 있다면 이 방법을 바로 사용하실 수 있습니다.</p>
+          <p>그렇지 않은 경우, Apex 패널을 통해 서버에 접속한 뒤 <strong>“FTP File Access”</strong>를 클릭하고 기존의 모든 구버전 파일을 클라이언트 버전에 들어 있는 최신 파일로 직접 교체할 수 있습니다.</p>
+          <p>방법은 매우 간단합니다. Apex 서버에서 다음 세 가지 폴더를 여세요:</p>
+          <ul>
+            <li><code>Config</code></li>
+            <li><code>Mods</code></li>
+            <li><code>Datapacks</code></li>
+          </ul>
+          <p>위 세 폴더 안에 있는 기존의 COBBLEVERSE 관련 파일을 모두 삭제한 뒤, 본인의 런처 내 해당 폴더들에서 찾은 최신 파일들로 교체해 주세요.</p>
+          <p><strong>주의:</strong> 이미 서버에 존재하던 항목들만 교체해야 하며, 클라이언트 전용 모드(클라이언트에만 있는 파일)는 서버에 추가하지 마세요. 또한, 서버에 별도로 추가한 커스텀 콘텐츠가 있다면 삭제하지 않도록 주의하세요. 그렇지 않으면 해당 데이터를 잃게 됩니다. 커스텀 콘텐츠는 서버가 부팅되지 않을 때만 삭제하세요. 그것으로 완료입니다!</p>
+        </article>
+
+        <!-- 5. Nitrado -->
+        <article id="doc-nitrado" class="wiki-doc">
+          <h2>Nitrado 서버 설정 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Installation &gt; How Set Up A Server for Nitrado</span><a href="https://www.lumyverse.com/cobbleverse/how-set-up-a-server-for-nitrado/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>Nitrado 호스팅에서 COBBLEVERSE 전용 프리셋을 선택해 서버를 구축할 수 있습니다. 원활한 구동을 위해 최소 4GB 이상의 RAM 플랜을 권장하며, Modrinth 또는 CurseForge 버전에 맞춰 서버 이미지를 선택하면 자동으로 모드팩이 설치됩니다.</p>
+        </article>
+
+        <!-- 6. LumyMon -->
+        <article id="doc-lumymon" class="wiki-doc">
+          <h2>LumyMon – 전설의 모험을 향한 길을 개척하세요</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Installation &gt; LumyMon</span><a href="https://www.lumyverse.com/cobbleverse/lumymon/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p><strong>LumyMon</strong>은 Cobblemon 여정의 탐험과 진행도를 한층 강화하기 위해 설계된 유틸리티 및 콘텐츠 확장 모드입니다. 구조물 위치 추적, 전설의 포켓몬 탐색, 그리고 다양한 편의 기능(QoL)을 통해 일상적인 게임플레이를 개선하는 전용 시스템들을 도입합니다!</p>
+          <h3>🗺️ 내비게이션 및 탐험 (Navigation &amp; Exploration)</h3>
+          <p>목적 없는 방황은 이제 그만! LumyMon은 명확한 목표를 가지고 월드를 탐험할 수 있도록 돕는 특수 도구들을 추가합니다:</p>
+          <ul>
+            <li><strong>지방별 지도 제작대 (Regional Cartography Tables):</strong> 이 작업대를 사용해 정밀한 지도를 제작하세요.</li>
+            <li><strong>체육관 및 리그 지도 제작 (Gym &amp; League Mapping):</strong> 관동에서 신오, 그리고 그 너머의 체육관 관장과 챔피언을 상징하는 고유 아이템을 제작해 해당 체육관과 사천왕 위치로 곧장 안내하는 지도를 생성할 수 있습니다!</li>
+            <li><strong>지방별 포케 레이더 (Regional Poké Radars):</strong> 희귀한 위치 추적 칩(Locator Chips)을 커스텀 지도 제작대와 결합해 관동부터 팔데아까지 모든 지방의 전설의 포켓몬 정확한 위치를 추적하세요.</li>
+            <li><strong>레지 광석 및 자원 (Regi Ores &amp; Resources):</strong> 전설의 거인들을 깨우기 위한 고유 광석을 발견하고, 이동 중에도 규토리를 깔끔하고 편리하게 보관할 수 있는 규토리 상자(Apricorn Boxes)를 활용하세요.</li>
+          </ul>
+          <h3>✨ 제단 시스템 (The Altar System)</h3>
+          <p>이 모드는 마인크래프트에서 전설 및 환상의 포켓몬을 소환하기 위한 특별한 시스템을 제공합니다:</p>
+          <ul>
+            <li><strong>제단과 사당 (Altars and Shrines):</strong> 1세대부터 4세대까지의 전설의 포켓몬과 무한다이노, 레지에레키, 레지드래고 등을 위한 커스텀 3D 블록이 추가됩니다.</li>
+            <li><strong>소환 메커니즘 (Summoning Mechanics):</strong> 제단에 특정 아이템을 사용하면 전용 파티클 및 사운드 효과와 함께 포켓몬 조우가 발동됩니다.</li>
+            <li><strong>고유 차원 (Unique Dimensions):</strong> 아르세우스와 다크라이 전용 차원처럼 독자적인 메커니즘과 분위기 있는 시련이 기다리는 커스텀 차원으로 모험을 떠나보세요.</li>
+            <li><strong>완벽함을 향한 사냥 (The Hunt for Perfection):</strong> 소환되는 모든 포켓몬은 무작위 개체값(IV)과 레벨을 가집니다. 과연 이로치(Shiny)나 6V(Perfect IV) 개체를 만나는 행운을 잡을 수 있을까요?</li>
+          </ul>
+          <h3>🛠️ 편의 기능 및 메커니즘 (Quality of Life &amp; Mechanics)</h3>
+          <ul>
+            <li><strong>원격 PC 접속 (Remote PC Access):</strong> 어디서든 포켓몬 박스에 접속할 수 있습니다. (기본 단축키: <code>P</code>)</li>
+            <li><strong>향상된 탑승 (Better Riding):</strong> 전용 단축키를 통해 탑승 중인 포켓몬에서 즉시 내릴 수 있습니다. (기본 단축키: <code>V</code>)</li>
+            <li><strong>속성별 탑승 보호 (Elemental Mounts):</strong> 이제 이동 중 포켓몬이 여러분을 보호해 줍니다! 불꽃타입 포켓몬에 탑승한 동안에는 용암 및 화염 면역 효과를 얻고, 물타입 포켓몬에 탑승한 동안에는 무한 수중 호흡 효과를 얻습니다.</li>
+            <li><strong>바닐라 몹 대체 (Vanilla Replacements):</strong> 일부 바닐라 몹이 포켓몬으로 대체되어 더욱 몰입감 넘치는 세계를 경험할 수 있습니다. (예: 해피 가스트링 → 고오스, 크리킹 → 대로트)</li>
+            <li><strong>최적화된 성능 (Optimized Performance):</strong> COBBLEVERSE에 포함된 수많은 모드들과의 호환성 및 연동을 염두에 두고 제작되었습니다.</li>
+          </ul>
+          <h3>🤝 COBBLEVERSE와의 완벽한 시너지 &amp; 이어지는 여정</h3>
+          <p>LumyMon은 단독 확장 모드로도 작동하지만, 사실상 <strong>COBBLEVERSE 모드팩의 뛰는 심장</strong>입니다. 모든 조합과 배틀이 보람 있게 느껴지도록 진행 중심의 경험을 제공하기 위해 세밀하게 밸런싱되었습니다.</p>
+          <p>LumyMon은 끊임없이 진화하는 열정 프로젝트입니다. 우리는 모든 부분을 다듬고 개선하기 위해 최선을 다하고 있으며, 새로운 메커니즘, 확장된 콘텐츠, 더 깊은 연동을 포함한 많은 향후 업데이트를 계획하고 있습니다. 공식 디스코드 커뮤니티에 참여해 피드백을 공유하고 궁극의 포켓몬 모험을 함께 만들어 주세요! ❤️💙</p>
+          <figure class="wiki-figure"><img src="images/0ce22de152556cafa90bcb6e21d96cfa248a8934.png" alt="LumyMon 확장 모드 전용 아이템 목록 (LumyMon Items)" loading="lazy" /><figcaption>LumyMon 확장 모드 전용 아이템 목록 (LumyMon Items)</figcaption></figure>
+        </article>
+
+        <!-- 7. Why Should I Play -->
+        <article id="doc-why" class="wiki-doc">
+          <h2>왜 COBBLEVERSE를 플레이해야 할까요?</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gameplay &gt; Why Should I Play COBBLEVERSE</span><a href="https://www.lumyverse.com/cobbleverse/why-should-i-play-cobbleverse/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>COBBLEVERSE에서의 여정은 여느 진정한 포켓몬 모험과 마찬가지로 나만의 <strong>스타터 포켓몬</strong>을 선택하는 것으로 시작됩니다! 하지만 여기에 특별한 반전이 있습니다. COBBLEVERSE에는 기본 Cobblemon 모드에서는 찾아볼 수 없는 <strong>독점 스타터 포켓몬</strong>들이 등장합니다.</p>
+          <p>이 모드팩을 위해 특별히 제작되어 모험 속에 완벽하게 통합된 <strong>태초지방(Pallet Region)</strong>과 <strong>루미아지방(Lumya Region)</strong>의 고유 스타터들을 선택할 수 있습니다.</p>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-starter-Pallet-Region.jpg" alt="태초지방 (Pallet Region) 독점 스타터 선택 화면" loading="lazy" /><figcaption>태초지방 (Pallet Region) 독점 스타터 선택 화면</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-starter-lumya-region.jpg" alt="루미아지방 (Lumya Region) 독점 스타터 선택 화면" loading="lazy" /><figcaption>루미아지방 (Lumya Region) 독점 스타터 선택 화면</figcaption></figure>
+          </div>
+          <p>파트너를 선택하고 나면, 모험을 시작하는 데 필요한 모든 것이 담긴 <strong>스타터 키트(Starter Kit)</strong>를 받게 됩니다:</p>
+          <ul>
+            <li>개인용 트레이너 카드 (Your personal Trainer Card)</li>
+            <li>전국 포켓몬 도감 (Your national Pokédex)</li>
+            <li>관동 지방 첫 번째 체육관으로 안내하는 지도 (A map that guides you to the first Gym in the Kanto region)</li>
+            <li>포켓몬 포획을 시작할 수 있는 몬스터볼 10개 (10 Poké Balls)</li>
+            <li>넉넉한 수납공간을 갖춘 크고 세련된 배낭 (A large, stylish backpack)</li>
+            <li>초반 배틀에 도움이 되는 오랭열매 10개 (10 Oran Berries)</li>
+            <li>여정을 개인화하고 COBBLEVERSE 세계를 탐색하도록 돕는 커스텀 가이드북 (A custom guidebook)</li>
+          </ul>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-starter-kit.jpg" alt="모험 시작 시 지급되는 스타터 키트(Starter Kit) 구성" loading="lazy" /><figcaption>모험 시작 시 지급되는 스타터 키트(Starter Kit) 구성</figcaption></figure>
+          <p>여러분의 전설이 지금 시작됩니다! 곁에 있는 스타터와 손에 든 장비를 갖추고, 각 지방에 기다리고 있는 비밀들을 탐험하고 배틀하며 밝혀낼 준비를 하세요.</p>
+          <p>크리퍼나 팬텀, 혹은 야생에서 굶주릴 걱정은 하지 마세요. 이것은 진정한 포켓몬 모험이니까요! COBBLEVERSE에서는 기본적으로 <strong>적대적 마인크래프트 몹이 비활성화</strong>되어 있으며, <strong>배고픔(허기)도 걱정할 필요가 없습니다.</strong> 오직 포켓몬 팀을 건강하게 유지하고 다음 배틀을 준비하는 데만 집중하세요.</p>
+          <p>물론 클래식한 서바이벌 경험을 선호하신다면 단 몇 번의 클릭만으로 몹과 배고픔을 다시 활성화할 수 있습니다.</p>
+          <p>탐험을 진행하면서 <strong>모든 환상의 포켓몬, 모든 울트라비스트, 그리고 모든 전설의 포켓몬</strong>을 만날 수 있으며, 이들 중 다수는 월드 곳곳의 비밀 장소에서 발견됩니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Genomons-Bell-Tower.jpg" alt="방울탑 꼭대기에서 만날 수 있는 전설의 포켓몬 칠색조" loading="lazy" /><figcaption>방울탑 꼭대기에서 만날 수 있는 전설의 포켓몬 칠색조</figcaption></figure>
+          <p>전설의 엔더 드래곤에게 도전하는 것도 잊지 마세요. 특별한 서프라이즈가 기다리고 있습니다: <strong>엔드 차원에서는 이로치 레쿠쟈(Shiny Rayquaza)가 여러분을 기다리고 있습니다!</strong></p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Rayquaza-End-1.jpg" alt="엔드 차원에서 기다리고 있는 이로치 레쿠쟈 (Shiny Rayquaza)" loading="lazy" /><figcaption>엔드 차원에서 기다리고 있는 이로치 레쿠쟈 (Shiny Rayquaza)</figcaption></figure>
+          <p>COBBLEVERSE에서는 하늘을 날아오를 수 있는 포켓몬을 포함해 <strong>200종 이상의 다양한 포켓몬에 직접 탑승</strong>할 수 있습니다! 탑승 기능을 통해 월드를 더 빠르고 멋지게 탐험해 보세요. 단, 포켓몬이 탑승 가능한 크기이고 라이딩이 지원되는 종인지 확인하세요!</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Mega-Showdown-CharizardX-Ride-Cobbleride-3.jpg" alt="메가리자몽X에 탑승해 하늘을 비행하는 모습" loading="lazy" /><figcaption>메가리자몽X에 탑승해 하늘을 비행하는 모습</figcaption></figure>
+          <p>또한 48종의 모든 공식 메가진화와 그에 대응하는 메가스톤이 포함된 <strong>메가진화(Mega Evolution)</strong> 시스템이 완벽히 구현되어 있습니다. 포켓몬을 메가진화시키려면 해당 메가스톤과 여정 초반에 얻을 수 있는 메가팔찌(Mega Bracelet)가 모두 필요합니다. 본가 게임과 달리 COBBLEVERSE의 메가진화는 배틀 중에만 제한되지 않습니다. 포켓몬에게 메가스톤을 지니게 하고 팔찌를 보유한 상태에서 언제든 <strong><code>Y</code> 키</strong>를 눌러 메가진화시킬 수 있으며, 배틀이 끝난 뒤에도 메가진화 모습이 유지됩니다. 덕분에 탐험하거나 배틀하거나 함께 여행하는 동안 포켓몬을 영구적으로 메가진화 상태로 데리고 다닐 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Mega-Showdown-Mega-Stone-2.jpeg" alt="동굴 자수정 정동 등에서 발견할 수 있는 메가스톤 원석" loading="lazy" /><figcaption>동굴 자수정 정동 등에서 발견할 수 있는 메가스톤 원석</figcaption></figure>
+          <p>COBBLEVERSE에서는 완벽하게 작동하는 <strong>포켓몬 센터</strong>가 있는 커스텀 마을들을 발견할 수 있어 팀을 언제든 치료하고 다음 도전을 준비할 수 있습니다. 이 마을들에는 몬스터볼, 회복 아이템 및 여행을 돕는 유용한 도구들을 구매할 수 있는 <strong>프렌들리숍(PokéMarkets)</strong>도 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Bca-Datapack-Cobblemon-Addon-1.jpg" alt="포켓몬 센터와 프렌들리숍이 자리한 커스텀 마을 전경" loading="lazy" /><figcaption>포켓몬 센터와 프렌들리숍이 자리한 커스텀 마을 전경</figcaption></figure>
+          <p>COBBLEVERSE의 궁극적인 목표는 <strong>포켓몬 리그를 제패하는 것</strong>입니다. 모든 지방의 체육관 관장들에게 도전해 승리하고 배지를 획득하며, 관장과 챔피언이 수여하는 특별한 보상을 해금하세요. 여러분의 강함을 증명하고 진정한 포켓몬 마스터가 되어 COBBLEVERSE의 리그를 정복하세요!</p>
+        </article>
+
+        <!-- 8. Exclusive Structures -->
+        <article id="doc-exclusive-struct" class="wiki-doc">
+          <h2>COBBLEVERSE 독점 구조물 (Exclusive Structures in COBBLEVERSE)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gameplay &gt; Exclusive Structures in COBBLEVERSE</span><a href="https://www.lumyverse.com/en/cobbleverse/exclusive-structures-in-cobbleverse/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+
+          <div class="callout-info" style="margin-bottom:24px;">
+            <h4 style="margin-top:0; margin-bottom:12px; color:#fff;">📑 목차 (Table of Contents — 지방별 독점 구조물 바로가기)</h4>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px; font-size:0.89rem;">
+              <div>
+                <div style="font-weight:800; color:var(--lumy-gold); margin-bottom:4px;"><a href="#struct-kanto" style="color:var(--lumy-gold);">관동 (KANTO)</a></div>
+                <div style="display:flex; flex-direction:column; gap:3px; padding-left:8px;">
+                  <a href="#struct-bird-towers">• 전설의 새 타워 (Legendary Bird Towers)</a>
+                  <a href="#struct-rocket-tower">• 로켓단 타워 (Team Rocket Tower)</a>
+                  <a href="#struct-ash-house">• 지우의 집 (Ash House)</a>
+                  <a href="#struct-mew-temple">• 뮤의 신전 (Mew Temple)</a>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:800; color:var(--lumy-gold); margin-bottom:4px;"><a href="#struct-johto" style="color:var(--lumy-gold);">성도 (JOHTO)</a></div>
+                <div style="display:flex; flex-direction:column; gap:3px; padding-left:8px;">
+                  <a href="#struct-bell-tower">• 방울탑 (Bell Tower)</a>
+                  <a href="#struct-burned-tower">• 불탄탑 (Burned Tower)</a>
+                  <a href="#struct-whirl-island">• 소용돌이섬 (Whirl Island)</a>
+                  <a href="#struct-radio-tower">• 로켓단 라디오타워 (Rocket Radio Tower)</a>
+                  <a href="#struct-ilex-shrine">• 너도밤나무숲 사당 (Ilex Shrine)</a>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:800; color:var(--lumy-gold); margin-bottom:4px;"><a href="#struct-hoenn" style="color:var(--lumy-gold);">호연 (HOENN)</a></div>
+                <div style="display:flex; flex-direction:column; gap:3px; padding-left:8px;">
+                  <a href="#struct-titan-temples">• 전설의 거인 신전 (Legendary Titan Temples)</a>
+                  <a href="#struct-kyogre-dome">• 가이오가 돔 (Kyogre Dome)</a>
+                  <a href="#struct-groudon-volcano">• 그란돈 화산 (Groudon Volcano)</a>
+                  <a href="#struct-sky-pillar">• 하늘기둥 (Sky Pillar)</a>
+                  <a href="#struct-secret-garden">• 비밀의 화원 (Secret Garden)</a>
+                  <a href="#struct-wish-cave">• 소원의 동굴 (Wish Cave)</a>
+                  <a href="#struct-deoxys-meteorite">• 테오키스 운석 (Deoxys Meteorite)</a>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:800; color:var(--lumy-gold); margin-bottom:4px;"><a href="#struct-sinnoh" style="color:var(--lumy-gold);">신오 (SINNOH)</a></div>
+                <div style="display:flex; flex-direction:column; gap:3px; padding-left:8px;">
+                  <a href="#struct-spear-pillar">• 창기둥 (Spear Pillar)</a>
+                  <a href="#struct-temple-sinnoh">• 신오 신전 (Temple of Sinnoh)</a>
+                  <a href="#struct-snowpoint-temple">• 선단신전 (Snowpoint Temple)</a>
+                  <a href="#struct-crescent-isle">• 초승달섬 (Crescent Isle)</a>
+                  <a href="#struct-fullmoon-island">• 보름달섬 (Fullmoon Island)</a>
+                  <a href="#struct-newmoon-island">• 신월섬 (Newmoon Island)</a>
+                  <a href="#struct-flower-paradise">• 꽃의 낙원 (Flower Paradise)</a>
+                  <a href="#struct-temple-sea">• 바다의 신전 (Temple of the Sea)</a>
+                  <a href="#struct-galactic">• 갤럭시단 구조물 (Team Galactic Structures)</a>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:800; color:var(--lumy-gold); margin-bottom:4px;"><a href="#struct-others" style="color:var(--lumy-gold);">기타 (OTHERS)</a></div>
+                <div style="display:flex; flex-direction:column; gap:3px; padding-left:8px;">
+                  <a href="#struct-necrozma-towers">• 네크로즈마 타워 (Necrozma Towers)</a>
+                  <a href="#struct-dyna-tree">• 다이맥스 나무 (Dyna Tree)</a>
+                  <a href="#struct-calyrex-shrines">• 버드렉스 사당 (Calyrex Shrines)</a>
+                  <a href="#struct-split-decision">• 갈림길 신전 (Split Decision Temple)</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p>체육관 외에도 COBBLEVERSE는 여러 독점 구조물들을 선보이며, 이 중 다수는 지금도 계속 개발되고 있습니다. 각 구조물은 고유한 기능과 목적을 가지고 있어 게임플레이 경험을 풍부하게 하고 탐험에 깊이를 더해줍니다.</p>
+          <div class="callout-warn">
+            <strong>중요 (IMPORTANT):</strong> 각 개별 구조물은 여러분이 상대하고 있는 트레이너 시리즈와 연동되어 있습니다. 관동 트레이너들을 상대하는 중이라면 관동과 관련된 구조물만 발견할 수 있습니다. 성도와 호연도 마찬가지입니다. 어떻게 진행해야 하는지 알기 위해 각 챔피언이 건네주는 책의 지침을 반드시 따르세요.
+          </div>
+
+          <h3 id="struct-kanto">관동 (KANTO)</h3>
+
+          <h4 id="struct-bird-towers">전설의 새 타워 (Legendary Bird Towers)</h4>
+          <p>세계 곳곳에 숨겨진 세 개의 고대 탑이 전설의 속성 새들을 기리는 기념비로 서 있습니다. 각 탑은 독특하고 험준한 땅에서 솟아올라 용감한 트레이너가 비밀을 밝혀내기를 기다립니다.</p>
+          <ul>
+            <li><strong>프리져의 탑:</strong> 눈 덮인 평원(Snowy Plains)의 얼어붙은 광야에서 솟아나며 차가운 기운이 감돕니다.</li>
+            <li><strong>썬더의 탑:</strong> 돌 해안(Stony Shore)의 거친 절벽 위에 우뚝 서서 전기를 내뿜으며 썬더를 부릅니다.</li>
+            <li><strong>파이어의 탑:</strong> 네더 황무지(Nether Wastes)의 불길을 뚫고 솟아오른 불타는 기념비입니다.</li>
+          </ul>
+          <p>각 탑 내부에는 수호신을 소환하는 열쇠인 신비한 깃털(Feather)이 놓여 있습니다. 소환 시 낮은 확률로 이로치(Shiny)가 등장할 수 있으므로 용기와 행운을 동시에 시험하게 됩니다.</p>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Kanto-Articuno-Tower-1.png" alt="프리져의 탑 (Articuno Tower)" loading="lazy" /><figcaption>프리져의 탑 (Articuno Tower)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Kanto-Zapdos-Tower.png" alt="썬더의 탑 (Zapdos Tower)" loading="lazy" /><figcaption>썬더의 탑 (Zapdos Tower)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Kanto-Moltres-Tower.png" alt="파이어의 탑 (Moltres Tower)" loading="lazy" /><figcaption>파이어의 탑 (Moltres Tower)</figcaption></figure>
+          </div>
+
+          <h4 id="struct-rocket-tower">로켓단 타워 (Team Rocket Tower)</h4>
+          <p>악지(Badlands) 바이옴에 생성되며, 로켓단이 포켓몬 유전자 실험을 벌이는 비밀 아지트입니다. 고대 종의 DNA를 이용해 새로운 포켓몬을 창조했다는 소문과 오래전 멸종된 생명체에서 탄생한 혼종에 대한 이야기가 전해집니다. 타워 내부에는 고유 전리품을 떨어뜨리는 여러 트레이너가 있으며, 리더는 현재 COBBLEVERSE에서 유일한 획득처인 <strong>불길한 열쇠(Ominous Key)</strong>를 드롭합니다.</p>
+          <p>또한 나옹 열기구가 달린 희귀 변형 로켓단 타워도 존재합니다!</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Team-Rocket-Tower-1536x864.jpg" alt="관동 로켓단 타워 (Team Rocket Tower)" loading="lazy" /><figcaption>관동 로켓단 타워 (Team Rocket Tower)</figcaption></figure>
+
+          <h4 id="struct-ash-house">지우의 집 (Ash House)</h4>
+          <p>평원(Plains) 바이옴에 생성되는 아담한 구조물입니다. 안에는 두 명의 특별한 인물이 있습니다. 즐거운 포켓몬 배틀 후 많은 간식을 보상으로 주시는 <strong>지우의 어머니</strong>와, 포켓몬 배틀에서 승리할 경우 자신의 상징적인 모자(Ash's Cap)를 건네주는 <strong>지우 본인</strong>을 만날 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Ash-House-1-1536x864.jpg" alt="지우의 집 (Ash's House)" loading="lazy" /><figcaption>지우의 집 (Ash's House)</figcaption></figure>
+
+          <h4 id="struct-mew-temple">뮤의 신전 (Mew Temple)</h4>
+          <p>오랜 세월 잊혀 정글에 뒤덮인 이 고대 신전은 기록된 포켓몬 역사보다도 앞선 태고의 존재를 속삭입니다. 우거진 나무와 두꺼운 덩굴 사이에 숨겨진 이 구조물은 환상의 포켓몬 뮤를 만날 수 있는 열쇠를 간직하고 있습니다.</p>
+          <p>일반 트레이너는 출입이 금지되어 있으며, 오직 관동 챔피언 <strong>그린(Blue)</strong>을 물리친 후에야 화석을 조합할 재료를 얻어 신전 안 고대 제단에 올릴 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEMON-Origin-Temple-Mew.jpg" alt="정글 속 뮤의 신전 (Origin Temple / Mew Temple)" loading="lazy" /><figcaption>정글 속 뮤의 신전 (Origin Temple / Mew Temple)</figcaption></figure>
+
+          <h3 id="struct-johto">성도 (JOHTO)</h3>
+
+          <h4 id="struct-bell-tower">방울탑 (Bell Tower)</h4>
+          <p>참나무 숲(Oak Forests) 한가운데서 발견되는 웅장하고 높은 탑입니다. 꼭대기에서 전설의 새 <strong>칠색조(Ho-Oh)</strong>가 스폰될 수 있어 진정한 힘을 찾는 트레이너에게 짜릿한 목적지가 됩니다.</p>
+          <p>하지만 칠색조를 소환하려면 먼저 <strong>불탄탑(Burned Tower)</strong> 깊은 폐허 속에서 자격 없는 자들로부터 깃털을 지키는 신비롭고 강력한 수호자 <strong>노인(Old Sage)</strong>을 물리치고 신성한 아이템인 <strong>무지개빛날개(Rainbow Wing)</strong>를 얻어야 합니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Bell-Tower.png" alt="성도 방울탑 (Bell Tower)" loading="lazy" /><figcaption>성도 방울탑 (Bell Tower)</figcaption></figure>
+
+          <h4 id="struct-burned-tower">불탄탑 (Burned Tower)</h4>
+          <p>보통 자작나무 숲(Birch Forest) 근처에서 발견되는 신비로운 폐허 구조물입니다. 과거 큰 화재로 무너진 검고 오래된 외관을 지니고 있습니다. 전설에 따르면 이 탑도 원래 방울탑처럼 높이 솟아 있었으나 비극적인 화재로 무너졌다고 합니다.</p>
+          <p>불탄탑 내부에서는 전설의 세 마리 짐승인 <strong>앤테이, 스이쿤, 라이코</strong>가 나타날 수 있으며, 방울탑에서 칠색조를 소환하는 데 필요한 무지개빛날개도 이곳에서 얻을 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Burned-Tower.png" alt="성도 불탄탑 (Burned Tower)" loading="lazy" /><figcaption>성도 불탄탑 (Burned Tower)</figcaption></figure>
+
+          <h4 id="struct-whirl-island">소용돌이섬 (Whirl Island)</h4>
+          <p>깊고 차가운 바다(Deep Cold Ocean) 바이옴에 위치한 고대 전설의 포켓몬 거처입니다. 어둠을 직면하고 극복한 자만이 위대한 바다의 수호신을 깨울 수 있다고 전해지며, 극히 드문 확률로 이로치 루기아를 만날 수도 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Whirl-Island-Lugia-1024x951.jpg" alt="소용돌이섬 내부와 루기아 (Whirl Island)" loading="lazy" /><figcaption>소용돌이섬 내부와 루기아 (Whirl Island)</figcaption></figure>
+
+          <h4 id="struct-radio-tower">로켓단 라디오타워 (Rocket Radio Tower)</h4>
+          <p>바람 부는 사바나(Savanna) 바이옴에 솟아 있는 성도 라디오타워는 로켓단에게 점령당해 어둠의 실험을 벌이는 비밀 기지로 개조되었습니다. 비틀린 과학자들과 로켓단 조무래기들이 금지된 다크 에너지를 사용해 잔혹한 실험을 진행하고 있으며, 위험한 층들을 올라 꼭대기에 도달하면 <strong>비주기(Giovanni)</strong>가 기다리고 있습니다.</p>
+          <p>그를 물리쳐야만 루기아를 소환하는 신성한 아이템 <strong>은빛날개(Silver Feather/Wing)</strong>를 차지할 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Radio-tower-Team-Rocket-834x1024.png" alt="성도 로켓단 라디오타워 (Rocket Radio Tower)" loading="lazy" /><figcaption>성도 로켓단 라디오타워 (Rocket Radio Tower)</figcaption></figure>
+
+          <h4 id="struct-ilex-shrine">너도밤나무숲 사당 (Ilex Shrine)</h4>
+          <p>타이가(Taiga) 바이옴의 울창한 나무들 깊숙이 숨겨진 신성한 고대 장소입니다. 얽힌 뿌리와 속삭이는 나뭇잎 사이에서 환상의 포켓몬 <strong>세레비(Celebi)</strong>가 나타난다고 전해집니다.</p>
+          <p>세레비를 잠에서 깨우려면 먼저 사당 주변에 있는 라이벌 <strong>레드(Red)</strong>를 물리치고 특수 아이템을 얻어야 합니다. 세레비는 약 30~40레벨로 등장합니다.</p>
+          <figure class="wiki-figure"><img src="images/2026-03-05_14.06.01-1-1024x576.png" alt="너도밤나무숲 사당과 라이벌 레드 (Ilex Shrine)" loading="lazy" /><figcaption>너도밤나무숲 사당과 라이벌 레드 (Ilex Shrine)</figcaption></figure>
+
+          <h3 id="struct-hoenn">호연 (HOENN)</h3>
+
+          <h4 id="struct-titan-temples">전설의 거인 신전 (Legendary Titan Temples)</h4>
+          <p>세계의 외딴 구석구석에 흩어진 세 개의 잊힌 사당으로, 각각 <strong>레지아이스</strong>(눈 덮인 악지 Snowy Badlands), <strong>레지락</strong>(무성한 사막 Lush Desert), <strong>레지스틸</strong>(고산 지대 Alpine Highlands)이 잠들어 있습니다. 세계 곳곳에 흩어진 신성한 유물(Relics)을 회수해야 봉인을 풀 수 있으며, 각 신전 토대 아래에는 고대 문명이 남긴 숨겨진 비밀이 잠들어 있습니다.</p>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Regice-temple.jpg" alt="레지아이스 신전 (Regice Temple)" loading="lazy" /><figcaption>레지아이스 신전 (Regice Temple)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Regirock-temple.jpg" alt="레지락 신전 (Regirock Temple)" loading="lazy" /><figcaption>레지락 신전 (Regirock Temple)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Registeel-temple.jpg" alt="레지스틸 신전 (Registeel Temple)" loading="lazy" /><figcaption>레지스틸 신전 (Registeel Temple)</figcaption></figure>
+          </div>
+
+          <h4 id="struct-kyogre-dome">가이오가 돔 (Kyogre Dome)</h4>
+          <p>깊은 차가운 바다(Deep Cold Ocean) 수면 아래 깊숙이 자리한 고대 돔으로, 가이오가의 잠든 힘이 깃든 잊힌 성역입니다. 바다의 본질과 힘이 담긴 신비한 유물을 통해서만 심연에서 가이오가를 소환할 수 있으며, 내부에는 가이오가의 원시회귀를 깨우는 비밀이 숨겨져 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Kyogre-Temple.jpg" alt="가이오가 돔 (Kyogre Dome)" loading="lazy" /><figcaption>가이오가 돔 (Kyogre Dome)</figcaption></figure>
+
+          <h4 id="struct-groudon-volcano">그란돈 화산 (Groudon Volcano)</h4>
+          <p>깊은 따뜻한 바다(Deep Warm Ocean)에 잠든 거인처럼 솟아오른 화산으로, 전설의 그란돈이 영원한 잠에 빠져 있습니다. 화산 중심부를 관통하는 숨겨진 동굴 입구를 찾아 위험한 길을 헤치고 화산 깊은 곳의 봉인을 풀어야 잠든 거인을 깨울 수 있습니다. 분화구에는 놀라운 무언가가 숨겨져 있다고 전해집니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Groudon-Volcano.jpg" alt="그란돈 화산 (Groudon Volcano)" loading="lazy" /><figcaption>그란돈 화산 (Groudon Volcano)</figcaption></figure>
+
+          <h4 id="struct-sky-pillar">하늘기둥 (Sky Pillar)</h4>
+          <p>깊은 바다(Deep Ocean)에 생성되는 전설의 포켓몬 <strong>레쿠쟈</strong>의 안식처로, 힘과 비밀을 두고 다투는 아쿠아단과 마그마단이 점거하고 있습니다. 탑 최상층에는 레쿠쟈의 잠을 지키기 위해 달려온 유성족의 후예가 버티고 있어, 두 조직의 리더와 수호자를 모두 물리쳐야만 전설의 드래곤을 깨울 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-sky-pillar-1.jpg" alt="하늘기둥 (Sky Pillar)" loading="lazy" /><figcaption>하늘기둥 (Sky Pillar)</figcaption></figure>
+
+          <h4 id="struct-secret-garden">비밀의 화원 (Secret Garden)</h4>
+          <p>깊은 미지근한 바다(Deep Lukewarm Ocean) 높은 상공 구름 사이에 숨겨진 하늘 섬으로, 전설의 포켓몬 <strong>라티아스와 라티오스</strong>가 나타나는 유일하게 알려진 장소입니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Secret-Garden-1024x585.jpg" alt="하늘 위 비밀의 화원 (Secret Garden)" loading="lazy" /><figcaption>하늘 위 비밀의 화원 (Secret Garden)</figcaption></figure>
+
+          <h4 id="struct-wish-cave">소원의 동굴 (Wish Cave)</h4>
+          <p>꽃이 만발한 고원(Blooming Plateau)의 고요하고 아름다운 땅에만 나타나는 신비한 동굴입니다. 반짝이는 동굴 깊은 곳에 소원을 들어주는 환상의 포켓몬 <strong>지라치</strong>가 잠들어 있으며, 오래된 카세트 테이프에 녹음된 부드러운 멜로디를 찾아 들려주어야 깨어납니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Wish-Caves.jpg" alt="소원의 동굴 (Wish Cave)" loading="lazy" /><figcaption>소원의 동굴 (Wish Cave)</figcaption></figure>
+
+          <h4 id="struct-deoxys-meteorite">테오키스 운석 (Deoxys Meteorite)</h4>
+          <p>엔드 작은 섬 바이옴에 생성되는 운석 구조물로, 내부에 테오키스를 소환하고 폼을 바꿀 수 있는 비밀이 담겨 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Deoxys-Meteroite.jpg" alt="엔드 차원의 테오키스 운석 (Deoxys Meteorite)" loading="lazy" /><figcaption>엔드 차원의 테오키스 운석 (Deoxys Meteorite)</figcaption></figure>
+
+          <h3 id="struct-sinnoh">신오 (SINNOH)</h3>
+
+          <h4 id="struct-spear-pillar">창기둥 (Spear Pillar)</h4>
+          <p>Cold Shrubland 바이옴에 생성되며 <strong>디아루가</strong>와 <strong>펄기아</strong>가 잠들어 있는 고대 유적입니다. 각각의 구슬과 빨강쇠사슬(Red Chain)을 사용해 시공간의 신을 소환할 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Spear-Pillar-1-1024x788.jpg" alt="창기둥 (Spear Pillar)" loading="lazy" /><figcaption>창기둥 (Spear Pillar)</figcaption></figure>
+
+          <h4 id="struct-temple-sinnoh">신오 신전 (Temple of Sinnoh)</h4>
+          <p>디아루가와 펄기아를 오리진 폼으로 변환시키는 아이템을 획득할 수 있는 신전입니다.</p>
+          <figure class="wiki-figure"><img src="images/2026-03-03_13.15.07-3-1024x540.png" alt="신오 신전 (Temple of Sinnoh)" loading="lazy" /><figcaption>신오 신전 (Temple of Sinnoh)</figcaption></figure>
+
+          <h4 id="struct-snowpoint-temple">선단신전 (Snowpoint Temple)</h4>
+          <p>Wintry Lowlands 바이옴에 생성되며, 전설의 거인 5마리를 모두 파티에 넣은 채 Titan Relic을 사용해 <strong>레지기가스</strong>를 깨울 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Snowpoint-Temple-1-1024x540.jpg" alt="선단신전 (Snowpoint Temple)" loading="lazy" /><figcaption>선단신전 (Snowpoint Temple)</figcaption></figure>
+
+          <h4 id="struct-crescent-isle">초승달섬 (Crescent Isle)</h4>
+          <p>초승달섬의 난파선 및 유적에서 단서를 얻어 보름달섬 진입에 필요한 핵심 아이템을 획득할 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Crescent-Isle-1024x769.jpg" alt="초승달섬 (Crescent Isle)" loading="lazy" /><figcaption>초승달섬 (Crescent Isle)</figcaption></figure>
+
+          <h4 id="struct-fullmoon-island">보름달섬 (Fullmoon Island)</h4>
+          <p>미지근한 바다(Lukewarm Ocean)에 생성되는 섬으로, 초승달섬의 단서와 Dream Catcher를 사용해 <strong>크레세리아</strong>를 소환할 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Fullmoon-Island-1-1024x769.jpg" alt="보름달섬 (Fullmoon Island)" loading="lazy" /><figcaption>보름달섬 (Fullmoon Island)</figcaption></figure>
+
+          <h4 id="struct-newmoon-island">신월섬 (Newmoon Island)</h4>
+          <p>악몽 차원(Nightmare Dimension)에 생성되는 섬으로, Nightmare Weaver를 사용해 환상의 포켓몬 <strong>다크라이</strong>와 조우할 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Newmoon-island-2-1024x621.jpg" alt="악몽 차원의 신월섬 (Newmoon Island)" loading="lazy" /><figcaption>악몽 차원의 신월섬 (Newmoon Island)</figcaption></figure>
+
+          <h4 id="struct-flower-paradise">꽃의 낙원 (Flower Paradise)</h4>
+          <p>따뜻한 바다(Warm Ocean)에 생성되는 꽃밭 섬으로, 오박사의 편지(Professor Oak's Letter)를 사용해 환상의 포켓몬 <strong>쉐이미</strong>를 소환할 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Flower-Paradise-2-1024x600.jpg" alt="꽃의 낙원 (Flower Paradise)" loading="lazy" /><figcaption>꽃의 낙원 (Flower Paradise)</figcaption></figure>
+
+          <h4 id="struct-temple-sea">바다의 신전 (Temple of the Sea)</h4>
+          <p>깊은 차가운 바다(Deep Cold Ocean) 해저에 생성되는 신전으로, 환상의 포켓몬 <strong>마나피</strong>를 만날 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Manaphy-1024x600.jpg" alt="바다의 신전 (Temple of the Sea)" loading="lazy" /><figcaption>바다의 신전 (Temple of the Sea)</figcaption></figure>
+
+          <h4 id="struct-galactic">갤럭시단 구조물 (Team Galactic Structures)</h4>
+          <p>갤럭시단 본부(Team Galactic HQ), 골짜기발전소(Windplant), 영원 빌딩(Eterna Building) 등에서 간부들을 물리치고 호수 수호신들의 증표와 핵심 아이템을 획득합니다.</p>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Team-Galactic-HQ-1024x644.jpg" alt="갤럭시단 본부 (Team Galactic HQ)" loading="lazy" /><figcaption>갤럭시단 본부 (Team Galactic HQ)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Windplant-1024x791.jpg" alt="골짜기발전소 (Windplant)" loading="lazy" /><figcaption>골짜기발전소 (Windplant)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Eterna-Building-1024x920.jpg" alt="영원 빌딩 (Eterna Building)" loading="lazy" /><figcaption>영원 빌딩 (Eterna Building)</figcaption></figure>
+          </div>
+
+          <h3 id="struct-others">기타 (OTHERS)</h3>
+
+          <h4 id="struct-necrozma-towers">네크로즈마 타워 (Necrozma Towers — 새벽의 탑 / 황혼의 탑)</h4>
+          <p>엔드 차원에 생성되는 빛의 탑으로, 솔가레오·루나아라 및 네크로즈마와 관련된 비밀이 담겨 있습니다.</p>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Dawn-Tower-889x1024.jpg" alt="새벽의 탑 (Dawn Tower)" loading="lazy" /><figcaption>새벽의 탑 (Dawn Tower)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Dusk-Tower-889x1024.jpg" alt="황혼의 탑 (Dusk Tower)" loading="lazy" /><figcaption>황혼의 탑 (Dusk Tower)</figcaption></figure>
+          </div>
+
+          <h4 id="struct-dyna-tree">다이맥스 나무 (Dyna Tree)</h4>
+          <p>왕관설원의 거대한 벚꽃나무 구조물로, 시간대와 날씨에 따라 <strong>가라르 프리져·썬더·파이어</strong>가 나무 아래에 스폰됩니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Dyna-Tree-1024x830.jpg" alt="다이맥스 나무 (Dyna Tree)" loading="lazy" /><figcaption>다이맥스 나무 (Dyna Tree)</figcaption></figure>
+
+          <h4 id="struct-calyrex-shrines">버드렉스 사당 (Calyrex Shrines — 왕관 묘지 / 왕관 첨탑)</h4>
+          <p>각각 레이스포스(Shaderoot Carrots)와 블리자포스(Iceroot Carrot), 그리고 <strong>버드렉스</strong>를 소환할 수 있는 고대 유적입니다.</p>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Crown-Cemetery-Calyrex-2-1024x694.jpg" alt="왕관 묘지 (Crown Cemetery)" loading="lazy" /><figcaption>왕관 묘지 (Crown Cemetery)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Crown-Spire-Calyrex-1-1024x694.jpg" alt="왕관 첨탑 (Crown Spire)" loading="lazy" /><figcaption>왕관 첨탑 (Crown Spire)</figcaption></figure>
+          </div>
+
+          <h4 id="struct-split-decision">갈림길 신전 (Split Decision Temple)</h4>
+          <p>사막 바이옴에 생성되는 신전으로, <strong>레지에레키</strong> 또는 <strong>레지드래고</strong>를 선택해 소환할 수 있습니다.</p>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Split-Decision-temple-1024x561.jpg" alt="갈림길 신전 (Split Decision Temple)" loading="lazy" /><figcaption>갈림길 신전 (Split Decision Temple)</figcaption></figure>
+        </article>
+
+        <!-- 9. Other Structures -->
+        <article id="doc-other-struct" class="wiki-doc">
+          <h2>기타 구조물 – 1. LEGENDARY MONUMENTS (COBBLEVERSE 버전)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gameplay &gt; Other Structures</span><a href="https://www.lumyverse.com/cobbleverse/other-structures/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+
+          <div class="callout-info" style="margin-bottom:24px;">
+            <h4 style="margin-top:0; margin-bottom:12px; color:#fff;">📑 목차 (Table of Contents — 기타 구조물 섹션 바로가기)</h4>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:8px 16px; font-size:0.89rem;">
+              <a href="#other-lake-verity">• 진실의 호수 (Lake Verity)</a>
+              <a href="#other-lake-acuity">• 예지의 호수 (Lake Acuity)</a>
+              <a href="#other-lake-valor">• 입지의 호수 (Lake Valor)</a>
+              <a href="#other-outskirt-stand">• 외곽 스탠드 (The Outskirt Stand)</a>
+              <a href="#other-turnback-cave">• 귀혼동굴 (The Turnback Cave)</a>
+              <a href="#other-distortion-world">• 깨어진 세계 (The Distortion World)</a>
+              <a href="#other-treasures-ruin">• 사흉수 (The Four Treasures of Ruin)</a>
+              <a href="#other-stark-mountain">• 하드마운틴 (Stark Mountain)</a>
+              <a href="#other-eternatus-cocoon">• 무한다이노 고치 (The Eternatus Cocoon)</a>
+            </div>
+          </div>
+
+          <p>COBBLEVERSE가 더욱 성장할 수 있도록 협력해 주신 멋진 애드온 제작자분들께 진심으로 감사드립니다!</p>
+          <ul>
+            <li id="other-lake-verity"><strong>진실의 호수 (Lake Verity):</strong> 벚꽃 숲(Cherry Grove) 사이에 위치하며 <strong>엠라이트(Mesprit)</strong>의 시련이 열립니다. 시련을 완료하면 수호신을 소환하고 빨강쇠사슬(Red Chain) 부품을 얻는 데 필요한 <code>Mesprit Plume</code>을 획득합니다.
+              <figure class="wiki-figure"><img src="images/COBBLEVERSE-Lake-Veirty-1.jpg" alt="진실의 호수 (Lake Verity)" loading="lazy" /><figcaption>진실의 호수 (Lake Verity)</figcaption></figure>
+            </li>
+            <li id="other-lake-acuity"><strong>예지의 호수 (Lake Acuity):</strong> 빙하 협곡(Glacial Chasm) 내에 자리한 <strong>유크시(Uxie)</strong>의 거처입니다. 시련을 통과하면 포켓몬을 소환하고 빨강쇠사슬 수리 조각을 회수할 수 있는 유일한 도구 <code>Uxie Claw</code>를 얻습니다.
+              <figure class="wiki-figure"><img src="images/COBBLEVERSE-Lake-Acuity-1.jpg" alt="예지의 호수 (Lake Acuity)" loading="lazy" /><figcaption>예지의 호수 (Lake Acuity)</figcaption></figure>
+            </li>
+            <li id="other-lake-valor"><strong>입지의 호수 (Lake Valor):</strong> 건조한 고원(Arid Highlands) 사이에 위치한 <strong>아그놈(Azelf)</strong>의 거처입니다. 의지의 시련을 극복하면 수호신을 소환하는 특정 아이템이자 빨강쇠사슬의 마지막 핵심 조각인 <code>Azelf Fang</code>을 받습니다.
+              <figure class="wiki-figure"><img src="images/COBBLEVERSE-Lake-Valor-1.jpg" alt="입지의 호수 (Lake Valor)" loading="lazy" /><figcaption>입지의 호수 (Lake Valor)</figcaption></figure>
+            </li>
+            <li id="other-outskirt-stand"><strong>외곽 스탠드 (The Outskirt Stand):</strong> 사막 오아시스(Desert Oasis)의 모래 위에 솟아 있는 고립된 상업 구조물입니다. 희귀품 전문 상인이 상주하며, <strong>지가르데 셀(Zygarde Cells)의 유일한 공식 공급처</strong>로 알려져 있어 질서의 포켓몬의 다양한 폼을 재구성하려는 이들에게 필수 방문지입니다.
+              <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Outskirt-Stand.jpg" alt="외곽 스탠드 (The Outskirt Stand)" loading="lazy" /><figcaption>외곽 스탠드 (The Outskirt Stand)</figcaption></figure>
+            </li>
+            <li id="other-turnback-cave"><strong>귀혼동굴 (The Turnback Cave):</strong> 신비와 안개에 싸인 장소로, 우리 세계와 깨어진 세계(Distortion World)를 잇는 접점입니다. 벽면의 고대 비문에 따르면 차원 간 균형을 유지해 깨어진 세계의 불안정함이 물질 현실을 붕괴시키는 것을 막는 기둥 역할을 합니다. 과거 갤럭시단 리더 셀리나(Selina)만이 이 신성한 장소에 도달했던 유일한 인간으로 알려져 있습니다.
+              <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Turnback-cave.jpg" alt="귀혼동굴 (The Turnback Cave)" loading="lazy" /><figcaption>귀혼동굴 (The Turnback Cave)</figcaption></figure>
+            </li>
+            <li id="other-distortion-world"><strong>깨어진 세계 (The Distortion World):</strong> 모든 물리 법칙과 논리를 거스르는 평행 차원입니다. 시간이 흐르지 않고 공간이 불안정해 떠다니는 발판과 끊임없이 바뀌는 중력이 특징입니다. 과거 폭력적인 성향 때문에 이곳으로 추방된 거대한 힘의 전설의 포켓몬 <strong>기라티나(Giratina)</strong>의 영역이며, 오직 빨강쇠사슬(Red Chain)의 힘만이 기라티나를 속박해 플레이어의 의지에 따르게 할 수 있습니다.
+              <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Giratina-Island-1-2048x1010.jpg" alt="깨어진 세계와 기라티나의 섬 (The Distortion World & Giratina Island)" loading="lazy" /><figcaption>깨어진 세계와 기라티나의 섬 (The Distortion World & Giratina Island)</figcaption></figure>
+              포탈을 통해 진입한 뒤 현실 세계로 돌아오는 방법은 두 가지입니다:
+              <ol>
+                <li>차원 깊은 곳에 위치한 자연 귀환 포탈(Natural return portal) 찾기</li>
+                <li>이 뒤틀린 땅에서만 발견되는 희귀 원석 <code>Raw Origin</code>을 사용해 인공 포탈 제작하기</li>
+              </ol>
+              <figure class="wiki-figure"><img src="images/image-43.png" alt="Raw Origin 원석 8개와 철 주괴를 이용한 인공 귀환 포탈 조합법" loading="lazy" /><figcaption>Raw Origin 원석 8개와 철 주괴를 이용한 인공 귀환 포탈 조합법</figcaption></figure>
+            </li>
+            <li id="other-treasures-ruin"><strong>사흉수 (The Four Treasures of Ruin – 딩루, 파오젠, 총지엔, 위유이):</strong> 고대 의식용 도구에 축적된 공포, 증오, 탐욕 같은 인간의 부정적 감정에서 탄생한 전설의 존재들입니다. 생태계 전체를 오염시키는 것을 막기 위해 수 세기 전 봉인되었으며, 성역 주변 땅에 박힌 <strong>특정 색상의 전설의 말뚝 8개</strong>를 모두 뽑아야 봉인이 풀려 잠을 깨운 자에게 도전해 옵니다.
+              <div class="wiki-img-grid">
+                <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Groundblight-shrine.jpg" alt="대지의 사당 – 딩루 (Groundblight Shrine)" loading="lazy" /><figcaption>대지의 사당 – 딩루 (Groundblight Shrine)</figcaption></figure>
+                <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Icerend-shrine-1.jpg" alt="빙결의 사당 – 파오젠 (Icerend Shrine)" loading="lazy" /><figcaption>빙결의 사당 – 파오젠 (Icerend Shrine)</figcaption></figure>
+                <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Grasswither-shrine.jpg" alt="초목의 사당 – 총지엔 (Grasswither Shrine)" loading="lazy" /><figcaption>초목의 사당 – 총지엔 (Grasswither Shrine)</figcaption></figure>
+                <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Firescourge-shrine.jpg" alt="화재의 사당 – 위유이 (Firescourge Shrine)" loading="lazy" /><figcaption>화재의 사당 – 위유이 (Firescourge Shrine)</figcaption></figure>
+              </div>
+            </li>
+            <li id="other-stark-mountain"><strong>하드마운틴 (Stark Mountain):</strong> 네더 황무지(Nether Wastes) 가장자리에 우뚝 솟은 화산입니다. 산의 심장부는 화산을 안정시키는 봉인 유물인 <code>Magma Stone(화산의 돌)</code>을 지키고 있으며, 이를 제거하면 지하 용암류에서 태어난 강철과 불꽃의 수호신 <strong>히드런(Heatran)</strong>이 깨어납니다. 갤럭시단이 돌을 훔치려 했으나 트레이너 <strong>맥(Buck)</strong>이 개입해 저지한 뒤 빛나는 조각을 들고 동굴을 떠났다는 이야기가 전해집니다.
+              <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Stark-Mountain-2-2048x1081.jpg" alt="네더 황무지의 하드마운틴 (Stark Mountain)" loading="lazy" /><figcaption>네더 황무지의 하드마운틴 (Stark Mountain)</figcaption></figure>
+            </li>
+            <li id="other-eternatus-cocoon"><strong>무한다이노 고치 (The Eternatus Cocoon):</strong> 엔드(The End)에 위치한 거대한 생체공학 구조물입니다. 주변 환경으로부터 에너지 입자를 끊임없이 흡수해 불길한 보라색 오라를 내뿜으며, 고치의 봉인을 깨기 위해서는 오버월드에 생성되는 새로운 광석인 <strong>가라르 입자(Galar Particles) 정확히 500개</strong>로 외피를 과부하시켜 강제로 열어야 합니다.
+              <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Eternatus-cocoon.jpg" alt="엔드 차원의 무한다이노 고치 (The Eternatus Cocoon)" loading="lazy" /><figcaption>엔드 차원의 무한다이노 고치 (The Eternatus Cocoon)</figcaption></figure>
+            </li>
+          </ul>
+        </article>
+
+        <!-- 10. Making Money -->
+        <article id="doc-money" class="wiki-doc">
+          <h2>COBBLEVERSE에서 돈(포켓달러) 버는 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gameplay &gt; Making Money in COBBLEVERSE</span><a href="https://www.lumyverse.com/cobbleverse/making-money-in-cobbleverse/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>COBBLEVERSE에도 정통 포켓몬 게임과 똑같은 경제 시스템이 있습니다!</p>
+          <ul>
+            <li><strong>포켓달러 (PokéDollars):</strong> 야생 포켓몬 및 체육관 관장을 포함한 트레이너들을 물리쳐 획득합니다. 트레이너가 강할수록 더 많은 포켓달러를 얻게 됩니다!</li>
+            <li><strong>모으령의 코인 (Relic Coin):</strong> 타부자고(Gholdengo)를 얻기 위해 100개가 필요하므로 가급적 쓰지 않고 모아두는 것이 좋습니다!</li>
+          </ul>
+          <p>획득한 포켓달러는 <strong>CobbleMerchant</strong>와 거래해 사용할 수 있으며, 상인은 여러 종류가 있습니다:</p>
+          <ul>
+            <li><strong>기본 CobbleMerchant:</strong> 백수 주민(unemployed villager) 옆에 진열대(display case)를 놓으면 언제든 소환할 수 있어 접근성이 가장 좋지만, <strong>가격이 가장 비쌉니다.</strong> 물가가 꽤 높으므로 정말 급하게 필요한 물건이 있을 때만 이용하는 것이 좋습니다. 대신 몬스터볼, 몹 드롭 아이템, 회복 물품 등 매우 다양한 필수품을 판매합니다.
+              <div class="wiki-img-grid">
+                <figure class="wiki-figure"><img src="images/COBBLEVERSE-Basic-Cobblemerchant.jpg" alt="진열대(Display Case)로 소환한 기본 CobbleMerchant" loading="lazy" /><figcaption>진열대(Display Case)로 소환한 기본 CobbleMerchant</figcaption></figure>
+                <figure class="wiki-figure"><img src="images/COBBLEVERSE-CobbleDollars-CobbleMerchant.jpg" alt="기본 CobbleMerchant 상점 거래 인터페이스" loading="lazy" /><figcaption>기본 CobbleMerchant 상점 거래 인터페이스</figcaption></figure>
+              </div>
+            </li>
+            <li><strong>프렌들리숍 (Poké Mart) 내 CobbleMerchant:</strong> 커스텀 마을의 파란 지붕 건물 안에 있는 상인으로, 품목 수는 적지만 기본 상인보다 <strong>약간 더 저렴한 가격</strong>에 판매합니다.
+              <div class="wiki-img-grid">
+                <figure class="wiki-figure"><img src="images/COBBLEVERSE-Basic-Cobblemerchant-Shop-1.jpg" alt="커스텀 마을의 프렌들리숍 (Poké Mart) 외관" loading="lazy" /><figcaption>커스텀 마을의 프렌들리숍 (Poké Mart) 외관</figcaption></figure>
+                <figure class="wiki-figure"><img src="images/COBBLEVERSE-Basic-Shop-Cobblemerchant.jpg" alt="프렌들리숍 내부 상인 및 거래 화면" loading="lazy" /><figcaption>프렌들리숍 내부 상인 및 거래 화면</figcaption></figure>
+              </div>
+            </li>
+            <li><strong>쇼핑센터 (백화점) 내 CobbleMerchant:</strong> 대형 마을에서 발견할 수 있는 쇼핑센터입니다. 이곳의 상인들은 기술머신(TM)부터 이상한사탕(Rare Candies)까지 필요한 거의 모든 아이템을 판매합니다. <strong>가격이 가장 저렴하므로</strong> 쇼핑하기에 단연 최고의 장소입니다. 원하는 물건을 찾으려면 반드시 모든 층을 꼼꼼히 둘러보세요!
+              <figure class="wiki-figure"><img src="images/COBBLEVERSE-Cobblemerchant-Department-Store.jpg" alt="대형 마을의 쇼핑센터 / 백화점 (Department Store) 외관" loading="lazy" /><figcaption>대형 마을의 쇼핑센터 / 백화점 (Department Store) 외관</figcaption></figure>
+              <div class="wiki-img-grid">
+                <figure class="wiki-figure"><img src="images/COBBLEVERSE-Cobblemerchant-Department-Store-Shop-TMS.jpg" alt="백화점 내 기술머신(TMs) 전문 상점" loading="lazy" /><figcaption>백화점 내 기술머신(TMs) 전문 상점</figcaption></figure>
+                <figure class="wiki-figure"><img src="images/COBBLEVERSE-Cobblemerchant-Department-Store-Shop-Drop-Mob.jpg" alt="백화점 내 야생 전리품 및 몹 드롭템 상점" loading="lazy" /><figcaption>백화점 내 야생 전리품 및 몹 드롭템 상점</figcaption></figure>
+              </div>
+            </li>
+          </ul>
+          <p>또한 에메랄드, 모으령의 코인(Relic Coins), 영양제(Vitamins) 등의 특정 아이템을 아무 CobbleMerchant에게 판매해 포켓달러를 벌 수도 있습니다. 상점 창에서 <strong>“Bank(은행)”</strong>를 클릭해 아이템을 판매하세요.</p>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Basic-Cobblemerchant-Bank.jpg" alt="상점 인터페이스 좌측 하단의 'Bank(은행)' 버튼" loading="lazy" /><figcaption>상점 인터페이스 좌측 하단의 'Bank(은행)' 버튼</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Basic-Cobblemerchant-Bank-Coin.jpg" alt="에메랄드·모으령의 코인·영양제 등을 판매해 포켓달러 획득" loading="lazy" /><figcaption>에메랄드·모으령의 코인·영양제 등을 판매해 포켓달러 획득</figcaption></figure>
+          </div>
+        </article>
+
+                <!-- 11. Pokemon Spawns -->
+        <article id="doc-spawn" class="wiki-doc">
+          <h2>COBBLEVERSE의 모든 포켓몬 스폰 정보 (All Pokémon Spawn in COBBLEVERSE)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gameplay &gt; All Pokémon Spawn in COBBLEVERSE</span><a href="https://www.lumyverse.com/cobbleverse/all-pokemon-spawn-in-cobbleverse/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <div class="callout-info">
+            <p><strong>참고 (NOTE):</strong> 언급된 바이옴은 바닐라 마인크래프트 기준입니다. 해당하는 경우, 나열된 모든 바이옴에 동일한 조건을 일관되게 적용하는 것을 권장합니다.</p>
+            <p>포켓몬이 스폰되는 위치를 확인하려면 항상 인게임 <strong>PokéNav</strong>를 사용하세요. 기존의 <code>/checkspawn</code> 명령어는 제대로 작동하지 않을 수 있습니다.</p>
+            <figure class="wiki-figure"><img src="images/image-26.png" alt="인게임 스폰 확률 확인 도구 PokéNav 조합법" loading="lazy" /><figcaption>인게임 스폰 확률 확인 도구 PokéNav 조합법</figcaption></figure>
+            <p>Cobblemon에서 직접 추가한 포켓몬의 경우, 더 자세한 정보를 위해 <a href="https://wiki.cobblemon.com/" target="_blank" rel="noopener">공식 Cobblemon 가이드 ↗</a>도 함께 참고하는 것을 권장합니다.</p>
+            <p style="margin-bottom:0;"><strong>중요 (IMPORTANT):</strong> 커스텀 스폰 조건이 있는 전설 및 환상의 포켓몬의 경우, 특정 트레이너 배틀 시리즈를 먼저 완료해야 할 수 있습니다.<br />
+            <em>예시:</em> <strong>칠색조(Ho-Oh), 루기아(Lugia), 그리고 전설의 세 마리 짐승(라이코·앤테이·스이쿤)</strong>은 플레이어가 <strong>관동(KANTO)</strong> 시리즈를 완료하고 챔피언 그린(Blue)을 물리친 후에만 발견할 수 있습니다.</p>
+          </div>
+
+          <div style="background: linear-gradient(135deg, rgba(0, 206, 201, 0.14), rgba(9, 132, 227, 0.16)); border: 1px solid rgba(0, 206, 201, 0.4); border-radius: 14px; padding: 26px 28px; margin: 24px 0;">
+            <h3 style="margin-top: 0; border-left-color: var(--lumy-cyan); color: #fff;">📊 전국도감 #1 ~ #1025 스폰 데이터베이스 (별도 전용 사이트 분리)</h3>
+            <p style="margin-bottom: 16px;">방대한 1세대~9세대 전국도감 1,025종 스폰 데이터는 원본 위키 본문의 가독성과 정확한 원문 대조를 위해 <strong>독립된 전용 데이터베이스 페이지(<code>cobbleverse-pokedex-kr.html</code>)</strong>로 분리되었습니다.</p>
+            <ul style="margin-bottom: 18px;">
+              <li>전국도감 <strong>#0001 이상해씨 ~ #1025 복숭악동</strong> 전체 한·영 병기 데이터</li>
+              <li>세대별(1~9세대), 희귀도별(Common ~ Legendary/Mythical), 리전폼 필터 및 실시간 통합 검색</li>
+              <li>바이옴 영문명 원클릭 복사 기능 (<code>/locate biome</code> 명령어 즉시 활용)</li>
+            </ul>
+            <a href="https://jellysong.github.io/CobbledexKR/" rel="noopener" target="_blank" style="display:inline-block; background: linear-gradient(90deg, #00cec9, #0984e3); color:#fff; font-weight:800; padding:12px 22px; border-radius:10px; text-decoration:none; font-size:0.95rem;">🔍 전국도감 스폰 데이터베이스 사이트 열기 ↗</a>
+          </div>
+        </article>
+
+        <!-- 12. Enable All Regions -->
+        <article id="doc-regions" class="wiki-doc">
+          <h2>모든 지방과 구조물 활성화하는 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Tutorials &gt; How to Enable All Regions and Structures</span><a href="https://www.lumyverse.com/cobbleverse/how-to-enable-all-regions-and-structures/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>COBBLEVERSE에서 전설의 구조물들은 여러분이 물리쳐야 하는 트레이너들과 밀접하게 연결되어 있습니다. 기본 설정에서는 각 지방의 챔피언을 물리치기 전까지 모든 전설 구조물에 접근할 수 없습니다. 예를 들어 관동 챔피언 그린(Blue)을 물리치기 전에는 칠색조, 세레비, 루기아를 찾을 수 없습니다.</p>
+          <p>하지만 걱정하지 마세요. 이 시스템을 우회하여 모든 구조물을 즉시 해금하는 아주 간단한 방법이 있습니다.</p>
+          <h3>시작하기 전 확인 사항 (Before you begin, make sure):</h3>
+          <ul>
+            <li>싱글플레이어든 서버든 관계없이 <strong>명령어(치트)가 활성화</strong>되어 있어야 합니다.</li>
+            <li>서버에서 플레이 중이라면 서버의 <code>config</code> 폴더가 클라이언트 런처의 폴더와 일치하는지 확인하세요.</li>
+            <li>서버용 안내: 데이터팩이 서버에 정상적으로 로드되어 있어야 작동합니다.</li>
+          </ul>
+          <h3>모든 구조물을 활성화하는 방법 (How to activate all structures):</h3>
+          <ol>
+            <li>채팅창에 다음 명령어를 입력하세요: <code>/function setup:*region*</code></li>
+            <li>명령어를 실행한 뒤 몇 초간 기다립니다.</li>
+            <li><strong>반드시 올바른 순서대로</strong> 각 지방에 대해 명령어를 반복 실행합니다:<br />
+              <code>/function setup:johto</code> → <code>/function setup:hoenn</code> → <code>/function setup:sinnoh</code><br />
+              (원하는 한 지방만 활성화하거나 모두 활성화할 수 있으며, 선택은 자유입니다.)
+            </li>
+            <li>원하는 지방들을 모두 활성화했다면, <strong>월드 또는 서버를 한 번 완전히 닫았다가 다시 여세요.</strong></li>
+          </ol>
+          <figure class="wiki-figure"><img src="images/image-18.png" alt="/function setup 명령어를 통한 지방 및 구조물 활성화 화면" loading="lazy" /><figcaption>채팅창에서 <code>/function setup:*region*</code> 명령어를 실행해 지방과 구조물을 활성화하는 화면</figcaption></figure>
+          <p>그것으로 끝입니다! 이제 모든 구조물을 이용하실 수 있습니다.</p>
+        </article>
+
+        <!-- 13. Catch All Legendary & Mythical -->
+        <article id="doc-legendary" class="wiki-doc">
+          <h2>모든 전설 / 환상의 포켓몬 포획 방법 (전체 무삭제 번역)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Tutorials &gt; How To Catch All Legendary | Mythical Pokémon</span><a href="https://www.lumyverse.com/en/cobbleverse/how-to-catch-all-legendary-mythical-pokemon/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+
+          <div class="callout-info" style="margin-bottom:24px;">
+            <h4 style="margin-top:0; margin-bottom:10px; color:#fff;">📑 목차 (Table of Contents — 원문 섹션 순서)</h4>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:6px 14px; font-size:0.9rem;">
+              <a href="#leg-mew">1. 뮤 (MEW)</a>
+              <a href="#leg-mewtwo">2. 뮤츠 (MEWTWO)</a>
+              <a href="#leg-armored-mewtwo">3. 아머드 뮤츠 (ARMORED MEWTWO)</a>
+              <a href="#leg-shadow-mewtwo">4. 그림자 뮤츠 (SHADOW MEWTWO)</a>
+              <a href="#leg-hooh">5. 칠색조 (HO-OH)</a>
+              <a href="#leg-lugia">6. 루기아 (LUGIA)</a>
+              <a href="#leg-shadow-lugia">7. 다크 루기아 (SHADOW LUGIA)</a>
+              <a href="#leg-celebi">8. 세레비 (CELEBI)</a>
+              <a href="#leg-kyogre">9. 가이오가 (KYOGRE)</a>
+              <a href="#leg-groudon">10. 그란돈 (GROUDON)</a>
+              <a href="#leg-rayquaza">11. 레쿠쟈 (RAYQUAZA)</a>
+              <a href="#leg-latias-latios">12. 라티아스 &amp; 라티오스</a>
+              <a href="#leg-jirachi">13. 지라치 (JIRACHI)</a>
+              <a href="#leg-deoxys">14. 테오키스 (DEOXYS)</a>
+              <a href="#leg-titans">15. 전설의 거인 (LEGENDARY TITANS)</a>
+              <a href="#leg-palkia-dialga">16. 펄기아 &amp; 디아루가</a>
+              <a href="#leg-giratina">17. 기라티나 (GIRATINA)</a>
+              <a href="#leg-lake-guardians">18. 호수의 수호신 (LAKE GUARDIANS)</a>
+              <a href="#leg-regigigas">19. 레지기가스 (REGIGIGAS)</a>
+              <a href="#leg-cresselia">20. 크레세리아 (CRESSELIA)</a>
+              <a href="#leg-heatran">21. 히드런 (HEATRAN)</a>
+              <a href="#leg-arceus">22. 아르세우스 (ARCEUS)</a>
+              <a href="#leg-darkrai">23. 다크라이 (DARKRAI)</a>
+              <a href="#leg-manaphy">24. 마나피 &amp; 피오네</a>
+              <a href="#leg-shaymin">25. 쉐이미 (SHAYMIN)</a>
+            </div>
+          </div>
+
+          <h3 id="leg-mew">뮤 (MEW)</h3>
+          <ul>
+            <li>스폰 레벨: <strong>Lv. 75</strong></li>
+            <li>뮤를 얻으려면 <strong>Origin Fossil(기원의 화석)</strong>을 조합해야 합니다. 조합에 필요한 재료는 다음과 같습니다:
+              <ul>
+                <li><code>Ancient Origin Ball</code>: 관동 챔피언 그린(Blue)과 성도 챔피언 목호(Lance)를 물리쳐 획득</li>
+                <li><code>Ancient DNA</code>: 체육관 관장 비주기(Giovanni) 처치 시 1회 드롭 또는 정글 바이옴의 뮤의 신전(Mew's Temple) 상자에서 발견</li>
+                <li>아무 종류의 화석(Fossils) 5개</li>
+              </ul>
+            </li>
+            <li>이 아이템들을 조합해 Origin Fossil을 만든 뒤, 뮤의 제단(Mew's Altar)에 올려놓아 뮤를 소환합니다.</li>
+            <li>치트 명령어로 구조물 찾기: <code>/locate structure cobbleverse:mythical/mew</code></li>
+          </ul>
+          <figure class="wiki-figure"><img src="images/COBBLEMON-Origin-Temple-Mew (1).jpg" alt="뮤의 신전 (Origin Temple)" loading="lazy" /><figcaption>정글 바이옴에서 발견할 수 있는 뮤의 신전 (Origin Temple)</figcaption></figure>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Origin-Fossil.jpg" alt="Origin Fossil 조합법" loading="lazy" /><figcaption>Origin Fossil 조합 레시피</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Mew-Altar-1.jpg" alt="뮤의 제단에서 소환된 뮤" loading="lazy" /><figcaption>뮤의 제단(Mew's Altar)에서 소환된 뮤</figcaption></figure>
+          </div>
+
+          <h3 id="leg-mewtwo">뮤츠 (MEWTWO)</h3>
+          <ul>
+            <li><strong>Ancient DNA 획득:</strong> 체육관 관장 비주기를 물리치거나(1회 드롭), 정글 바이옴의 뮤의 신전에서 찾습니다.</li>
+            <li><strong>Cloning Catalyst(복제 촉매) 획득:</strong>
+              <ul>
+                <li>악지(Badlands) 바이옴에서 <strong>로켓단 타워(Team Rocket Tower)</strong>를 찾습니다. (명령어: <code>/locate structure cobbleverse:team_rocket_tower</code>)</li>
+                <li>꼭대기 층에서 간부 아폴로(General Archer) 바로 아래 바닥을 파고 내려가 간부 <strong>아테나(Admin Atena)</strong>에게 도달합니다.</li>
+                <li>아테나를 물리칩니다. (<strong>레벨 상한 100</strong> 필요)</li>
+              </ul>
+            </li>
+            <li><strong>화석 부활 기계(Fossil Resurrection Machine)</strong>에서 <code>Ancient DNA + Cloning Catalyst</code>를 결합해 뮤츠를 얻습니다.</li>
+            <li>부활 기계는 화석 분석기(Fossil Analyzer), 복원 탱크(Restoration Tank), 데이터 모니터(Data Monitor)의 3가지 다른 블록으로 이루어진 멀티블록 구조물입니다. 복원을 시작하려면 복원 탱크에 유기물(organic materials)을 채워야 합니다.</li>
+            <li><strong>참고:</strong> 나옹 열기구가 달린 변형 로켓단 타워에서는 <code>Radiant Cloning Catalyst</code>를 드롭하며, 이를 사용하면 <strong>확정 이로치 뮤츠(guaranteed Shiny Mewtwo)</strong>를 얻습니다.</li>
+          </ul>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Team-Rocket-Tower-2048x1152.jpg" alt="로켓단 타워 (Team Rocket Tower)" loading="lazy" /><figcaption>악지 바이옴에 생성되는 로켓단 타워 (Team Rocket Tower)</figcaption></figure>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Kanto-Atena-1.jpg" alt="로켓단 간부 아테나 (Admin Atena)" loading="lazy" /><figcaption>로켓단 간부 아테나 (Admin Atena)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Kanto-Resurrection-Machine.jpg" alt="화석 부활 기계 (Fossil Resurrection Machine)" loading="lazy" /><figcaption>화석 부활 기계 (Fossil Resurrection Machine)</figcaption></figure>
+          </div>
+
+          <h3 id="leg-armored-mewtwo">아머드 뮤츠 (ARMORED MEWTWO)</h3>
+          <ul>
+            <li>라디오타워 내부에 아머드 뮤츠 제작에 사용되는 <code>Synthetic Matrix</code>가 숨겨져 있습니다.</li>
+            <li>이 건물은 관동 시리즈를 이미 완료한 후에만 해금됩니다. (명령어: <code>/locate structure cobbleverse:rocket_radio_tower</code>)</li>
+            <li>대장장이 작업대(Smithing Table)에서 <strong>네더라이트 갑옷(Netherite armor) + Synthetic Matrix + 기술 업그레이드 형판(Move Upgrade Smithing Template)</strong>을 조합하세요.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Armored-Mewtwo.jpg" alt="라디오타워 내부 아머드 뮤츠 방" loading="lazy" /><figcaption>라디오타워 내부 비밀의 방</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Armored-Mewtwo.jpg" alt="대장장이 작업대 업그레이드 GUI" loading="lazy" /><figcaption>대장장이 작업대에서의 아머 제작</figcaption></figure>
+          </div>
+
+          <h3 id="leg-shadow-mewtwo">그림자 뮤츠 (SHADOW MEWTWO)</h3>
+          <ul>
+            <li><strong>아직 미구현 상태 (NOT YET IMPLEMENTED)</strong>이며 추후 업데이트에서 지원될 예정입니다.</li>
+          </ul>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Shadow-Mewtwo.jpg" alt="그림자 뮤츠 연구소 외관" loading="lazy" /><figcaption>그림자 뮤츠 관련 로켓단 연구소 구조물</figcaption></figure>
+
+          <h3 id="leg-hooh">칠색조 (HO-OH)</h3>
+          <ul>
+            <li>불탄탑에 접근하려면 성도(Johto) 데이터팩을 활성화해야 합니다: 관동 챔피언을 물리친 뒤 월드/서버를 한 번 껐다 켜거나, <code>/function setup:johto</code> 입력 후 월드/서버를 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 70</strong></li>
+            <li><strong>불탄탑(Burned Tower)</strong>을 찾습니다(주로 자작나무 숲 근처에 생성). 명령어: <code>/locate structure cobbleverse:burned_tower</code></li>
+            <li>내부의 <strong>노인(Old Sage)</strong>을 물리쳐 <code>Rainbow Wing(무지개빛날개)</code>을 획득합니다. (레벨 상한 60+ 필요)</li>
+            <li>숲 바이옴에서 발견되는 <strong>방울탑(Bell Tower)</strong>(명령어: <code>/locate structure cobbleverse:bell_tower</code>)을 찾아 그곳에서 무지개빛날개를 사용해 칠색조를 소환합니다.</li>
+            <li>전설의 세 마리 짐승(라이코, 앤테이, 스이쿤)은 불탄탑 주변에서 극희귀(Ultra-Rare) 확률로 스폰되며, PokéNav를 사용해 추적할 수 있습니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Burned-Tower (1).png" alt="불탄탑 (Burned Tower)" loading="lazy" /><figcaption>성도 지방의 불탄탑 (Burned Tower)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Old-Sage.jpg" alt="불탄탑 내부 노인 (Old Sage)" loading="lazy" /><figcaption>불탄탑 내부의 노인 (Old Sage)</figcaption></figure>
+          </div>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Bell-Tower (1).png" alt="방울탑 (Bell Tower)" loading="lazy" /><figcaption>칠색조가 강림하는 방울탑 (Bell Tower)</figcaption></figure>
+
+          <h3 id="leg-lugia">루기아 (LUGIA)</h3>
+          <ul>
+            <li>라디오타워에 접근하려면 성도(Johto) 데이터팩을 활성화해야 합니다: 관동 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하거나 <code>/function setup:johto</code> 실행 후 월드/서버를 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 70</strong></li>
+            <li>사바나 바이옴에서 <strong>로켓단 라디오타워(Team Rocket Radio Tower)</strong>를 찾습니다.</li>
+            <li>꼭대기 층에서 보스 <strong>비주기(Giovanni)</strong>를 물리쳐 <code>Silver Wing(은빛날개)</code>을 획득합니다. (레벨 상한 70+ 필요)</li>
+            <li>깊은 차가운 바다(Deep Cold Ocean) 바이옴에 생성되는 <strong>소용돌이섬(Whirl Island)</strong>에서 은빛날개를 사용해 루기아를 소환합니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Giovanni.jpg" alt="라디오타워의 비주기(Giovanni)" loading="lazy" /><figcaption>라디오타워의 비주기(Giovanni)와 은빛날개</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Whirl-Island-Lugia.jpg" alt="소용돌이섬 (Whirl Island)" loading="lazy" /><figcaption>바다 위의 소용돌이섬 (Whirl Island)</figcaption></figure>
+          </div>
+
+          <h3 id="leg-shadow-lugia">다크 루기아 (SHADOW LUGIA)</h3>
+          <ul>
+            <li><strong>로켓단 라디오타워(Team Rocket Radio Tower)</strong> 내부에서 진행합니다.</li>
+            <li>숨겨진 <code>Corrupted Shards</code>를 찾아 <code>Shadow Soul Stone</code>을 제작합니다.</li>
+            <li>간부 <strong>아폴로(Admin Apollo)</strong>를 물리쳐 <code>Shadow Heart</code>와 <code>Shadow Soul Stone</code> 조합법을 획득합니다(루기아를 그림자 폼으로 변환하는 데 사용). (레벨 상한 60+ 필요)</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Apollo.jpg" alt="간부 아폴로 (Admin Apollo)" loading="lazy" /><figcaption>로켓단 간부 아폴로 (Admin Apollo)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Corrupted-Shard.jpg" alt="Corrupted Shard" loading="lazy" /><figcaption>라디오타워 상자의 Corrupted Shard</figcaption></figure>
+          </div>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Shadow-Lugia-Crystal.jpg" alt="Shadow Soul Stone 조합법" loading="lazy" /><figcaption>Shadow Soul Stone 조합 레시피</figcaption></figure>
+
+          <h3 id="leg-celebi">세레비 (CELEBI)</h3>
+          <ul>
+            <li>성도(Johto) 데이터팩을 활성화해야 합니다: 관동 챔피언을 물리친 뒤 월드/서버를 재시작하거나 <code>/function setup:johto</code> 실행 후 월드/서버를 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 30</strong></li>
+            <li>타이가(Taiga) 바이옴에 생성되는 <strong>세레비 사당(Celebi Shrine)</strong>을 찾습니다.</li>
+            <li>세레비를 소환하려면 사당 주변에 서 있는 라이벌 <strong>레드(Red)</strong>를 물리쳐야 합니다. (<strong>레벨 상한 100</strong> 필요)</li>
+            <li>레드를 이기면 <code>GS볼(GS Ball)</code>을 드롭하며, 사당 근처에서 GS볼을 손에 든 채 버튼을 누르면 세레비가 소환됩니다.</li>
+          </ul>
+          <figure class="wiki-figure"><img src="images/2026-03-05_14.06.01.png" alt="세레비 사당과 라이벌 레드" loading="lazy" /><figcaption>세레비 사당과 사당 앞의 라이벌 레드(Red)</figcaption></figure>
+
+          <h3 id="leg-kyogre">가이오가 (KYOGRE)</h3>
+          <ul>
+            <li>호연(Hoenn) 데이터팩을 활성화해야 합니다: 성도 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하거나 <code>/function setup:hoenn</code> 실행 후 월드/서버를 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 60–70</strong></li>
+            <li>깊은 차가운 바다(Deep Cold Ocean) 바이옴에서 가이오가의 구조물을 찾습니다. (명령어: <code>/locate structure cobbleverse:legendary/kyogre</code>)</li>
+            <li><code>Ocean Core</code>를 제작해 가이오가를 소환합니다.</li>
+            <li>이 구조물 내부에 숨겨진 <code>Blue Orb</code>를 찾을 수 있습니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Kyogre-Temple (1).jpg" alt="가이오가 신전" loading="lazy" /><figcaption>심해의 가이오가 신전 (Kyogre Temple)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Kyogre-Ocean-Core.jpg" alt="Ocean Core 조합법" loading="lazy" /><figcaption>Ocean Core 조합 레시피</figcaption></figure>
+          </div>
+
+          <h3 id="leg-groudon">그란돈 (GROUDON)</h3>
+          <ul>
+            <li>호연(Hoenn) 데이터팩을 활성화해야 합니다: 성도 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하거나 <code>/function setup:hoenn</code> 실행 후 월드/서버를 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 60–70</strong></li>
+            <li>깊은 따뜻한 바다(Deep Warm Ocean)에서 그란돈의 화산 구조물을 찾습니다. (명령어: <code>/locate structure cobbleverse:legendary/groudon</code>)</li>
+            <li>화산 속에 숨겨진 <code>Magma Geostone</code> 8개를 찾은 뒤 용광로(Blast Furnace)를 사용해 <code>Earth Core</code>를 제작하여 그란돈을 소환합니다.</li>
+            <li>이 구조물 내부에 숨겨진 <code>Red Orb</code>를 찾을 수 있습니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Heatstone.jpg" alt="Magma Geostone 블록" loading="lazy" /><figcaption>화산 내부의 Magma Geostone 블록</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Magma-Crystal.jpg" alt="Earth Core 용광로 제련" loading="lazy" /><figcaption>용광로(Blasting)를 통한 Earth Core 제작</figcaption></figure>
+          </div>
+
+          <h3 id="leg-rayquaza">레쿠쟈 (RAYQUAZA)</h3>
+          <ul>
+            <li>호연(Hoenn) 데이터팩을 활성화해야 합니다: 성도 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하거나 <code>/function setup:hoenn</code> 실행 후 월드/서버를 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 70</strong></li>
+            <li>깊은 바다(Deep Ocean) 바이옴의 <strong>하늘기둥(Sky Pillar)</strong>으로 이동합니다. (명령어: <code>/locate structure cobbleverse:sky_pillar</code>)</li>
+            <li>아쿠아단 리더 아강(Ivan)을 물리쳐 <code>Primordial Gem</code> 획득</li>
+            <li>마그마단 리더 마적(Max)을 물리쳐 <code>Desolate Gem</code> 획득</li>
+            <li>피아나(Lyris)를 물리쳐 <code>Aether Gem</code> 획득 (레벨 상한 70+ 필요)</li>
+            <li>레쿠쟈의 소환 아이템을 만드는 데 필요한 <code>Emerald Emblem</code>은 작업대들이 있는 방의 상자 뒤편에 숨겨져 있습니다. 위쪽 레버를 당기면 통(barrel)이 보입니다.</li>
+            <li><code>Sky Core</code>를 제작해 레쿠쟈를 소환합니다.</li>
+            <li>또한 <strong>엔드(The End)에 처음 진입할 때 Lv. 100 이로치 레쿠쟈(Shiny Rayquaza)</strong>를 만날 수도 있습니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-sky-pillar-1 (1).jpg" alt="하늘기둥 (Sky Pillar)" loading="lazy" /><figcaption>바다 위의 하늘기둥 (Sky Pillar)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-SKY-pillar-sky-core.jpg" alt="Sky Core 조합법" loading="lazy" /><figcaption>Sky Core 조합 레시피</figcaption></figure>
+          </div>
+
+          <h3 id="leg-latias-latios">라티아스 &amp; 라티오스 (LATIAS &amp; LATIOS)</h3>
+          <ul>
+            <li>호연(Hoenn) 데이터팩을 활성화해야 합니다: 성도 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하거나 <code>/function setup:hoenn</code> 실행 후 월드/서버를 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 55</strong></li>
+            <li>깊은 미지근한 바다(Deep Lukewarm Ocean) 바이옴 상공(y=200 부근)에 <strong>비밀의 화원(Secret Garden)</strong> 구조물이 생성됩니다. (명령어: <code>/locate structure cobbleverse:secret_garden</code>)</li>
+            <li>라티아스를 소환하려면 <code>Ruby Dew</code>가, 라티오스를 소환하려면 <code>Sapphire Dew</code>가 필요합니다.</li>
+            <li><code>Ruby Dew</code>와 <code>Sapphire Dew</code>는 호연 챔피언 <strong>성호(Rocco)</strong>를 물리치면 드롭됩니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Rocco.jpg" alt="호연 챔피언 성호와 이슬 아이템" loading="lazy" /><figcaption>호연 챔피언 성호(Rocco)와 Ruby / Sapphire Dew</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Latias-Latios-Spawn-2048x1152.jpg" alt="라티아스 & 라티오스 제단" loading="lazy" /><figcaption>비밀의 화원 라티아스(좌) · 라티오스(우) 제단</figcaption></figure>
+          </div>
+
+          <h3 id="leg-jirachi">지라치 (JIRACHI)</h3>
+          <ul>
+            <li>호연(Hoenn) 데이터팩을 활성화해야 합니다: 성도 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하거나 <code>/function setup:hoenn</code> 실행 후 월드/서버를 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 75</strong></li>
+            <li>Blooming Plateau 바이옴에 구조물이 생성됩니다. (명령어: <code>/locate structure cobbleverse:mythical/jirachi</code>)</li>
+            <li>지라치를 소환하려면 구조물 꼭대기 통(barrel) 안에 들어 있는 <code>Melodic Tape</code>를 찾아야 합니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Melodic-tape.jpg" alt="Melodic Tape와 카세트 플레이어" loading="lazy" /><figcaption>소원의 동굴 카세트 플레이어와 Melodic Tape</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Jirachi.jpg" alt="소환된 지라치" loading="lazy" /><figcaption>소원의 동굴에서 소환된 지라치(Jirachi)</figcaption></figure>
+          </div>
+
+          <h3 id="leg-deoxys">테오키스 (DEOXYS)</h3>
+          <ul>
+            <li>호연(Hoenn) 데이터팩을 활성화해야 합니다: 성도 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하거나 <code>/function setup:hoenn</code> 실행 후 월드/서버를 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 60</strong></li>
+            <li>엔드 작은 섬(Small End Islands) 바이옴에 구조물이 생성됩니다. (엔드 차원에서 명령어: <code>/locate structure cobbleverse:mythical/deoxys</code>)</li>
+            <li>거대 운석(Mega Meteorite) 블록 내부를 파내 테오키스의 소환 아이템과 숨겨진 제단을 찾습니다. 엔드 섬 곳곳에 흩어진 폼 체인지 운석을 통해 노말, 어택, 디펜스, 스피드 폼으로 전환할 수 있습니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Deoxys-Meteorite-Spawn.jpg" alt="엔드 차원 테오키스 운석" loading="lazy" /><figcaption>엔드 차원의 거대 운석 구조물</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Deoxys-Mega-Meteorite.jpg" alt="테오키스 운석 내부 액자" loading="lazy" /><figcaption>운석 내부의 테오키스 코어 아이템 액자</figcaption></figure>
+          </div>
+
+          <h3 id="leg-titans">전설의 거인 (LEGENDARY TITANS)</h3>
+          <p>호연(Hoenn) 데이터팩을 활성화해야 합니다: 성도 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하거나 <code>/function setup:hoenn</code> 실행 후 월드/서버를 재시작하세요.</p>
+          <ul>
+            <li><strong>레지아이스 (Regice):</strong> 스폰 레벨 <strong>Lv. 40–50</strong> · 눈 덮인 악지(Snowy Badlands)에 구조물 생성 (<code>/locate structure cobbleverse:legendary/regice</code>) · 얼어붙은 봉우리/바다/역고드름(<code>65&lt;Y&lt;125</code>)에서 발견되는 <code>Ice Ore</code>를 <code>Cryo Relic</code>으로 변환해 소환합니다.</li>
+            <li><strong>레지락 (Regirock):</strong> 스폰 레벨 <strong>Lv. 40–50</strong> · 무성한 사막(Lush Desert)에 구조물 생성 (<code>/locate structure cobbleverse:legendary/regirock</code>) · 악지/침식된 악지/나무가 우거진 악지(<code>75&lt;Y&lt;135</code>)에서 발견되는 <code>Rock Ore</code>를 <code>Pebble Relic</code>으로 변환해 소환합니다.</li>
+            <li><strong>레지스틸 (Registeel):</strong> 스폰 레벨 <strong>Lv. 40–50</strong> · 고산 지대(Alpine Highlands)에 구조물 생성 (<code>/locate structure cobbleverse:legendary/registeel</code>) · 점적석 동굴(<code>-50&lt;Y&lt;10</code>)에서 발견되는 <code>Steel Ore</code>를 <code>Metal Relic</code>으로 변환해 소환합니다.</li>
+            <li><strong>레지드래고 (Regidrago):</strong> 스폰 레벨 <strong>Lv. 60–70</strong> · 사막(Desert)에 갈림길 신전 생성 (<code>/locate structure cobbleverse:split_decision_temple</code>) · 딥다크(<code>-60&lt;Y&lt;0</code>)에서 발견되는 <code>Dragon Ore</code>를 <code>Draco Relic</code>으로 변환해 소환합니다.</li>
+            <li><strong>레지에레키 (Regieleki):</strong> 스폰 레벨 <strong>Lv. 60–70</strong> · 사막(Desert)에 갈림길 신전 생성 (<code>/locate structure cobbleverse:split_decision_temple</code>) · 사막(<code>30&lt;Y&lt;90</code>)에서 발견되는 <code>Electron Ore</code>를 <code>Spark Relic</code>으로 변환해 소환합니다.</li>
+          </ul>
+
+          <h3 id="leg-palkia-dialga">펄기아 &amp; 디아루가 (PALKIA &amp; DIALGA)</h3>
+          <ul>
+            <li>신오(Sinnoh) 데이터팩을 활성화해야 합니다: 호연 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 70–80</strong> · Cold Shrubland 바이옴에 <strong>창기둥(Spear Pillar)</strong> 구조물이 생성됩니다. (명령어: <code>/locate structure cobbleverse:spear_pillar</code>)</li>
+            <li>필요한 아이템: <code>Adamant Orb</code>(디아루가용), <code>Lustrous Orb</code>(펄기아용), <code>Red Chain(빨강쇠사슬)</code>(공통 필수)</li>
+            <li><strong>주의:</strong> 빨강쇠사슬은 1회용 아이템이며 소환 후 부서지면서 이름이 <code>Broken Red Chain</code>으로 바뀝니다. 수리가 가능하므로 절대 잃어버리지 않도록 극도로 주의하세요.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Spear-Pillar.jpg" alt="창기둥 석상과 제단" loading="lazy" /><figcaption>창기둥(Spear Pillar) 디아루가·펄기아 석상</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Adamant-Orb.jpg" alt="창기둥 중앙 제단 구슬 배치" loading="lazy" /><figcaption>중앙 제단에 구슬(Adamant Orb)을 배치한 모습</figcaption></figure>
+          </div>
+
+          <h3 id="leg-giratina">기라티나 (GIRATINA)</h3>
+          <ul>
+            <li>신오(Sinnoh) 데이터팩을 활성화해야 합니다: 호연 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 75+</strong> · 깨어진 세계(Distortion World)에 구조물이 생성됩니다. (치트 이동: <code>/execute in legendarymonuments:distortion_world run tp 100 100 100</code>)</li>
+            <li><strong>귀혼동굴(Turnback Cave)</strong>을 찾아 내부 포탈로 진입합니다. (명령어: <code>/locate structure legendarymonuments:turnback_cave</code>)</li>
+            <li>차원 내부에서 <strong>기라티나의 섬(Giratina's Island)</strong>을 찾아 제단에 <code>Red Chain</code>을 사용합니다. (명령어: <code>/locate structure legendarymonuments:giratina_island</code>)</li>
+            <li>깨어진 세계에서 돌아오려면 보통 기라티나의 섬 근처에 있는 귀환 포탈을 찾아야 합니다.</li>
+            <li><strong>주의:</strong> 빨강쇠사슬은 1회용이며 소환 후 이름이 바뀌지만 수리할 수 있으므로 분실하지 않도록 주의하세요.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Giratina-island.jpg" alt="깨어진 세계 기라티나의 섬" loading="lazy" /><figcaption>깨어진 세계의 기라티나의 섬</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Giratina.jpg" alt="기라티나 소환" loading="lazy" /><figcaption>기라티나 소환 장면</figcaption></figure>
+          </div>
+
+          <h3 id="leg-lake-guardians">호수의 수호신 (LAKE GUARDIANS — 엠라이트 · 유크시 · 아그놈)</h3>
+          <p>신오(Sinnoh) 데이터팩을 활성화해야 합니다: 호연 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하세요.</p>
+
+          <h4>엠라이트 (Mesprit)</h4>
+          <ul>
+            <li>스폰 레벨: <strong>Lv. 70+</strong> · 벚꽃 숲(Cherry Grove)에 <strong>진실의 호수</strong> 생성 (<code>/locate structure legendarymonuments:lake_verity</code>)</li>
+            <li>동굴 구조물을 점거하고 있는 포켓몬과 배틀해 승리한 뒤, 드롭되는 보상 아이템을 동굴 제단에 사용해 소환합니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Lake-Verity-1.jpg" alt="진실의 호수 전경" loading="lazy" /><figcaption>진실의 호수 (Lake Verity)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Lake-Verity-Mesprit.jpg" alt="진실의 호수 동굴 제단" loading="lazy" /><figcaption>진실의 호수 동굴 내부 제단</figcaption></figure>
+          </div>
+
+          <h4>유크시 (Uxie)</h4>
+          <ul>
+            <li>스폰 레벨: <strong>Lv. 70+</strong> · 빙하 협곡(Glacial Chasm)에 <strong>예지의 호수</strong> 생성 (<code>/locate structure legendarymonuments:lake_acuity</code>)</li>
+            <li>동굴 구조물을 점거하고 있는 포켓몬과 배틀해 승리한 뒤, 드롭되는 보상 아이템을 동굴 제단에 사용해 소환합니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Lake-Acuity-1.jpg" alt="예지의 호수 전경" loading="lazy" /><figcaption>예지의 호수 (Lake Acuity)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Lake-Acuity-Uxie.jpg" alt="예지의 호수 동굴 제단" loading="lazy" /><figcaption>예지의 호수 동굴 내부 제단</figcaption></figure>
+          </div>
+
+          <h4>아그놈 (Azelf)</h4>
+          <ul>
+            <li>스폰 레벨: <strong>Lv. 70+</strong> · 건조한 고원(Arid Highlands)에 <strong>입지의 호수</strong> 생성 (<code>/locate structure legendarymonuments:lake_valor</code>)</li>
+            <li>동굴 구조물을 점거하고 있는 포켓몬과 배틀해 승리한 뒤, 드롭되는 보상 아이템을 동굴 제단에 사용해 소환합니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Lake-Valor-1.jpg" alt="입지의 호수 전경" loading="lazy" /><figcaption>입지의 호수 (Lake Valor)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Lake-Valor-Azelf.jpg" alt="입지의 호수 동굴 제단" loading="lazy" /><figcaption>입지의 호수 동굴 내부 제단</figcaption></figure>
+          </div>
+
+          <h3 id="leg-regigigas">레지기가스 (REGIGIGAS)</h3>
+          <ul>
+            <li>신오(Sinnoh) 데이터팩을 활성화해야 합니다: 호연 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 80+</strong> · Wintry Lowlands 바이옴에 <strong>선단신전(Snowpoint Temple)</strong> 생성 (<code>/locate structure cobbleverse:snowpoint_temple</code>)</li>
+            <li>다섯 전설의 거인(Regis) 모두에게서 얻은 핵심 원소들을 조합해 만든 <code>Titan Relic</code>이 필요합니다.</li>
+            <li><strong>주의: 소환이 성공하려면 전설의 거인 5마리가 모두 파티에 들어 있어야 합니다.</strong></li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/image-28.png" alt="Titan Relic 조합법" loading="lazy" /><figcaption>Titan Relic 조합 레시피</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Snowpoint-Temple.jpg" alt="선단신전 내부" loading="lazy" /><figcaption>선단신전(Snowpoint Temple) 내부 제단</figcaption></figure>
+          </div>
+
+          <h3 id="leg-cresselia">크레세리아 (CRESSELIA)</h3>
+          <ul>
+            <li>신오(Sinnoh) 데이터팩을 활성화해야 합니다: 호연 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 70–80</strong> · 미지근한 바다(Lukewarm Ocean)에 <strong>보름달섬(Fullmoon Island)</strong> 생성 (<code>/locate structure cobbleverse:fullmoon_island</code>)</li>
+            <li>다음 재료를 조합해 만든 <code>Dream Catcher</code>가 필요합니다:
+              <ul>
+                <li><code>Dream String</code> 8개: 이 구조물에서만 독점 획득</li>
+                <li><code>Lunar Wing</code>: 초승달섬(Crescent Island)에 위치</li>
+              </ul>
+            </li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/image-29.png" alt="Dream Catcher 조합법" loading="lazy" /><figcaption>Dream Catcher 조합 레시피</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Fullmoon-Island.jpg" alt="보름달섬 전경" loading="lazy" /><figcaption>보름달섬 (Fullmoon Island)</figcaption></figure>
+          </div>
+
+          <h3 id="leg-heatran">히드런 (HEATRAN)</h3>
+          <ul>
+            <li>신오(Sinnoh) 데이터팩을 활성화해야 합니다: 호연 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 70+</strong> · 네더 황무지(Nether Wastes)에 <strong>하드마운틴(Stark Mountain)</strong> 생성 (명령어: <code>/locate structure legendarymonuments:stark_mountain</code>)</li>
+            <li>다음 재료로 만드는 <code>Magma Stone</code>이 필요합니다:
+              <ul>
+                <li><code>Heat Fragment</code>: 이 구조물의 맥(Buck)에게서 독점 획득</li>
+                <li><code>Heat Splinter</code>: 이 구조물의 플루토(Charon)에게서 독점 획득</li>
+              </ul>
+            </li>
+            <li>두 아이템을 조합해 <code>Magmatic Cluster</code>를 만든 뒤, <strong>Stark Forge</strong>에서 제련해 <code>Magma Stone</code>으로 변환하여 소환합니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Stark-Mountain.jpg" alt="하드마운틴 외관" loading="lazy" /><figcaption>네더의 하드마운틴 (Stark Mountain)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-LM-Stark-Mountain-heatran.jpg" alt="하드마운틴 내부 히드런 제단" loading="lazy" /><figcaption>하드마운틴 내부의 히드런 제단</figcaption></figure>
+          </div>
+
+          <h3 id="leg-arceus">아르세우스 (ARCEUS)</h3>
+          <ul>
+            <li>신오(Sinnoh) 데이터팩을 활성화해야 합니다: 호연 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 80+</strong> · 시작의 방(Origin Dimension)에 구조물 생성 (치트: <code>/execute in lumymon:origin run tp 10 100 10000</code> — 멀티플레이어 서버에서는 좌표가 다를 수 있음)</li>
+            <li>필요한 아이템:
+              <ul>
+                <li><code>천계의 피리(Azure Flute)</code>: 디아루가와 펄기아를 먼저 포획하고, 깨어진 세계에서 주괴를 획득해 제작</li>
+                <li><strong>18개의 모든 아르세우스 플레이트</strong>: 신오 체육관들 내부에 숨겨져 있음</li>
+              </ul>
+            </li>
+            <li>시작의 방에서 돌아오려면 천계의 피리(Azure Flute)를 연주해야 합니다.</li>
+          </ul>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Azure-Flute-Craft.jpg" alt="천계의 피리 조합법" loading="lazy" /><figcaption>천계의 피리(Azure Flute) 조합 레시피</figcaption></figure>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Sinnoh-temple-2.jpg" alt="신오 신전 정면" loading="lazy" /><figcaption>시작의 방 신오 신전 정면</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Sinnoh-temple-Arceus-2.jpg" alt="신오 신전 18개 플레이트 배치" loading="lazy" /><figcaption>신오 신전 상공의 18개 플레이트 배치 구조</figcaption></figure>
+          </div>
+
+          <h3 id="leg-darkrai">다크라이 (DARKRAI)</h3>
+          <ul>
+            <li>신오(Sinnoh) 데이터팩을 활성화해야 합니다: 호연 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 70–80</strong> · 악몽 차원(Nightmare Dimension)에 구조물 생성 (치트: <code>/execute in lumymon:nightmare run tp 100 100 100</code> — 멀티플레이어 서버에서는 좌표가 다를 수 있음)</li>
+            <li>다음 재료가 필요한 <code>Nightmare Weaver</code>를 제작해야 합니다:
+              <ul>
+                <li><code>Nightmare String</code> 8개: 이 구조물에서만 독점 획득</li>
+                <li><code>Moonlight Amulet</code>: 크레세리아 포획 성공 시 획득</li>
+              </ul>
+            </li>
+            <li>밤 시간대에 <code>Moonlight Amulet</code>을 손에 든 채 침대에서 잠들면 악몽 차원으로 텔레포트됩니다.</li>
+            <li>악몽 차원에서 돌아오려면 다크라이를 포획하거나 <code>Lunar Wing</code>을 사용해야 합니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/image-30.png" alt="Nightmare Weaver 조합법" loading="lazy" /><figcaption>Nightmare Weaver 조합 레시피</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Newmoon-Island-1.jpg" alt="신월섬 전경" loading="lazy" /><figcaption>악몽 차원의 신월섬 (Newmoon Island)</figcaption></figure>
+          </div>
+
+          <h3 id="leg-manaphy">마나피 &amp; 피오네 (MANAPHY &amp; PHIONE)</h3>
+          <ul>
+            <li>신오(Sinnoh) 데이터팩을 활성화해야 합니다: 호연 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 50</strong> · 깊은 차가운 바다(Deep Cold Ocean)에 구조물 생성 (명령어: <code>/locate structure cobbleverse:mythical/manaphy</code>)</li>
+            <li>피오네(Phione)를 얻으려면 <strong>마나피와 메타몽(Ditto)을 함께 방목 블록(Pasture Block)</strong>에 넣어야 합니다.</li>
+          </ul>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Manaphy-Ruin.jpg" alt="바다의 유적" loading="lazy" /><figcaption>해저의 바다의 유적 (Manaphy Ruin)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/image-31.png" alt="마나피의 알 통 GUI" loading="lazy" /><figcaption>유적 내부 통(Barrel) 속 마나피의 알</figcaption></figure>
+          </div>
+
+          <h3 id="leg-shaymin">쉐이미 (SHAYMIN)</h3>
+          <ul>
+            <li>신오(Sinnoh) 데이터팩을 활성화해야 합니다: 호연 챔피언을 물리친 뒤 월드/서버를 한 번 재시작하세요.</li>
+            <li>스폰 레벨: <strong>Lv. 30</strong> · 따뜻한 바다(Warm Ocean)에 <strong>꽃의 낙원(Flower Paradise)</strong> 생성 (명령어: <code>/locate structure cobbleverse:flower_paradise</code>)</li>
+            <li>관동 스타터 포켓몬 5종을 모두 파티에 보유하면 자동으로 얻는 <code>오박사의 편지(Professor Oak's Letter)</code>가 필요합니다. 한 번 사용한 뒤에는 <code>그라시데아 꽃(Gracidea Flowers)</code> 3개를 사용해 다시 제작할 수 있습니다.</li>
+          </ul>
+          <figure class="wiki-figure"><img src="images/image-33.png" alt="오박사의 편지 조합법" loading="lazy" /><figcaption>그라시데아 꽃을 사용한 오박사의 편지 재조합법</figcaption></figure>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Flower-Paradise-1.jpg" alt="꽃의 낙원 전경" loading="lazy" /><figcaption>꽃의 낙원 (Flower Paradise) 전경</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Shaymin-Altar.jpg" alt="쉐이미 제단과 파티 조건" loading="lazy" /><figcaption>쉐이미 제단 및 관동 스타터 5종 파티 조건</figcaption></figure>
+          </div>
+        </article>
+
+        <!-- 14. Find Legendary Structures -->
+        <article id="doc-find-leg" class="wiki-doc">
+          <h2>전설의 포켓몬 구조물 찾는 방법 (포케 레이더)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Tutorials &gt; How to find Legendary Pokémon structures</span><a href="https://www.lumyverse.com/cobbleverse/how-to-find-legendary-pokemon-structures/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>COBBLEVERSE 1.7.1 업데이트부터 전설의 포켓몬 구조물을 훨씬 쉽게 찾을 수 있는 새로운 시스템이 도입되었습니다! 필요한 아이템은 단 두 가지, <strong>빈 지도(empty map)</strong>와 <strong>포케 레이더(Poké Radar)</strong>입니다.</p>
+          <p>포케 레이더를 만들려면 각 차원 어딘가에 숨겨진 <strong>위치 추적 칩(Locator Chip)</strong>이 필요합니다. Locator Chip은 시련의 방(Trial Chambers)의 불길한 금고(Ominous Vaults), 엔드 시티(End City), 그리고 네더 보루 잔해(Nether Bastions)에서 보상으로 획득할 수 있는 희귀하고 매우 유용한 아이템입니다.</p>
+                    <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/image-11.png" alt="포케 레이더 조합법" loading="lazy" /><figcaption>기본 포케 레이더(Poké Radar) 조합 레시피</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/image-13.png" alt="지방별 포케 레이더 목록" loading="lazy" /><figcaption>지방별 전설 포케 레이더(Poké Radar) 목록</figcaption></figure>
+          </div>
+          <p>원하는 전설 구조물 전용 레이더를 제작했다면, 해당하는 <strong>지도 제작대(Cartography Table)</strong>에 넣으세요. 오버월드 외의 차원에 있는 구조물은 <strong>네더 지도 제작대</strong> 또는 <strong>엔드 지도 제작대</strong>를 사용해야 합니다. 생성된 지도가 비어 보이더라도 당황하지 마시고, 지도에 마우스 커서를 올리면 구조물이 위치한 정확한 좌표가 표시됩니다.</p>
+          <p>이미 탐험한 가까운 곳 대신 더 멀리 떨어져 있고 아직 지도화되지 않은(보물이 그대로 남아 있을) 새로운 구조물을 찾고 싶다면 지도 제작대에 <strong>Battle Seeker</strong>를 함께 추가하세요!</p>
+                    <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/image-14.png" alt="관동 지도 제작대 사용 화면" loading="lazy" /><figcaption>지도 제작대에 빈 지도 · 레이더 · Battle Seeker를 넣은 화면</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/image-15.png" alt="Zapdos Map 좌표 툴팁" loading="lazy" /><figcaption>생성된 구조물 지도의 정확한 좌표 표시</figcaption></figure>
+          </div>
+          <figure class="wiki-figure"><img src="images/image-16.png" alt="지도를 따라 도착한 썬더의 탑" loading="lazy" /><figcaption>지도 마커를 따라 도착한 전설의 포켓몬 구조물</figcaption></figure>
+          <h3>특수 탐색 아이템 및 열쇠 전체 표 (REI 조합법 확인 가능)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>아이템 (ITEM)</th><th>시리즈 (SERIES)</th><th>목표 구조물 (TARGET)</th><th>획득처 (SOURCE)</th></tr></thead>
+              <tbody>
+                <tr><td>Acuity Proof</td><td>Sinnoh</td><td>예지의 호수 (Lake Acuity)</td><td>영원 빌딩(Eterna Building)에서 마스/주피터(Jupiter) 처치</td></tr>
+                <tr><td>Ash Key</td><td>Kanto</td><td>지우의 집 (Ash's house)</td><td>직접 제작 (Must be crafted)</td></tr>
+                <tr><td>Galactic Keycard</td><td>Sinnoh</td><td>갤럭시단 본부 (Team Galactic HQ)</td><td>직접 제작</td></tr>
+                <tr><td>Mariner Logbook</td><td>Sinnoh</td><td>초승달섬 (Crescent Isle)</td><td>난파선 보물상자 루팅 (Shipwreck Treasure)</td></tr>
+                <tr><td>Member Card</td><td>Sinnoh</td><td>보름달섬 (Fullmoon Island)</td><td>초승달섬에서 Elfio 처치</td></tr>
+                <tr><td>Old Journal</td><td>Sinnoh</td><td>귀혼동굴 (Turnback Cave)</td><td>직접 제작</td></tr>
+                <tr><td>Radio Card</td><td>Johto</td><td>성도 로켓단 라디오타워</td><td>직접 제작</td></tr>
+                <tr><td>Rocket Key</td><td>Kanto</td><td>관동 로켓단 타워</td><td>직접 제작</td></tr>
+                <tr><td>Secret Key</td><td>Sinnoh</td><td>영원 빌딩 (Eterna Building)</td><td>직접 제작</td></tr>
+                <tr><td>Store Card</td><td>Kanto</td><td>백화점 (Department Store)</td><td>직접 제작</td></tr>
+                <tr><td>Turbine Key</td><td>Sinnoh</td><td>골짜기발전소 (Windplant)</td><td>직접 제작</td></tr>
+                <tr><td>Verity Proof</td><td>Sinnoh</td><td>진실의 호수 (Lake Verity)</td><td>발전소에서 마스(Mars) 처치</td></tr>
+                <tr><td>Valor Proof</td><td>Sinnoh</td><td>입지의 호수 (Lake Valor)</td><td>갤럭시단 본부에서 새턴(Saturn) 처치</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <!-- 15. Find Gyms -->
+        <article id="doc-find-gyms" class="wiki-doc">
+          <h2>체육관(Gyms) 찾는 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Tutorials &gt; How to find Gyms</span><a href="https://www.lumyverse.com/cobbleverse/how-to-find-gyms/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>현재 COBBLEVERSE에는 총 48개의 체육관이 있으며, 이 중 8개는 새 월드를 생성하자마자 탐험하며 찾을 수 있는 <strong>관동(KANTO)</strong> 시리즈에 속합니다.</p>
+          <h3>관동 (KANTO)</h3>
+          <p>관동 지방의 경우 게임을 시작하자마자 첫 번째 체육관 지도를 자동으로 받게 됩니다. 나머지 체육관을 쉽게 찾으려면 백수 주민(unemployed Villager) 옆에 해당 지방의 지도 제작대 블록(예: Kanto Cartography Table)을 놓아 <strong>지도 안내원 주민(Map Guide Villager)</strong>과 지도를 거래하거나, 빈 지도와 함께 찾고자 하는 체육관 관장의 <strong>시그니처 아이템(Signature item)</strong>을 지도 제작대에 넣으세요. 여러 친구와 멀티플레이 중이라면 <strong>Battle Seeker</strong>를 함께 사용해 아직 아무도 가지 않은 새 체육관 지도를 만들 수 있습니다. (치트 명령어 예시: <code>/locate structure cobbleverse:kanto_league</code> — 저작권 규정상 관장 이름은 이탈리아어로 표기됩니다.)</p>
+                    <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-KANTO-Cartography-Table.jpg" alt="관동 지도 제작대 조합법" loading="lazy" /><figcaption>관동 지도 제작대 (Kanto Cartography Table) 조합법</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/image-17.png" alt="Battle Seeker 아이템" loading="lazy" /><figcaption>탐색 거리를 25,000블록으로 확장하는 Battle Seeker</figcaption></figure>
+          </div>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-KANTO-Cartographer-Villager-Map-Brock.jpg" alt="웅 체육관 지도" loading="lazy" /><figcaption>첫 번째 체육관(웅) 위치가 표시된 지도</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Battle-Seeker-Map.jpg" alt="Battle Seeker 체육관 지도" loading="lazy" /><figcaption>Battle Seeker로 생성한 신규 체육관 지도</figcaption></figure>
+          </div>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Gyms-Leader-Brock-2048x1152.jpg" alt="회색시티 웅 체육관" loading="lazy" /><figcaption>관동 회색시티 웅(Brock) 체육관</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Elite-4-Tower-KANTO-2048x1167.jpg" alt="관동 사천왕 타워" loading="lazy" /><figcaption>엔드 차원에 위치한 관동 사천왕 타워</figcaption></figure>
+          </div>
+          <h3>성도 (JOHTO)</h3>
+          <p>성도 체육관은 관동 챔피언 <strong>그린(Blue)</strong>을 물리친 후에만 찾을 수 있습니다. 배틀 후 체육관이 정상 스폰되도록 반드시 <strong>월드를 한 번 닫았다가 다시 여세요.</strong> (서버의 경우 첫 플레이어가 그린을 이긴 뒤 서버를 한 번 재시작해야 합니다.) 성도 지도 제작자(Johto Cartographer)는 관동 시리즈를 완전히 끝낸 뒤에 거래하는 것을 권장합니다.</p>
+                    <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Johto-Cartographer.jpg" alt="성도 지도 제작자 주민" loading="lazy" /><figcaption>성도 지도 제작자(Johto Cartographer) 주민</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Gyms-Leader-Valerio-2048x1167.jpg" alt="성도 비상 체육관" loading="lazy" /><figcaption>성도 도라지시티 비상(Valerio) 체육관</figcaption></figure>
+          </div>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Nether-Cartography-Table.jpg" alt="네더 지도 제작대" loading="lazy" /><figcaption>네더 지도 제작대 (Nether Cartography Table)</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-End-Cartography-Table.jpg" alt="엔드 지도 제작대" loading="lazy" /><figcaption>엔드 지도 제작대 (End Cartography Table)</figcaption></figure>
+          </div>
+          <h3>호연 (HOENN)</h3>
+          <p>성도 챔피언 <strong>목호(Lance)</strong>를 물리친 뒤 해금됩니다. <strong>중요 주의사항:</strong> 배틀 후 목호가 건네주는 <strong>책을 반드시 읽고</strong>, 월드 또는 서버를 한 번 재시작하세요. 월드가 매우 넓기 때문에 주민이 “10,000블록 이내에서 찾을 수 없다”고 말하면 위치를 옮겨가며 시도할 수 있도록 지도 제작대를 챙겨 다니는 것이 좋습니다.</p>
+                    <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Trader-Maps-1.jpg" alt="호연 지도 안내원 주민" loading="lazy" /><figcaption>호연 지도 안내원(Hoenn Map Guide) 주민</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Trade-Maps-2.jpg" alt="호연 체육관 지도 거래 창" loading="lazy" /><figcaption>관장 시그니처 아이템으로 체육관 지도를 교환하는 거래 GUI</figcaption></figure>
+          </div>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Gym.jpg" alt="호연 체육관 외관" loading="lazy" /><figcaption>호연 지방 체육관 외관</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn_Gym-Tell-Pat-1.jpg" alt="이끼시티 풍&란 체육관" loading="lazy" /><figcaption>이끼시티 풍&amp;란(Tell &amp; Pat) 체육관</figcaption></figure>
+          </div>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn_League.jpg" alt="호연 리그 외관" loading="lazy" /><figcaption>호연 포켓몬 리그 (Hoenn League)</figcaption></figure>
+          <h3>신오 (SINNOH)</h3>
+          <p>호연 챔피언 <strong>성호(Rocco)</strong>를 물리쳐 호연 시리즈 전체를 완료하면 해금됩니다. 마찬가지로 새 트레이너들을 찾기 전에 반드시 월드/서버를 한 번 껐다 켜고, <code>Sinnoh Cartography Table</code>을 백수 주민 옆에 놓아 신오 지도 안내원에게서 지도를 얻으세요.</p>
+                  <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Sinnoh-Cartographt-table-craft-1.jpg" alt="신오 지도 제작대 조합법" loading="lazy" /><figcaption>신오 지도 제작대 (Sinnoh Cartography Table) 조합법</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Sinnoh-Trader-Maps.jpg" alt="신오 지도 안내원 주민" loading="lazy" /><figcaption>신오 지도 안내원(Sinnoh Map Guide) 주민</figcaption></figure>
+          </div>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Sinnoh-Pedro.jpg" alt="신오 강석 체육관" loading="lazy" /><figcaption>신오 무쇠시티 강석(Pedro) 체육관</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Sinnoh-League-1024x720.jpg" alt="신오 리그 외관" loading="lazy" /><figcaption>신오 포켓몬 리그 (Sinnoh League)</figcaption></figure>
+          </div>
+        </article>
+
+        <!-- 16. Special Forms -->
+        <article id="doc-forms" class="wiki-doc">
+          <h2>특수 포켓몬 폼 얻는 방법 (How to get special Pokémon Forms)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Tutorials &gt; How to get special Pokémon Forms</span><a href="https://www.lumyverse.com/cobbleverse/how-to-gets-special-pokemon-forms/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <h3>1. 지우개굴닌자 (Ash's Greninja)</h3>
+          <p>평원(Plains) 바이옴에서 <strong>지우의 집(Ash's House)</strong>을 찾아 지우의 방 서랍 안에서 <code>지우의 모자(Ash's Cap)</code>를 획득합니다. <strong>친밀도 255</strong> 상태인 개굴닌자에게 주 손에 지우의 모자를 든 채 우클릭하세요. 개굴닌자가 공격 기술로 상대 포켓몬을 직접 쓰러뜨리면 고유 특성 <strong>유대변화(Battle Bond)</strong>가 발동해 지우개굴닌자로 변신하며, 배틀 종료 후 일반 개굴닌자로 돌아옵니다.</p>
+                    <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-High-Friendship.jpg" alt="친밀도 255 확인 화면" loading="lazy" /><figcaption>친밀도(Friendship) 255 달성 확인 화면</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Greninja-Ash.jpg" alt="유대변화 지우개굴닌자" loading="lazy" /><figcaption>유대변화가 발동한 지우개굴닌자</figcaption></figure>
+          </div>
+          <h3>2. 지우피카츄 (Ash's Pikachu)</h3>
+          <p>피카츄의 꾸미기 인벤토리(cosmetic inventory)에 <code>분노의만두(Rage Candy)</code>를 넣어줍니다. 능력치는 일반 피카츄와 동일하며, <code>지우피카Z(Pikashunium Z)</code>를 지니면 전용 Z기술 <strong>1000만볼트(10,000,000 Volt Thunderbolt)</strong>를 사용할 수 있습니다. (단, 피카츄Z를 지녀도 필살피카슛은 사용할 수 없습니다.)</p>
+                    <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Rage-Candy.png" alt="분노의만두 조합법" loading="lazy" /><figcaption>모닥불 냄비(Campfire Pot)에서의 분노의만두 조합 레시피</figcaption></figure>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/image-19.png" alt="피카츄 상호작용 휠 메뉴" loading="lazy" /><figcaption>피카츄 상호작용 휠의 꾸미기 인벤토리</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Ash-Pikachu.jpg" alt="지우피카츄 외형" loading="lazy" /><figcaption>지우 모자를 착용한 지우피카츄</figcaption></figure>
+          </div>
+          <h3>3. 울트라네크로즈마 (Ultra Necrozma)</h3>
+          <ol>
+            <li>Z링(Z-Ring)을 착용합니다.</li>
+            <li><code>Solarizer</code>(솔가레오용) 또는 <code>Lunarizer</code>(루나아라용)를 제작합니다.</li>
+            <li>해당 아이템을 손에 들고 솔가레오 또는 루나아라에게 우클릭합니다. 정상적으로 진행되면 아이템 이름 옆에 <strong>‘charged(충전됨)’</strong>라고 표시됩니다.</li>
+            <li>충전된 Solarizer/Lunarizer로 네크로즈마에게 우클릭해 합체시킨 뒤, 합체된 포켓몬에게 <code>울트라네크로Z(Ultranecrozium Z)</code>를 지니게 합니다.</li>
+          </ol>
+                    <figure class="wiki-figure"><img src="images/COBBLEVERSE-Solarizer.jpg" alt="충전된 N Solarizer" loading="lazy" /><figcaption>충전 완료된 N Solarizer (Charged)</figcaption></figure>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Necrozma.jpg" alt="합체한 네크로즈마 폼" loading="lazy" /><figcaption>황혼의 갈기 · 새벽의 날개 네크로즈마</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Ultra-Necrozma.jpg" alt="울트라네크로즈마" loading="lazy" /><figcaption>울트라버스트로 변신한 울트라네크로즈마</figcaption></figure>
+          </div>
+          <h3>4. 지가르데: 모든 폼 (Zygarde: All forms)</h3>
+          <p><code>Zygarde Cube</code>와 <code>Reassembly Unit</code>을 제작한 뒤 지가르데 셀과 코어를 모읍니다. 큐브에 일정 수량의 셀과 코어를 저장한 상태로 Reassembly Unit에 우클릭하면 저장량에 따라 다른 폼이 생성됩니다:</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>셀 개수 (Cell Count)</th><th>코어 개수 (Core Count)</th><th>폼 (Form %)</th><th>특성 (Ability)</th><th>소요 시간 (Time)</th></tr></thead>
+              <tbody>
+                <tr><td>9</td><td>1</td><td>10% 폼</td><td>오라브레이크 (Aura Break)</td><td>2분</td></tr>
+                <tr><td>49</td><td>1</td><td>50% 폼</td><td>오라브레이크 (Aura Break)</td><td>5분</td></tr>
+                <tr><td>95</td><td>5</td><td>50% 폼</td><td>스웜체인지 (Power Construct)</td><td>10분</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>변환이 완료되면 아무 몬스터볼을 들고 Reassembly Unit에 우클릭해 지가르데를 수령합니다. <strong>100% 퍼펙트 폼</strong>은 특성 ‘스웜체인지’를 가진 지가르데가 배틀 중 피해를 입어 HP 바가 절반 아래로 떨어졌을 때만 해금되며, 배틀이 끝나면 50% 폼으로 돌아갑니다.</p>
+                    <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Zygarde-Cube.jpg" alt="Zygarde Cube 내부" loading="lazy" /><figcaption>셀 95개 · 코어 5개가 담긴 Zygarde Cube</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Riassembly-Unit.jpg" alt="Reassembly Unit 블록" loading="lazy" /><figcaption>지가르데 재조합 장치 (Reassembly Unit)</figcaption></figure>
+          </div>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Zygarde-All-Forms.jpg" alt="지가르데 10% 50% 100% 폼" loading="lazy" /><figcaption>지가르데 10% · 50% · 100% 퍼펙트 폼</figcaption></figure>
+          <h3>5. 지가르데 메가진화 (Zygarde: Mega Forms)</h3>
+          <p>‘스웜체인지’ 특성의 지가르데에게 직접 제작한 <code>Zygardite</code>를 지니게 하고, 트레이너는 <strong>메가팔찌(Mega Bracelet)</strong>를 착용합니다. 배틀 중 지가르데가 100% 퍼펙트 폼으로 변신할 때까지 기다린 후 메가진화 버튼을 누르세요. <strong>주의:</strong> 메가진화 전에 전용기 <code>‘무의 빛(Nihil Light)’</code> 버튼이 활성화되더라도 절대 먼저 누르지 말고, 반드시 메가진화를 마친 후에 사용하세요.</p>
+                    <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/image-22.png" alt="배틀 중 메가진화 버튼" loading="lazy" /><figcaption>배틀 화면 하단의 메가진화 버튼 활성화</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/image-24.png" alt="전용기 Nihil Light 설명" loading="lazy" /><figcaption>메가지가르데 전용기 무의 빛(Nihil Light)</figcaption></figure>
+          </div>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/image-21-1536x919.png" alt="메가지가르데 외형" loading="lazy" /><figcaption>메가진화한 메가지가르데 외형</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/image-23.png" alt="Nihil Light 발동 장면" loading="lazy" /><figcaption>전용기 무의 빛(Nihil Light) 공격 연출</figcaption></figure>
+          </div>
+          <h3>6. 영원의 꽃 플라엣테 (Eternal Floette)</h3>
+          <p><code>Floettite</code>를 제작하고 메가팔찌를 착용한 상태에서 영원의 꽃 플라엣테를 <strong>레벨 50</strong>까지 육성하면 메가진화 시 전용기 <code>파멸의빛(Light of Ruin)</code>을 사용할 수 있습니다. <strong>주의사항:</strong> 배틀이 끝나고 일반 폼으로 돌아가면 해당 기술이 기술 배치에서 사라지므로 다시 등록해야 하며 PP가 0이 되므로, 배틀 시작 전 반드시 회복 기계를 이용하는 것을 권장합니다.</p>
+                  <figure class="wiki-figure"><img src="images/image-25.png" alt="영원의 꽃 플라엣테 기술창" loading="lazy" /><figcaption>메가스톤을 지니고 Light of Ruin을 습득한 Lv.50 영원의 꽃 플라엣테</figcaption></figure>
+        </article>
+
+        <!-- 17. Special Items Full Table -->
+        <article id="doc-items" class="wiki-doc">
+          <h2>특수 아이템 획득처 전체 표 (Where To Find Special Items)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Tutorials &gt; Where To Find Special Items</span><a href="https://www.lumyverse.com/cobbleverse/special-items-where-find-them/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>이 표는 포켓몬의 폼을 변경하거나 고유한 진화·소환을 발동시키는 데 사용되는 모든 특수 아이템 목록입니다.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>아이템 (ITEM)</th><th>출처 모드</th><th>획득 위치 및 방법 (LOCATION)</th><th>효과 및 용도 (EFFECT)</th></tr></thead>
+              <tbody>
+                <tr><td>Adamant Crystal</td><td>Mega Showdown</td><td>신오 신전 내부에서 Damon 처치</td><td>디아루가를 오리진 폼으로 변환</td></tr>
+                <tr><td>Adamant Orb</td><td>Mega Showdown</td><td>갤럭시단 본부(Team Galactic HQ) 내부</td><td>디아루가의 기술 위력 강화</td></tr>
+                <tr><td>Aether Gem</td><td>COBBLEVERSE</td><td>하늘기둥(Sky Pillar) 내부에서 피아나(Lyris) 처치</td><td>Sky Core 조합 재료</td></tr>
+                <tr><td>Ancient DNA</td><td>COBBLEVERSE</td><td>뮤의 신전 루팅 또는 관동 비주기 처치 드롭</td><td>부활 기계에서 뮤츠 생성 또는 Origin Fossil 제작</td></tr>
+                <tr><td>Ash Cap</td><td>Mega Showdown</td><td>지우의 집에서 지우(Ash) 처치</td><td>친밀도 255 개굴닌자의 폼 변경 (트레이너 승리 필요)</td></tr>
+                <tr><td>Azelf Fang</td><td>COBBLEVERSE</td><td>입지의 호수 (Lake Valor)</td><td>아그놈 소환 아이템</td></tr>
+                <tr><td>Azure Flute</td><td>COBBLEVERSE</td><td>직접 제작</td><td>아르세우스를 만나기 위한 시작의 방(Origin Dimension) 이동</td></tr>
+                <tr><td>Blank Crystal</td><td>Mega Showdown</td><td>로켓단 타워 또는 불길한 시련의 금고</td><td>배틀 중 Z기술 활성화 및 발동</td></tr>
+                <tr><td>Blue Orb</td><td>Mega Showdown</td><td>가이오가 신전 내부</td><td>가이오가 원시회귀</td></tr>
+                <tr><td>Broken Red Chain</td><td>COBBLEVERSE</td><td>지식의 보석·감정의 보석·의지의 보석으로 수리 가능</td><td>수리 후 빨강쇠사슬 복구</td></tr>
+                <tr><td>Calyrex Crown</td><td>COBBLEVERSE</td><td>왕관 묘지 / 왕관 첨탑 (Crown Cemetery/Spire)</td><td>버드렉스 소환</td></tr>
+                <tr><td>Cloning Catalyst</td><td>COBBLEVERSE</td><td>관동 로켓단 타워 내부 간부 아테나(Atena) 처치</td><td>Ancient DNA와 결합해 뮤츠 생성</td></tr>
+                <tr><td>Cornerstone Mask</td><td>Mega Showdown</td><td>무성한 기미 타워 (수상한 모래/자갈 발굴)</td><td>오거폰을 주춧돌의 가면 폼으로 변환</td></tr>
+                <tr><td>Corrupted Shard</td><td>COBBLEVERSE</td><td>성도 로켓단 라디오타워 상자</td><td>다크 루기아(Lugia Shadow form) 변환 재료</td></tr>
+                <tr><td>Desolate Gem</td><td>COBBLEVERSE</td><td>하늘기둥 내부에서 마적(Max) 처치 드롭</td><td>Sky Core 조합 재료</td></tr>
+                <tr><td>Deoxys Meteorite</td><td>Mega Showdown</td><td>테오키스의 운석 (Deoxys' Meteorite)</td><td>테오키스 폼 변경</td></tr>
+                <tr><td>Dragon Ore</td><td>COBBLEVERSE</td><td>딥다크 (Deep Dark, -60&lt;y&lt;0)</td><td>Draco Relic 제작 재료</td></tr>
+                <tr><td>Dream Catcher</td><td>COBBLEVERSE</td><td>직접 제작</td><td>크레세리아 소환</td></tr>
+                <tr><td>Earth Core</td><td>COBBLEVERSE</td><td>직접 제작</td><td>그란돈 소환</td></tr>
+                <tr><td>Electron Ore</td><td>COBBLEVERSE</td><td>사막 (Desert, 30&lt;y&lt;90)</td><td>Spark Relic 제작 재료</td></tr>
+                <tr><td>Emerald Emblem</td><td>COBBLEVERSE</td><td>하늘기둥 (Sky Pillar)</td><td>Sky Core 조합 재료</td></tr>
+                <tr><td>Griseous Core</td><td>Mega Showdown</td><td>신오 챔피언 난천(Camilla) 처치 드롭</td><td>기라티나를 오리진 폼으로 변환</td></tr>
+                <tr><td>Griseous Orb</td><td>Mega Showdown</td><td>신오 리그 루팅</td><td>기라티나의 위력 강화</td></tr>
+                <tr><td>Hearthflame Mask</td><td>Mega Showdown</td><td>사막 기미 타워 (수상한 모래/자갈 발굴)</td><td>오거폰을 화덕의 가면 폼으로 변환</td></tr>
+                <tr><td>Heat Fragment / Heat Splinter</td><td>COBBLEVERSE</td><td>하드마운틴 내부에서 맥(Buck) / 플루토(Charon) 처치</td><td>Magmatic Cluster 조합 재료</td></tr>
+                <tr><td>Ice Ore</td><td>COBBLEVERSE</td><td>역고드름 (Ice Spikes, 65&lt;Y&lt;125)</td><td>Cryo Relic 제작 재료</td></tr>
+                <tr><td>Iceroot Carrot</td><td>COBBLEVERSE</td><td>왕관 첨탑 (Crown Spire)</td><td>블리자포스(Glastrier)가 가장 좋아하는 먹이</td></tr>
+                <tr><td>Jewel of Emotion / Knowledge / Willpower</td><td>COBBLEVERSE</td><td>엠라이트 / 유크시 / 아그놈 포획 후 획득</td><td>부서진 빨강쇠사슬(Broken Red Chain) 수리 재료</td></tr>
+                <tr><td>Locator Chip</td><td>COBBLEVERSE</td><td>불길한 시련의 스포너, 엔드 시티, 네더 보루</td><td>전설 구조물 위치 추적기 제작 재료</td></tr>
+                <tr><td>Lunar Wing</td><td>COBBLEVERSE</td><td>초승달섬 (Crescent Isle) 상자</td><td>Dream Catcher 제작 재료</td></tr>
+                <tr><td>Lustrous Orb / Lustrous Globe</td><td>Mega Showdown</td><td>갤럭시단 본부 / 신오 신전 Perula 처치</td><td>펄기아 위력 강화 / 오리진 폼 변환</td></tr>
+                <tr><td>Magma Stone / Magmatic Cluster</td><td>COBBLEVERSE</td><td>직접 제작 후 Stark Forge에서 제련</td><td>히드런 소환</td></tr>
+                <tr><td>Melodic Tape (Vol.1)</td><td>COBBLEVERSE</td><td>소원의 동굴 (Wish Cave)</td><td>지라치 소환</td></tr>
+                <tr><td>Mesprit Plume / Uxie Claw</td><td>COBBLEVERSE</td><td>진실의 호수 / 예지의 호수</td><td>엠라이트 / 유크시 소환</td></tr>
+                <tr><td>Moonlight Amulet / Nightmare Weaver</td><td>COBBLEVERSE</td><td>크레세리아 포획 보상 / 직접 제작</td><td>악몽 차원 이동 / 다크라이 소환</td></tr>
+                <tr><td>Ominous Key</td><td>Minecraft</td><td>로켓단 타워 루팅 및 드롭</td><td>불길한 시련의 스포너를 열어 Z크리스탈 획득 기회 제공</td></tr>
+                <tr><td>Prison Bottle / Reveal Glass</td><td>Mega Showdown</td><td>사막 피라미드 (수상한 모래/자갈 발굴)</td><td>후파 굴레/굴레를 벗어난 폼 변환 / 사흉수·사계절·화신·영물 폼 변환</td></tr>
+                <tr><td>Rusted Shield / Rusted Sword</td><td>Mega Showdown</td><td>Sol Henge / Luna Henge 유적 (수상한 모래/자갈)</td><td>자마젠타 방패왕 / 자시안 검왕 폼 변환</td></tr>
+                <tr><td>Scroll of Darkness / Scroll of Waters</td><td>Cobblemon</td><td>사막 피라미드 / 따뜻한 바다 해저 유적 (수상한 모래/자갈)</td><td>치고마를 우라오스(일격의 태세 / 연격의 태세)로 진화</td></tr>
+                <tr><td>Shaderoot Carrots</td><td>COBBLEVERSE</td><td>왕관 묘지 (Crown Cemetery)</td><td>레이스포스(Spectrier)가 가장 좋아하는 먹이</td></tr>
+                <tr><td>Spatial Flute / Temporal Flute</td><td>COBBLEVERSE</td><td>펄기아 / 디아루가 포획 후 획득</td><td>천계의 피리(Azure Flute) 조합 재료</td></tr>
+                <tr><td>Wellspring Mask</td><td>Mega Showdown</td><td>얼어붙은 기미 타워 (수상한 모래/자갈 발굴)</td><td>오거폰을 우물의 가면 폼으로 변환</td></tr>
+                <tr><td>Zygarde Core / Zygarde Cells</td><td>Mega Showdown</td><td>이끼 낀 지하감옥·무너진 아치 유적 / 소원의 숲·고고학 유적지·외곽 스탠드 상인</td><td>지가르데 진화 및 재조합</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <!-- 18. LumyMon Config -->
+        <article id="doc-config" class="wiki-doc">
+          <h2>LumyMon 설정(Config) 변경 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Tutorials &gt; How to change LumyMon config</span><a href="https://www.lumyverse.com/cobbleverse/how-to-change-lumymon-config/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>LUMYMON은 몇 가지 새로운 기능들을 추가합니다. <code>config</code> 폴더에 있는 해당 설정 파일을 열어 아주 간단한 방법으로 이 기능들을 사용자 입맛에 맞게 수정할 수 있습니다. CurseForge와 Modrinth 모두 모드팩 로고를 우클릭한 뒤 <strong>“Open folder(폴더 열기)”</strong>를 선택하고, <code>config</code> 폴더 안에서 <code>lumymon.json</code> 파일을 열면 됩니다.</p>
+                    <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/image-44.png" alt="런처 메뉴에서 Open folder 클릭" loading="lazy" /><figcaption>1. 런처 메뉴에서 Open folder(폴더 열기) 선택</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/image-46.png" alt="config 폴더 선택" loading="lazy" /><figcaption>2. 인스턴스 폴더 내 config 폴더 열기</figcaption></figure>
+          </div>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/image-45.png" alt="lumymon.json 파일 선택" loading="lazy" /><figcaption>3. config 폴더 안의 lumymon 파일 선택</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/image-47.png" alt="lumymon.json 내부 설정 코드" loading="lazy" /><figcaption>4. lumymon.json 내부 설정 코드 확인</figcaption></figure>
+          </div>
+          <h3>설정 항목 상세 설명 (Configuration Settings Explained)</h3>
+          <ul>
+            <li><code>remotePcEnabled</code>: <code>true</code>로 설정하면 <code>“P”</code> 키를 눌러 어디서든 PC에 접속할 수 있습니다. <code>false</code>로 설정하면 실물 PC 블록을 직접 제작해야 합니다.</li>
+            <li><code>paleGardenResinGeneration</code>: <code>true</code>로 설정하면 창백한 정원(Pale Garden) 바이옴에서 수지(Resin)가 자동으로 생성됩니다. 수지를 드롭하는 크리킹(Creaking) 몹이 스폰되지 않으므로 COBBLEVERSE에서는 필수적인 설정입니다.</li>
+            <li><code>creakingToTrevenant</code>: <code>true</code>로 설정하면 크리킹 대신 대로트(Trevenant)가 스폰됩니다.</li>
+            <li><code>ghastToGastly</code>: <code>true</code>로 설정하면 말린 가스트(Dried Ghast)가 해피 가스트 대신 고오스(Gastly)로 변환됩니다.</li>
+            <li><code>enablePokeSnackBlacklist</code>: <code>true</code>로 설정하면 목록에 등록된 포켓몬들에게 포케스낵(PokeSnacks)이 작동하지 않도록 제한합니다. 이러한 제한을 끄고 모든 포켓몬에게 포케스낵이 작동하게 하려면 값을 <code>false</code>로 변경하세요.</li>
+          </ul>
+          <h3>LumyMon 포케스낵 블랙리스트 탐색 방법 (How to Explore Lumymon Pokesnack Blacklists)</h3>
+          <ol>
+            <li>런처에서 “Open folder”로 열었던 초기 폴더로 돌아가 이번에는 <code>mods</code> 폴더를 엽니다.</li>
+            <li>모드 파일(<code>.jar</code> 형식)은 압축 폴더처럼 작동하므로 7-Zip이나 WinRAR 등을 이용해 엽니다.</li>
+            <li>파일을 열면 모든 게임 규칙이 저장된 모드의 “두뇌” 역할을 하는 <code>data</code> 폴더가 보입니다.</li>
+            <li><code>data &gt; lumymon &gt; poke_snack_blacklist</code> 순서대로 폴더를 열면 5개의 개별 목록 파일이 들어 있으며, 이를 설정 파일에 추가하거나 동일한 경로 구조의 데이터팩을 만들어 커스텀 목록을 적용할 수 있습니다.</li>
+          </ol>
+        </article>
+
+        <!-- 19~23. Common Issues (5개 전체 분리 수록) -->
+        <article id="doc-models" class="wiki-doc">
+          <h2>일부 포켓몬 모델링이 보이지 않아요</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Common Issues &gt; I don't see some Pokémon models</span><a href="https://www.lumyverse.com/cobbleverse/i-dont-see-some-pokemon-models/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>특히 대규모 업데이트 직후에는 일부 기본 텍스처 작동이 멈추는 현상이 발생할 수 있습니다. 해결 방법은 아주 간단합니다. 게임 내 <strong>리소스팩(Resource Pack) 메뉴</strong>에서 키보드의 <strong><code>T</code> 키를 5초 동안 꾹 누른 뒤 ‘완료(Done)’</strong>를 누르세요. 이 과정을 마치면 텍스처팩이 새것처럼 깔끔하게 복구됩니다!</p>
+          <div class="callout-warn"><strong>주의 (ATTENTION):</strong> 기본 모드팩에 포함되지 않은 외부 텍스처팩을 별도로 추가하셨다면 그것이 문제의 원인일 수 있으므로 먼저 비활성화해 보세요.</div>
+                  <figure class="wiki-figure"><img src="images/COBBLEVERSE-Resourcepack.jpg" alt="코블버스 기본 리소스팩 목록" loading="lazy" /><figcaption>리소스팩(Resource Packs) 메뉴의 기본 선택(Selected) 목록</figcaption></figure>
+        </article>
+
+        <article id="doc-drops" class="wiki-doc">
+          <h2>월드에서 몹이 스폰되지 않는데 몹 드롭템을 어떻게 얻나요?</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Common Issues &gt; How can I get mob drops if they don't spawn in the world?</span><a href="https://www.lumyverse.com/cobbleverse/how-can-i-get-mob-drops-if-they-dont-spawn-in-the-world/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>드롭템을 얻는 데는 여러 가지 방법이 있습니다:</p>
+          <ul>
+            <li><strong>Pasture Loot 모드 활용:</strong> 방목 블록(Pasture Block)을 사용해 포켓몬을 방목시키기만 해도 특정 드롭 아이템을 얻을 수 있습니다. 운이 좋다면 수집할 수 있는 알(egg)을 남기고 가기도 합니다! <em>(팁: 포켓몬이 피해를 입을 수 있으므로 절벽이나 가시덤불 근처에는 방목 블록을 놓지 마세요. 또한 포켓몬을 안전하게 보호하기 위해 방목 구역에 항상 울타리를 쳐주세요. 예를 들어 파이리 계열을 방목해 블레이즈 가루를 얻을 수 있습니다.)</em></li>
+            <li><strong>Cobblemon 고유 상호작용:</strong> 예를 들어 우르(Wooloo)와 배우르(Dubwool)를 염색한 뒤 가위를 사용해 양털을 채집할 수 있습니다. 풀을 뜯어 먹으면 양털이 다시 자라니 걱정하지 마세요.</li>
+            <li><strong>야생 포켓몬 처치:</strong> 야생 포켓몬을 물리쳐 일부 드롭 아이템을 획득할 수도 있습니다.</li>
+            <li><strong>상점 구매:</strong> 백화점(Department Store) 내부에 있는 CobbleMerchants에게서 포켓달러를 사용해 몹 드롭템을 직접 구매할 수도 있습니다.</li>
+          </ul>
+                  <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEMON-Cobbreeding-Charmander.jpg" alt="방목 블록과 파이리" loading="lazy" /><figcaption>방목 블록 주변에 블레이즈 가루를 떨어뜨리는 파이리</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEMON-Cobbreeding-Wooloo.jpg" alt="염색된 우르 양털 채집" loading="lazy" /><figcaption>염색 후 가위로 양털을 채집할 수 있는 우르(Wooloo)</figcaption></figure>
+          </div>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Cobblemerchant-Department-Store (1).jpg" alt="백화점 (Department Store)" loading="lazy" /><figcaption>몹 드롭템을 구매할 수 있는 백화점(Department Store)</figcaption></figure>
+        </article>
+
+        <article id="doc-maps" class="wiki-doc">
+          <h2>제 지도가 작동하지 않아요 (My maps aren't working)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Common Issues &gt; My maps aren't working</span><a href="https://www.lumyverse.com/cobbleverse/my-maps-arent-working/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>당황하실 수 있는 두 가지 상황이 있습니다:</p>
+          <ol>
+            <li>지도에 목적지 표시가 없는 것처럼 보이는 경우</li>
+            <li>목적지 표시만 있고 지도의 나머지 부분이 완전히 비어 있는 경우</li>
+          </ol>
+                    <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Maps-Empty-1024x926.jpg" alt="목적지 표시가 보이지 않는 지도" loading="lazy" /><figcaption>1. 지도에 목적지 표시가 없는 것처럼 보이는 경우</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hoenn-Maps-Empty-White-1024x926.jpg" alt="나머지 부분이 비어 있는 지도" loading="lazy" /><figcaption>2. 목적지 표시만 있고 나머지 지형이 비어 있는 경우</figcaption></figure>
+          </div>
+          <p>첫 번째 경우에도 체육관은 실제로 존재합니다. 청크 경계에 생성되었기 때문에 지도에 즉시 표시되지 않을 뿐이므로 주변을 꼼꼼히 탐험하면 찾을 수 있습니다. 두 번째 경우는 체육관이 물이 없는 청크에 위치해 있거나 해당 청크가 아직 로딩되지 않았기 때문입니다.</p>
+          <p>또한 채팅창에 <strong>“10,000블록 이내에서 아무것도 찾을 수 없다”</strong>는 빨간 메시지가 뜨면서 지도가 로드되지 않는다면, 한 방향으로 <strong>최소 2,000블록 이상 이동</strong>한 뒤 다시 시도해 보세요.</p>
+        </article>
+
+        <article id="doc-modrinth-upd" class="wiki-doc">
+          <h2>Modrinth에서 업데이트를 찾을 수 없어요: 어떻게 받나요?</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Common Issues</span><a href="https://www.lumyverse.com/cobbleverse/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>Modrinth 앱 캐시 문제로 새 버전이 목록에 바로 뜨지 않을 수 있습니다. Modrinth 앱 우측 상단의 <strong>설정(Settings)</strong>으로 들어가 <strong>“Purge Cache(캐시 비우기)”</strong>를 누른 뒤, 앱을 완전히 종료했다가 다시 실행하면 최신 업데이트 버전을 선택해 받을 수 있습니다.</p>
+                  <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Purge-Cache-Modrinth-Settings.jpg" alt="Modrinth 좌측 하단 Settings 버튼" loading="lazy" /><figcaption>1. Modrinth 앱 좌측 하단의 Settings 아이콘 클릭</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Purge-Cache-Modrinth.jpg" alt="Purge cache 버튼 위치" loading="lazy" /><figcaption>2. Resource management → Purge cache 클릭</figcaption></figure>
+          </div>
+        </article>
+
+        <article id="doc-lvl25" class="wiki-doc">
+          <h2>포켓몬이 레벨 25에서 멈춰 있어요 (Pokémon is stuck at level 25)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Common Issues &gt; Pokémon is stuck at level 25</span><a href="https://www.lumyverse.com/cobbleverse/my-pokemon-is-stuck-at-level-25/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>우리의 트레이너들에게 도전하려면 먼저 <strong>KANTO</strong>라는 커스텀 시리즈에 진입해야 합니다. 모드팩을 설치하고 새 월드를 생성하면 완전히 자동으로 설정되며, 트레이너 카드(Trainer Cards)에서 확인할 수 있습니다. 만약 어떤 이유로 작동하지 않는다면 가이드북에도 적혀 있는 아래 명령어로 쉽게 설정할 수 있습니다:</p>
+          <p><code>/rctmod player set series kanto @s</code></p>
+                    <figure class="wiki-figure"><img src="images/COBBLEVERSE-Kanto-Series-Trainer-Card.jpg" alt="트레이너 카드 Level Cap 25 화면" loading="lazy" /><figcaption>트레이너 카드 하단에 표시된 Level Cap 25</figcaption></figure>
+          <p>모든 시리즈는 <strong>8명의 체육관 관장, 4명의 사천왕, 그리고 챔피언</strong>으로 구성됩니다. 체육관 관장은 월드에 무작위로 생성되는 체육관에 스폰되며(지도 제작자 주민 지도로 탐색 가능), 사천왕과 챔피언은 <strong>엔드(The End)</strong>에서만 발견되는 타워에서 스폰됩니다. 이들을 모두 물리치면 포켓몬을 최대 레벨 100까지 키울 수 있으며, 각 트레이너는 배지와 기술머신(TM), 그리고 챔피언의 경우 특별한 보상을 드롭합니다.</p>
+          <p><strong>레벨 상한(Level Cap 25)</strong>은 여러분의 포켓몬이 도달할 수 있는 최대 레벨 제한이며 체육관 관장들에게 도전해 승리할수록 올라갑니다. 만약 레벨 상한을 비활성화하고 싶다면 아래 두 명령어를 순서대로 사용하세요:</p>
+          <p><code>/rctmod player set series kanto @s</code><br /><code>/rctmod player set progress after kanto_champion_blue</code></p>
+        </article>
+
+        <!-- 24~26. Gym Leaders -->
+        <article id="doc-sig" class="wiki-doc">
+          <h2>관장들의 시그니처 아이템 (Leaders' Signature Items)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gym Leaders &gt; Leaders' Signature Items</span><a href="https://www.lumyverse.com/en/cobbleverse/signature-items/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>이 아이템들은 체육관 관장들을 소환하는 데 사용됩니다. 작동하려면 <strong>트레이너 스포너(trainer spawner)</strong> 안에 넣어야 합니다.</p>
+
+          <div class="callout-info" style="margin-bottom:24px;">
+            <h4 style="margin-top:0; margin-bottom:12px; color:#fff;">📑 목차 (Table of Contents — 관장 · 시그니처 아이템 섹션 바로가기)</h4>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px; font-size:0.88rem;">
+              <div>
+                <div style="font-weight:800; color:var(--lumy-gold); margin-bottom:6px;">KANTO (관동)</div>
+                <div style="display:flex; flex-direction:column; gap:4px; padding-left:6px;">
+                  <a href="#sig-kanto-brock">• Brock (웅) — Onyx Stone</a>
+                  <a href="#sig-kanto-misty">• Misty (이슬) — Cerulean Star</a>
+                  <a href="#sig-kanto-ltsurge">• Lt.Surge (마티스) — Lieutenant Medal</a>
+                  <a href="#sig-kanto-erika">• Erika (민화) — Nature Fan</a>
+                  <a href="#sig-kanto-koga">• Koga (독수) — Ninja Poison</a>
+                  <a href="#sig-kanto-sabrina">• Sabrina (초련) — Hypnotic Whip</a>
+                  <a href="#sig-kanto-blaine">• Blaine (강연) — Cinnabar Glasses</a>
+                  <a href="#sig-kanto-giovanni">• Giovanni (비주기) — Boss Ring</a>
+                  <a href="#sig-kanto-blue">• Blue (그린) — Rival Sling</a>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:800; color:var(--lumy-gold); margin-bottom:6px;">JOHTO (성도)</div>
+                <div style="display:flex; flex-direction:column; gap:4px; padding-left:6px;">
+                  <a href="#sig-johto-valerio">• Valerio (비상) — Raptor Bracer</a>
+                  <a href="#sig-johto-raffaello">• Raffaello (호일) — Magnifying Glass</a>
+                  <a href="#sig-johto-chiara">• Chiara (꼭두) — Sweet Milk</a>
+                  <a href="#sig-johto-angelo">• Angelo (유빈) — Spirit Scarf</a>
+                  <a href="#sig-johto-furio">• Furio (사도) — Heavy Dumbbell</a>
+                  <a href="#sig-johto-jasmine">• Jasmine (규리) — Secret Medicine</a>
+                  <a href="#sig-johto-alfredo">• Alfredo (류옹) — Winter Staff</a>
+                  <a href="#sig-johto-sandra">• Sandra (이향) — Pearl Choker</a>
+                  <a href="#sig-johto-lance">• Lance (목호) — Master Cape</a>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:800; color:var(--lumy-gold); margin-bottom:6px;">HOENN (호연)</div>
+                <div style="display:flex; flex-direction:column; gap:4px; padding-left:6px;">
+                  <a href="#sig-hoenn-petra">• Petra (원규) — Rock Tome</a>
+                  <a href="#sig-hoenn-rudi">• Rudi (철구) — Fighting Glove</a>
+                  <a href="#sig-hoenn-walter">• Walter (암페어) — Electric Connector</a>
+                  <a href="#sig-hoenn-fiammetta">• Fiammetta (민지) — Fire Lighter</a>
+                  <a href="#sig-hoenn-norman">• Norman (종길) — Normal Tablet</a>
+                  <a href="#sig-hoenn-alice">• Alice (은송) — Flying Feather</a>
+                  <a href="#sig-hoenn-tellpat">• Tell &amp; Pat (풍&amp;란) — Psychic Medallion</a>
+                  <a href="#sig-hoenn-adriano">• Adriano (아단) — Water Rod</a>
+                  <a href="#sig-hoenn-rocco">• Rocco (성호) — Steel Hat</a>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:800; color:var(--lumy-gold); margin-bottom:6px;">SINNOH (신오)</div>
+                <div style="display:flex; flex-direction:column; gap:4px; padding-left:6px;">
+                  <a href="#sig-sinnoh-pedro">• Pedro (강석) — Rock Casque</a>
+                  <a href="#sig-sinnoh-gardenia">• Gardenia (유채) — Grass Aroma</a>
+                  <a href="#sig-sinnoh-marzia">• Marzia (자두) — Fighting Bandage</a>
+                  <a href="#sig-sinnoh-omar">• Omar (맥실러) — Water Mask</a>
+                  <a href="#sig-sinnoh-fannie">• Fannie (멜리사) — Ghost Pendant</a>
+                  <a href="#sig-sinnoh-ferruccio">• Ferruccio (동관) — Steel Spade</a>
+                  <a href="#sig-sinnoh-bianca">• Bianca (무청) — Ice Ribbon</a>
+                  <a href="#sig-sinnoh-corrado">• Corrado (전진) — Electric Fuse</a>
+                  <a href="#sig-sinnoh-camilla">• Camilla (난천) — Draconic Fin</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3>KANTO (관동)</h3>
+
+          <h4 id="sig-kanto-brock">Brock (웅) — Onyx Stone</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Onyx-Stone.jpg" alt="Brock (웅) — Onyx Stone 조합표" loading="lazy" /><figcaption>Brock (웅) — Onyx Stone 조합표</figcaption></figure>
+
+          <h4 id="sig-kanto-misty">Misty (이슬) — Cerulean Star</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Cerulean-star.jpg" alt="Misty (이슬) — Cerulean Star 조합표" loading="lazy" /><figcaption>Misty (이슬) — Cerulean Star 조합표</figcaption></figure>
+
+          <h4 id="sig-kanto-ltsurge">Lt.Surge (마티스) — Lieutenant Medal</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Lieutenant-Medal.jpg" alt="Lt.Surge (마티스) — Lieutenant Medal 조합표" loading="lazy" /><figcaption>Lt.Surge (마티스) — Lieutenant Medal 조합표</figcaption></figure>
+
+          <h4 id="sig-kanto-erika">Erika (민화) — Nature Fan</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Nature-Fan.jpg" alt="Erika (민화) — Nature Fan 조합표" loading="lazy" /><figcaption>Erika (민화) — Nature Fan 조합표</figcaption></figure>
+
+          <h4 id="sig-kanto-koga">Koga (독수) — Ninja Poison</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Ninja-Poison.jpg" alt="Koga (독수) — Ninja Poison 조합표" loading="lazy" /><figcaption>Koga (독수) — Ninja Poison 조합표</figcaption></figure>
+
+          <h4 id="sig-kanto-sabrina">Sabrina (초련) — Hypnotic Whip</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Hypnotic-Whip.jpg" alt="Sabrina (초련) — Hypnotic Whip 조합표" loading="lazy" /><figcaption>Sabrina (초련) — Hypnotic Whip 조합표</figcaption></figure>
+
+          <h4 id="sig-kanto-blaine">Blaine (강연) — Cinnabar Glasses</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Cinnabar-Glasses.jpg" alt="Blaine (강연) — Cinnabar Glasses 조합표" loading="lazy" /><figcaption>Blaine (강연) — Cinnabar Glasses 조합표</figcaption></figure>
+
+          <h4 id="sig-kanto-giovanni">Giovanni (비주기) — Boss Ring</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Boss-Ring.jpg" alt="Giovanni (비주기) — Boss Ring 조합표" loading="lazy" /><figcaption>Giovanni (비주기) — Boss Ring 조합표</figcaption></figure>
+
+          <h4 id="sig-kanto-blue">Blue (그린) — Rival Sling</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Rival-Sling.jpg" alt="Blue (그린) — Rival Sling 조합표" loading="lazy" /><figcaption>Blue (그린) — Rival Sling 조합표</figcaption></figure>
+
+          <h3>JOHTO (성도)</h3>
+
+          <h4 id="sig-johto-valerio">Valerio (비상) — Raptor Bracer</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-raptor-bracer.jpg" alt="Valerio (비상) — Raptor Bracer 조합표" loading="lazy" /><figcaption>Valerio (비상) — Raptor Bracer 조합표</figcaption></figure>
+
+          <h4 id="sig-johto-raffaello">Raffaello (호일) — Magnifying Glass</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Magnifying-Glas.jpg" alt="Raffaello (호일) — Magnifying Glass 조합표" loading="lazy" /><figcaption>Raffaello (호일) — Magnifying Glass 조합표</figcaption></figure>
+
+          <h4 id="sig-johto-chiara">Chiara (꼭두) — Sweet Milk</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-sweet-milk.jpg" alt="Chiara (꼭두) — Sweet Milk 조합표" loading="lazy" /><figcaption>Chiara (꼭두) — Sweet Milk 조합표</figcaption></figure>
+
+          <h4 id="sig-johto-angelo">Angelo (유빈) — Spirit Scarf</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Spirit-Scarf.jpg" alt="Angelo (유빈) — Spirit Scarf 조합표" loading="lazy" /><figcaption>Angelo (유빈) — Spirit Scarf 조합표</figcaption></figure>
+
+          <h4 id="sig-johto-furio">Furio (사도) — Heavy Dumbbell</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-heavy-dumbbell.jpg" alt="Furio (사도) — Heavy Dumbbell 조합표" loading="lazy" /><figcaption>Furio (사도) — Heavy Dumbbell 조합표</figcaption></figure>
+
+          <h4 id="sig-johto-jasmine">Jasmine (규리) — Secret Medicine</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Secret-Medicine.jpg" alt="Jasmine (규리) — Secret Medicine 조합표" loading="lazy" /><figcaption>Jasmine (규리) — Secret Medicine 조합표</figcaption></figure>
+
+          <h4 id="sig-johto-alfredo">Alfredo (류옹) — Winter Staff</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Winter-Staff.jpg" alt="Alfredo (류옹) — Winter Staff 조합표" loading="lazy" /><figcaption>Alfredo (류옹) — Winter Staff 조합표</figcaption></figure>
+
+          <h4 id="sig-johto-sandra">Sandra (이향) — Pearl Choker</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Pearl-Chocker.jpg" alt="Sandra (이향) — Pearl Choker 조합표" loading="lazy" /><figcaption>Sandra (이향) — Pearl Choker 조합표</figcaption></figure>
+
+          <h4 id="sig-johto-lance">Lance (목호) — Master Cape</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Master-Cape.jpg" alt="Lance (목호) — Master Cape 조합표" loading="lazy" /><figcaption>Lance (목호) — Master Cape 조합표</figcaption></figure>
+
+          <h3>HOENN (호연)</h3>
+
+          <h4 id="sig-hoenn-petra">Petra (원규) — Rock Tome</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Rock-Tome-2.jpg" alt="Petra (원규) — Rock Tome 조합표" loading="lazy" /><figcaption>Petra (원규) — Rock Tome 조합표</figcaption></figure>
+
+          <h4 id="sig-hoenn-rudi">Rudi (철구) — Fighting Glove</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Fighting-Glove.jpg" alt="Rudi (철구) — Fighting Glove 조합표" loading="lazy" /><figcaption>Rudi (철구) — Fighting Glove 조합표</figcaption></figure>
+
+          <h4 id="sig-hoenn-walter">Walter (암페어) — Electric Connector</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Electric-Connector-1.jpg" alt="Walter (암페어) — Electric Connector 조합표" loading="lazy" /><figcaption>Walter (암페어) — Electric Connector 조합표</figcaption></figure>
+
+          <h4 id="sig-hoenn-fiammetta">Fiammetta (민지) — Fire Lighter</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Fire-Lighter-1.jpg" alt="Fiammetta (민지) — Fire Lighter 조합표" loading="lazy" /><figcaption>Fiammetta (민지) — Fire Lighter 조합표</figcaption></figure>
+
+          <h4 id="sig-hoenn-norman">Norman (종길) — Normal Tablet</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Normal-Tablet.jpg" alt="Norman (종길) — Normal Tablet 조합표" loading="lazy" /><figcaption>Norman (종길) — Normal Tablet 조합표</figcaption></figure>
+
+          <h4 id="sig-hoenn-alice">Alice (은송) — Flying Feather</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Flying-Feather.jpg" alt="Alice (은송) — Flying Feather 조합표" loading="lazy" /><figcaption>Alice (은송) — Flying Feather 조합표</figcaption></figure>
+
+          <h4 id="sig-hoenn-tellpat">Tell &amp; Pat (풍&amp;란) — Psychic Medallion</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Psychic-Medallion.jpg" alt="Tell &amp; Pat (풍&amp;란) — Psychic Medallion 조합표" loading="lazy" /><figcaption>Tell &amp; Pat (풍&amp;란) — Psychic Medallion 조합표</figcaption></figure>
+          <div class="wiki-img-grid">
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Medallion-Shell.jpg" alt="Medallion Shell 조합표" loading="lazy" /><figcaption>Medallion Shell 조합표</figcaption></figure>
+            <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Medallion-Heart.jpg" alt="Medallion Heart 조합표" loading="lazy" /><figcaption>Medallion Heart 조합표</figcaption></figure>
+          </div>
+
+          <h4 id="sig-hoenn-adriano">Adriano (아단) — Water Rod</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Water-Rod.jpg" alt="Adriano (아단) — Water Rod 조합표" loading="lazy" /><figcaption>Adriano (아단) — Water Rod 조합표</figcaption></figure>
+
+          <h4 id="sig-hoenn-rocco">Rocco (성호) — Steel Hat</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Craft-Metal-Cap.jpg" alt="Rocco (성호) — Steel Hat 조합표" loading="lazy" /><figcaption>Rocco (성호) — Steel Hat 조합표</figcaption></figure>
+
+          <h3>SINNOH (신오)</h3>
+
+          <h4 id="sig-sinnoh-pedro">Pedro (강석) — Rock Casque</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Sinnoh-Rock-Casque-2.jpg" alt="Pedro (강석) — Rock Casque 조합표" loading="lazy" /><figcaption>Pedro (강석) — Rock Casque 조합표</figcaption></figure>
+
+          <h4 id="sig-sinnoh-gardenia">Gardenia (유채) — Grass Aroma</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Grass-Aroma-1.jpg" alt="Gardenia (유채) — Grass Aroma 조합표" loading="lazy" /><figcaption>Gardenia (유채) — Grass Aroma 조합표</figcaption></figure>
+
+          <h4 id="sig-sinnoh-marzia">Marzia (자두) — Fighting Bandage</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Sinnoh-Fighting-Bandage.jpg" alt="Marzia (자두) — Fighting Bandage 조합표" loading="lazy" /><figcaption>Marzia (자두) — Fighting Bandage 조합표</figcaption></figure>
+
+          <h4 id="sig-sinnoh-omar">Omar (맥실러) — Water Mask</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Sinnoh-water-mask.jpg" alt="Omar (맥실러) — Water Mask 조합표" loading="lazy" /><figcaption>Omar (맥실러) — Water Mask 조합표</figcaption></figure>
+
+          <h4 id="sig-sinnoh-fannie">Fannie (멜리사) — Ghost Pendant</h4>
+          <figure class="wiki-figure"><img src="images/COBBLEVERSE-Sinnoh-Ghost-Pendant.jpg" alt="Fannie (멜리사) — Ghost Pendant 조합표" loading="lazy" /><figcaption>Fannie (멜리사) — Ghost Pendant 조합표</figcaption></figure>
+
+          <h4 id="sig-sinnoh-ferruccio">Ferruccio (동관) — Steel Spade</h4>
+          <figure class="wiki-figure"><img src="images/image-1.png" alt="Ferruccio (동관) — Steel Spade 조합표" loading="lazy" /><figcaption>Ferruccio (동관) — Steel Spade 조합표</figcaption></figure>
+
+          <h4 id="sig-sinnoh-bianca">Bianca (무청) — Ice Ribbon</h4>
+          <figure class="wiki-figure"><img src="images/image-2.png" alt="Bianca (무청) — Ice Ribbon 조합표" loading="lazy" /><figcaption>Bianca (무청) — Ice Ribbon 조합표</figcaption></figure>
+
+          <h4 id="sig-sinnoh-corrado">Corrado (전진) — Electric Fuse</h4>
+          <figure class="wiki-figure"><img src="images/image-3.png" alt="Corrado (전진) — Electric Fuse 조합표" loading="lazy" /><figcaption>Corrado (전진) — Electric Fuse 조합표</figcaption></figure>
+
+          <h4 id="sig-sinnoh-camilla">Camilla (난천) — Draconic Fin</h4>
+          <figure class="wiki-figure"><img src="images/image-8.png" alt="Camilla (난천) — Draconic Fin 조합표" loading="lazy" /><figcaption>Camilla (난천) — Draconic Fin 조합표</figcaption></figure>
+        </article>
+
+        <article id="doc-kanto-gyms" class="wiki-doc">
+          <h2>Kanto Gym Leaders [K]</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gym Leaders &gt; Kanto Gym Leaders [K]</span><a href="https://www.lumyverse.com/en/cobbleverse/kanto-gym-leaders/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+
+          <div class="callout-info" style="margin-bottom:20px;">
+            <h4 style="margin-top:0; margin-bottom:8px; color:#fff;">📑 목차 (Table of Contents)</h4>
+            <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:0.9rem;">
+              <a href="#kanto-gym-leaders-sec">• Kanto Gym Leaders</a>
+              <a href="#kanto-elite-four-sec">• Elite Four Kanto [E]</a>
+              <a href="#kanto-champion-sec">• Kanto Champion [C]</a>
+            </div>
+          </div>
+
+          <h3 id="kanto-gym-leaders-sec">Kanto Gym Leaders</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>LEADER</th>
+                  <th>TYPE</th>
+                  <th>GYM BADGE</th>
+                  <th>GYM LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Brock (웅)</td><td>Rock</td><td>Boulder Badge</td><td>Plains</td><td>Onyx Stone</td></tr>
+                <tr><td>Misty (이슬)</td><td>Water</td><td>Cascade Badge</td><td>Lukewarm ocean</td><td>Cerulean Star</td></tr>
+                <tr><td>Lt. Surge (마티스)</td><td>Electric</td><td>Thunder Badge</td><td>Savanna Plateau</td><td>Lieutenant Medal</td></tr>
+                <tr><td>Erika (민화)</td><td>Grass</td><td>Rainbow Badge</td><td>Flower Forest</td><td>Nature Fan</td></tr>
+                <tr><td>Koga (독수)</td><td>Poison</td><td>Soul Badge</td><td>Swamp</td><td>Ninja Poison</td></tr>
+                <tr><td>Sabrina (초련)</td><td>Psychic</td><td>Marsh Badge</td><td>Dark Forest</td><td>Hypnotic Whip</td></tr>
+                <tr><td>Blaine (강연)</td><td>Fire</td><td>Volcano Badge</td><td>Crimson Forest</td><td>Cinnabar Glasses</td></tr>
+                <tr><td>Giovanni (비주기)</td><td>Ground</td><td>Earth badge</td><td>Deep Dark</td><td>Boss Ring</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="kanto-elite-four-sec">Elite Four Kanto [E]</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>MEMBER</th>
+                  <th>TYPE</th>
+                  <th>LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Lorelei</td><td>Ice</td><td>Elite Four Tower (The End)</td><td>Never-Melt Ice</td></tr>
+                <tr><td>Bruno</td><td>Fighting</td><td>Elite Four Tower (The End)</td><td>Focus Band</td></tr>
+                <tr><td>Agatha</td><td>Ghost</td><td>Elite Four Tower (The End)</td><td>Cleanse Tag</td></tr>
+                <tr><td>Lance</td><td>Dragon</td><td>Elite Four Tower (The End)</td><td>Dragon Fang</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="kanto-champion-sec">Kanto Champion [C]</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>NAME</th>
+                  <th>TYPE</th>
+                  <th>LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                  <th>UNIQUE DROP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Blue (그린)</td><td>Multi-type</td><td>Elite Four Tower (The Top)</td><td>Rival Sling</td><td>Ancient Origin Ball</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article id="doc-johto-gyms" class="wiki-doc">
+          <h2>Johto Gym Leaders [J]</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gym Leaders &gt; Johto Gym Leaders [J]</span><a href="https://www.lumyverse.com/en/cobbleverse/johto-gym-leaders/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+
+          <div class="callout-info" style="margin-bottom:20px;">
+            <h4 style="margin-top:0; margin-bottom:8px; color:#fff;">📑 목차 (Table of Contents)</h4>
+            <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:0.9rem;">
+              <a href="#johto-gym-leaders-sec">• Johto Gym Leaders</a>
+              <a href="#johto-elite-four-sec">• Elite Four Johto [E]</a>
+              <a href="#johto-champion-sec">• Johto Champion [C]</a>
+            </div>
+          </div>
+
+          <h3 id="johto-gym-leaders-sec">Johto Gym Leaders</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>GYM LEADER</th>
+                  <th>TYPE</th>
+                  <th>BADGE</th>
+                  <th>GYM LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Valerio (비상)</td><td>Flying</td><td>Zephyr Badge</td><td>Windswept Hills</td><td>Raptor Bracer</td></tr>
+                <tr><td>Raffaello (호일)</td><td>Bug</td><td>Hive Badge</td><td>Sparse Jungle</td><td>Magnifying Glass</td></tr>
+                <tr><td>Chiara (꼭두)</td><td>Normal</td><td>Plain Badge</td><td>Cherry Grove</td><td>Sweet Milk</td></tr>
+                <tr><td>Angelo (유빈)</td><td>Ghost</td><td>Fog Badge</td><td>Lush Cave</td><td>Spirit Scarf</td></tr>
+                <tr><td>Furio (사도)</td><td>Fighting</td><td>Storm Badge</td><td>Desert</td><td>Heavy Dumbbell</td></tr>
+                <tr><td>Jasmine (규리)</td><td>Steel</td><td>Mineral Badge</td><td>Taiga</td><td>Secret Medicine</td></tr>
+                <tr><td>Alfredo (류옹)</td><td>Ice</td><td>Glacier Badge</td><td>Ice Spikes</td><td>Winter Staff</td></tr>
+                <tr><td>Sandra (이향)</td><td>Dragon</td><td>Rising Badge</td><td>Soul Sand Valley</td><td>Pearl Choker</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="johto-elite-four-sec">Elite Four Johto [E]</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>MEMBER</th>
+                  <th>TYPE</th>
+                  <th>LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Pino</td><td>Psychic</td><td>Elite Four Tower (The End)</td><td>Power Lens</td></tr>
+                <tr><td>Koga</td><td>Poison</td><td>Elite Four Tower (The End)</td><td>Loaded Dice</td></tr>
+                <tr><td>Bruno</td><td>Fighting</td><td>Elite Four Tower (The End)</td><td>Muscle Band</td></tr>
+                <tr><td>Karen</td><td>Dark</td><td>Elite Four Tower (The End)</td><td>Razor Claw</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="johto-champion-sec">Johto Champion [C]</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>NAME</th>
+                  <th>TYPE</th>
+                  <th>LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                  <th>UNIQUE DROP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Lance (목호)</td><td>Dragon</td><td>Elite Four Tower (The End)</td><td>Master Cape</td><td>Shiny Gyarados</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article id="doc-hoenn-gyms" class="wiki-doc">
+          <h2>Hoenn Gym Leaders [H]</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gym Leaders &gt; Hoenn Gym Leaders [H]</span><a href="https://www.lumyverse.com/cobbleverse/hoenn-gyms/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+
+          <div class="callout-info" style="margin-bottom:20px;">
+            <h4 style="margin-top:0; margin-bottom:8px; color:#fff;">📑 목차 (Table of Contents)</h4>
+            <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:0.9rem;">
+              <a href="#hoenn-gym-leaders-sec">• Hoenn Gym Leaders</a>
+              <a href="#hoenn-elite-four-sec">• Elite Four Hoenn [E]</a>
+              <a href="#hoenn-champion-sec">• Hoenn Champion [C]</a>
+            </div>
+          </div>
+
+          <h3 id="hoenn-gym-leaders-sec">Hoenn Gym Leaders</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>GYM LEADER</th>
+                  <th>TYPE</th>
+                  <th>BADGE</th>
+                  <th>GYM LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Petra (원규)</td><td>Rock</td><td>Stone Badge</td><td>Rocky Mountains</td><td>Rock Tome</td></tr>
+                <tr><td>Rudi (철구)</td><td>Fighting</td><td>Knuckle Badge</td><td>Yosemite Cliffs</td><td>Fighting Glove</td></tr>
+                <tr><td>Walter (암페어)</td><td>Electric</td><td>Dynamo Badge</td><td>Arid Highlands</td><td>Electric Connector</td></tr>
+                <tr><td>Fiammetta (민지)</td><td>Fire</td><td>Heat Badge</td><td>Forested Highlands</td><td>Fire Lighter</td></tr>
+                <tr><td>Norman (종길)</td><td>Normal</td><td>Balance Badge</td><td>Brushland</td><td>Normal Tablet</td></tr>
+                <tr><td>Alice (은송)</td><td>Flying</td><td>Feather Badge</td><td>Moonlight Grove</td><td>Flying Feather</td></tr>
+                <tr><td>Tell &amp; Pat (풍&amp;란)</td><td>Psychic</td><td>Mind Badge</td><td>Amethyst Rainforest</td><td>Psychic Medallion</td></tr>
+                <tr><td>Adriano (아단)</td><td>Water</td><td>Rain Badge</td><td>Cold Ocean</td><td>Water Rod</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="hoenn-elite-four-sec">Elite Four Hoenn [E]</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>MEMBER</th>
+                  <th>TYPE</th>
+                  <th>LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Fosco</td><td>Dark</td><td>Hoenn League (Steppe)</td><td>Dark Bass</td></tr>
+                <tr><td>Ester</td><td>Ghost</td><td>Hoenn League (Steppe)</td><td>Ghost Bloom</td></tr>
+                <tr><td>Frida</td><td>Ice</td><td>Hoenn League (Steppe)</td><td>Ice Necklace</td></tr>
+                <tr><td>Drake</td><td>Dragon</td><td>Hoenn League (Steppe)</td><td>Dragon Cape</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="hoenn-champion-sec">Hoenn Champion [C]</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>NAME</th>
+                  <th>TYPE</th>
+                  <th>LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                  <th>UNIQUE DROP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Rocco (성호)</td><td>Steel</td><td>Hoenn League (Steppe)</td><td>Steel Hat</td><td>Ruby Dew, Sapphire Dew</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article id="doc-sinnoh-gyms" class="wiki-doc">
+          <h2>Sinnoh Gym Leaders [S]</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gym Leaders &gt; Sinnoh Gym Leaders [S]</span><a href="https://www.lumyverse.com/cobbleverse/sinnoh-gyms-leaders/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+
+          <div class="callout-info" style="margin-bottom:20px;">
+            <h4 style="margin-top:0; margin-bottom:8px; color:#fff;">📑 목차 (Table of Contents)</h4>
+            <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:0.9rem;">
+              <a href="#sinnoh-gym-leaders-sec">• Sinnoh Gym Leaders</a>
+              <a href="#sinnoh-elite-four-sec">• Elite Four Sinnoh [E]</a>
+              <a href="#sinnoh-champion-sec">• Sinnoh Champion [C]</a>
+            </div>
+          </div>
+
+          <h3 id="sinnoh-gym-leaders-sec">Sinnoh Gym Leaders</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>GYM LEADER</th>
+                  <th>TYPE</th>
+                  <th>BADGE</th>
+                  <th>GYM LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Pedro (강석)</td><td>Rock</td><td>Coal Badge</td><td>Volcanic Peaks</td><td>Rock Casque</td></tr>
+                <tr><td>Gardenia (유채)</td><td>Grass</td><td>Forest Badge</td><td>Blooming Valley</td><td>Grass Aroma</td></tr>
+                <tr><td>Marzia (자두)</td><td>Fighting</td><td>Cobble Badge</td><td>Lush Desert</td><td>Fighting Bandage</td></tr>
+                <tr><td>Omar (맥실러)</td><td>Water</td><td>Fen Badge</td><td>Beach</td><td>Water Mask</td></tr>
+                <tr><td>Fannie (멜리사)</td><td>Ghost</td><td>Relic Badge</td><td>Lavender Valley</td><td>Ghost Pendant</td></tr>
+                <tr><td>Ferruccio (동관)</td><td>Steel</td><td>Mine Badge</td><td>Volcanic Crater</td><td>Steel Spade</td></tr>
+                <tr><td>Bianca (무청)</td><td>Ice</td><td>Icicle Badge</td><td>Glacial Chasm</td><td>Ice Ribbon</td></tr>
+                <tr><td>Corrado (전진)</td><td>Electric</td><td>Beacon Badge</td><td>Shrublands</td><td>Electric Fuse</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="sinnoh-elite-four-sec">Elite Four Sinnoh [E]</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>MEMBER</th>
+                  <th>TYPE</th>
+                  <th>LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Aaron</td><td>Bug</td><td>Sinnoh League (Desert Oasis)</td><td>Bug Net</td></tr>
+                <tr><td>Terrie</td><td>Ground</td><td>Sinnoh League (Desert Oasis)</td><td>Ground Shawl</td></tr>
+                <tr><td>Vulcano</td><td>Fire</td><td>Sinnoh League (Desert Oasis)</td><td>Fire Flint</td></tr>
+                <tr><td>Luciano</td><td>Psychic</td><td>Sinnoh League (Desert Oasis)</td><td>Psychic Volume</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="sinnoh-champion-sec">Sinnoh Champion [C]</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>NAME</th>
+                  <th>TYPE</th>
+                  <th>LOCATION</th>
+                  <th>ITEM TO SPAWN</th>
+                  <th>UNIQUE DROP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Camilla (난천)</td><td>Various</td><td>Sinnoh League</td><td>Draconic Fin</td><td>Griseous Core</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article id="doc-unova-gyms" class="wiki-doc">
+          <h2>Unova Gym Leaders [U]</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Gym Leaders &gt; Unova Gym Leaders [U]</span><a href="https://www.lumyverse.com/cobbleverse/unova-gym-leader/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <div class="callout-info">
+            <p style="margin-bottom:0;"><strong>Working on it!</strong> (현재 제작진에서 개발 중인 항목입니다.)</p>
+          </div>
+        </article>
+
+        <!-- 27~31. Settings -->
+        <article id="doc-logs" class="wiki-doc">
+          <h2>마인크래프트 로그(Logs) 공유하는 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Settings &gt; How to Share Your Minecraft Logs</span><a href="https://www.lumyverse.com/cobbleverse/how-to-share-your-minecraft-logs/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>COBBLEVERSE 실행 중 크래시(충돌)가 발생하면, 먼저 추가 모드나 데이터팩, 리소스팩을 넣지 않은 순정 모드팩 상태인지 확인하세요. 호환되지 않는 모드를 추가한 것이 가장 흔한 원인이므로 먼저 제거하고 항상 월드를 백업하세요. 순정 상태에서도 문제가 발생한다면 런처 이름과 로그가 필요합니다:</p>
+          <ul>
+            <li><strong>1. Modrinth:</strong> 런처 왼쪽 메뉴의 “Logs” 섹션에서 <strong>“Share”</strong> 버튼을 클릭하면 자동으로 업로드되어 고유 링크가 생성됩니다. 이 링크를 복사해 공식 디스코드 지원 채널로 보내주세요.</li>
+            <li><strong>2. CurseForge:</strong> 모드팩 로고 우클릭 → “Open Folder” → <code>logs</code> 하위 폴더 진입 → <code>latest</code> 파일을 메모장으로 열어 전체 내용을 복사한 뒤 <code>mclo.gs</code> 웹사이트에 붙여넣고(또는 파일을 직접 드래그 앤 드롭), “Save”를 눌러 생성된 URL을 디스코드에 공유합니다.</li>
+            <li><strong>3. 서버 로그 (Server Logs):</strong> 서버 제어판 또는 FTP 파일 관리자에서 <code>logs</code> 폴더 안의 <code>latest</code> 파일을 열어 동일하게 <code>mclo.gs</code>에 업로드해 공유하세요.</li>
+          </ul>
+        </article>
+
+        <article id="doc-camroll" class="wiki-doc">
+          <h2>카메라 회전(Camera Roll) 비활성화 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Settings &gt; How to disable Camera Roll</span><a href="https://www.lumyverse.com/cobbleverse/how-to-disable-camera-roll/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>Cobblemon 1.7(Set Course 업데이트)에서 도입된 포켓몬 탑승 시스템(<code>Shift + 우클릭</code> → “Ride”, 내릴 때는 포켓몬 던지기 키)은 육지·수상·비행 탑승물에 따라 카메라 처리가 달라집니다. COBBLEVERSE에서는 비행 시 안정감을 위해 카메라 롤(기울어짐)이 기본 활성화되어 있지만, 멀미를 방지하기 위해 설정에서 끌 수 있습니다:</p>
+          <ol>
+            <li>메인 메뉴(Main Menu)를 엽니다.</li>
+            <li><strong>Mod Settings / Cobblemon Configuration</strong>으로 이동합니다.</li>
+            <li>Cobblemon 모드 아래의 <strong>Configure</strong>를 클릭합니다.</li>
+            <li><strong>Roll</strong> 옵션을 비활성화(Disable)하면 비행 및 탑승 시 화면 기울어짐이 꺼집니다.</li>
+          </ol>
+        </article>
+
+        <article id="doc-hunger" class="wiki-doc">
+          <h2>배고픔과 몹 활성화하는 방법 (How to Enable Hunger and Mobs)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Settings &gt; How to Enable Hunger and Mobs</span><a href="https://www.lumyverse.com/cobbleverse/how-to-enable-hunger-and-mobs/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <ul>
+            <li><strong>배고픔 활성화 (Enabling Hunger):</strong> Modrinth 런처에서는 클릭 한 번으로 해당 데이터팩을 비활성화할 수 있습니다. CurseForge에서는 “Open Folder”로 인스턴스 폴더를 연 뒤 <code>datapacks</code> 폴더 안의 <code>COBBLEVERSE – No Hunger</code> 파일을 삭제하세요.</li>
+            <li><strong>일반 몹 활성화 (Enabling Mobs):</strong> Modrinth에서는 런처에서 클릭 한 번으로 비활성화 가능하며, CurseForge에서는 인스턴스 폴더 내 <code>mods</code> 폴더에서 <code>MobsBeGone</code> 파일을 삭제하면 일반 몹이 다시 스폰됩니다.</li>
+          </ul>
+        </article>
+
+        <article id="doc-rayquaza" class="wiki-doc">
+          <h2>엔드(The End)의 레쿠쟈 비활성화 방법</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Settings &gt; How to disable Rayquaza in The End</span><a href="https://www.lumyverse.com/cobbleverse/how-to-disable-rayquaza-in-the-end/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>엔더 드래곤 스폰을 다시 켜려면 먼저 <code>COBBLEVERSE No Ender Dragon</code> 데이터팩을 삭제하세요. 이렇게 하면 엔드 차원에 엔더 드래곤과 레쿠쟈가 모두 스폰됩니다(CurseForge·Modrinth 공통).</p>
+          <p>반대로 엔드에서 레쿠쟈를 제거하고 싶다면 <code>COBBLEVERSE DP</code> 데이터팩 내부의 <code>function</code> 폴더에 있는 <code>spawn_Rayquaza</code> 파일을 삭제하기만 하면 됩니다.</p>
+        </article>
+
+        <article id="doc-hit" class="wiki-doc">
+          <h2>포켓몬을 때릴 수 있게 하는 방법 (How to hit Pokémon)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Settings &gt; How to hit Pokémon</span><a href="https://www.lumyverse.com/cobbleverse/how-to-hit-pokemon/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>COBBLEVERSE에서는 기본적으로 야생 포켓몬을 직접 타격할 수 없도록 설정되어 있지만 언제든 다시 켤 수 있습니다. 런처에서 <code>config</code> 폴더를 열고 <code>Cobblemon</code> 폴더 안의 <code>main</code> 설정 파일을 연 뒤, <code>PlayerDamagePokemon</code> 항목을 <code>False</code>에서 <code>True</code>로 변경하세요.</p>
+        </article>
+
+        <!-- 32. Changelog 1.8.0 -->
+        <article id="doc-180" class="wiki-doc">
+          <h2>COBBLEVERSE 1.8.0 (2026년 11월 17일) 업데이트 내역 전문</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Changelogs &gt; COBBLEVERSE 1.8.0</span><a href="https://www.lumyverse.com/cobbleverse/cobbleverse-1-8-0/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <p>이번 업데이트는 <strong>Cobblemon 1.8.4</strong> 최신 릴리스에 기반한 COBBLEVERSE의 새 버전 패치노트입니다. 특히 심각한 건강 및 개인적인 사정으로 인해 몇 달에 걸쳐 단계적으로 작업되었기 때문에 100% 오류가 없다고 보장할 수는 없으나, 변경된 전반적인 내용을 최대한 상세히 정리했습니다. 아직 하나(Unova) 지방이 포함된 대규모 업데이트는 아니며 현재 활발히 개발 중입니다. 업데이트를 진행하기 전 <strong>반드시 기존 월드 또는 “saves” 폴더의 백업 복사본을 만드실 것을 강력히 권장합니다!</strong></p>
+
+          <h3>🌟 주요 하이라이트 및 게임플레이 기능</h3>
+          <ul>
+            <li><strong>Cobblemon 1.8.4 호환성:</strong> 최신 Cobblemon 1.8.4 릴리스로 업데이트되었습니다.</li>
+            <li><strong>우두머리 포켓몬 (Alpha Pokémon):</strong> 일반 포켓몬보다 더 크고 강하며 공격적인 우두머리 포켓몬이 추가되었습니다. 항상 기술머신(TM) 기술을 배우고 있으며, 플레이어 파티보다 강하게 보정되어 항상 무리(herds)를 지어 스폰됩니다. 유루열매(Hopo Berries)에 우두머리 유인 미끼 효과가 추가되었습니다.</li>
+            <li><strong>아기 포켓몬 크기 스케일링:</strong> 아기 포켓몬은 레벨 1일 때 10% 더 작게 스폰되어 레벨 10이 되면 정상 크기로 성장합니다.</li>
+            <li><strong>공식 기술머신(TMs) 및 TM 머신:</strong> Cobblemon 공식 TM과 TM 머신이 추가되었습니다. TM은 속성 보석(Type Gems)으로 제작되며, 해당 기술을 아는 포켓몬을 보유하면 조합법이 해금됩니다. 기존 TMCraft TM은 향후 삭제될 예정이며, 현재 조합대에 넣으면 신형 TM으로 변환할 수 있습니다.</li>
+            <li><strong>타입 보석 및 테라피스 (Type Gems &amp; Tera-Shards):</strong> 속성 보석을 성장시키는 보석 블록, 수정 클러스터, 심층암 코어 블록이 추가되었으며 보석을 테라피스로 변환할 수도 있습니다.</li>
+            <li><strong>기술 도감(Move Dex) 및 진화 트리:</strong> 포켓몬 도감에 포켓몬이 배울 수 있는 기술과 특정 기술을 배우는 포켓몬을 확인하는 “Move Dex”와 전체 진화 계통·조건을 보여주는 진화 트리가 추가되었습니다.</li>
+            <li><strong>스타터 선택 &amp; 장비 개선:</strong> 개선된 스타터 선택 메뉴가 추가되었으며 모든 스타터는 시작 시 오랭열매(Oran Berry)를 지니고 있습니다.</li>
+            <li><strong>폴리곤 진화 변경:</strong> 이제 폴리곤은 데이터 모니터에 업그레이드(Upgrade)를 삽입해야만 얻을 수 있고, 폴리곤Z는 데이터 모니터에 괴상한패치(Dubious Disc)를 삽입해야만 얻을 수 있습니다.</li>
+            <li><strong>교배 및 특훈 변경:</strong> “발렌시아(Valencian)” 특성이 교배를 통해 유전되며, 왕관(Bottle Caps)은 기본적으로 대단한 특훈(Hyper Training)을 사용하도록 변경되었습니다(특훈 능력치는 교배로 유전되지 않음). 루가루암/암멍이 황혼의 모습 유전도 추가되었습니다.</li>
+            <li><strong>새 메가 장신구 및 비행:</strong> 메가팔찌 모델·텍스처 개편, 카르네 메가참·피아나 메가앵클릿 추가, 메가라이츄X 비행 가능.</li>
+            <li><strong>향상된 검색 및 명령어:</strong> 오타를 허용해 올바른 단어를 제안하고, 다른 언어(이탈리아어, 스페인어, 프랑스어, 독일어, 중국어 등 — <code>Alt + O</code> 메뉴에서 설정)로 아이템 검색이 가능해졌습니다. 새 명령어 <code>/givetm</code>이 추가되었습니다.</li>
+          </ul>
+
+          <h3>🍲 요리, 식사 및 믹서기 (Cooking, Meals &amp; The Mixer)</h3>
+          <ul>
+            <li><strong>모닥불 냄비 요리 (Campfire Pot Cooking):</strong> 이제 모닥불 냄비에서 요리를 만들 수 있으며, 요리는 고유 파워와 최대 3가지 양념(seasonings) 효과를 부여합니다. 새로운 요리는 기존 요리의 동일 파워를 대체하며 반대되는 효과(소형/거대, 무리 출현 증감, 우두머리 출현 증감)는 서로 상쇄됩니다.</li>
+            <li><strong>새 소스와 구운 나무열매:</strong> Sweet Honey, Sweet Fruit, Bitter Mushroom, Bitter Chocolate, Sour Milk, Spicy Honey 및 8종의 구운 나무열매가 추가되었습니다.</li>
+            <li><strong>포만감 메커니즘 &amp; 믹서기(The Mixer):</strong> 먹이를 주면 포켓몬의 포만감이 차오르며 배부른 포켓몬은 더 이상 먹이를 거절합니다. 레드스톤으로 작동하는 7가지 색상의 믹서기 블록에서 같은 색 나무열매 3개와 양념을 갈아 노력치(EV) 쉐이크와 디럭스 쉐이크를 만들 수 있습니다. 포켓몬이 좋아하는 맛의 쉐이크는 더 많은 노력치를 주고 싫어하는 맛은 적게 줍니다.</li>
+          </ul>
+
+          <h3>🗺️ 월드 생성, 구조물, 전리품 및 UI</h3>
+          <ul>
+            <li><strong>서식지 블록 및 49종의 신규 서식지 구조물:</strong> 요일에 따라 다른 희귀 포켓몬이 나타나는 49종의 새로운 서식지 구조물이 추가되었습니다.</li>
+            <li><strong>10종의 신규 유적 및 난파선 확정 TM:</strong> 유적 황금 상자에서 레벨업으로는 배울 수 없는 확정 TM을 얻을 수 있으며, 난파선 만(Shipwreck Coves) 보물상자에는 각각 <strong>블라스트번</strong>(Magma Cove), <strong>하드플랜트</strong>(Lush Cove), <strong>하이드로캐논</strong>(Submerged Cove) TM이 확정 지급됩니다.</li>
+            <li><strong>레이드 굴 지도 표시 &amp; 얼룩숲(Dappled Forest) 바이옴:</strong> 월드맵에서 레이드 굴의 위치, 포켓몬 이름·난이도·테라스탈 타입을 확인할 수 있습니다. 얼룩숲 바이옴과 포플러 나무 세트, 버섯 선반, 밀짚 침대, 구리 도구/방어구/상자/골렘 등 바닐라 백포트 아이템과 바닥에 배치·착용 가능한 수많은 포켓몬 도구, 춤추새 꽃, 필드 씨앗 재배 시스템이 추가되었습니다.</li>
+            <li><strong>위치 표시 바 (Locator Bar):</strong> 경험치를 얻지 않는 동안 경험치 바 위치에 다른 플레이어의 방향과 동서남북 방위를 보여주는 HUD UI가 표시됩니다(웅크리기나 몹 머리 착용 시 숨김 가능).</li>
+          </ul>
+        </article>
+
+        <article id="doc-oldlogs" class="wiki-doc">
+          <h2>이전 버전 목록 (1.7.42 ~ 1.7.0c)</h2>
+          <div class="doc-meta"><span>COBBLEVERSE Wiki &gt; Changelogs</span><a href="https://www.lumyverse.com/cobbleverse/" target="_blank" rel="noopener">원문 페이지 ↗</a></div>
+          <ul>
+            <li>COBBLEVERSE 1.7.42 (2026년 7월 21일)</li>
+            <li>COBBLEVERSE 1.7.41 (2026년 7월 15일)</li>
+            <li>COBBLEVERSE 1.7.31 (2026년 4월 4일) &amp; LumyMon 업데이트</li>
+            <li>COBBLEVERSE 1.7.30 – 포켓몬 30주년 기념 (Pokémon's 30th Anniversary)</li>
+            <li>COBBLEVERSE 1.7.3 (Modrinth) / 1.7.2 (CurseForge) / 1.7.1 (Modrinth) / 1.7 (CurseForge) / 1.7.0c (Modrinth)</li>
+          </ul>
+        </article>
+
+    <div class="doc-footer-nav">
+      <button class="nav-step-btn" onclick="stepDoc(-1)">← 이전 문서</button>
+      <button class="nav-step-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ 맨 위로</button>
+      <button class="nav-step-btn" onclick="stepDoc(1)">다음 문서 →</button>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <p>COBBLEVERSE Wiki – LUMYVERSE (lumyverse.com/cobbleverse) · 무삭제 한국어 전체 번역본</p>
+</footer>
+
+<script>
+  function openDoc(docId, btn) {
+    var docs = document.querySelectorAll('.wiki-doc');
+    for (var i = 0; i < docs.length; i++) {
+      docs[i].classList.remove('active');
+    }
+    var btns = document.querySelectorAll('.side-btn');
+    for (var j = 0; j < btns.length; j++) {
+      btns[j].classList.remove('active');
+    }
+    var target = document.getElementById(docId);
+    if (target) {
+      target.classList.add('active');
+    }
+    if (btn) {
+      btn.classList.add('active');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function stepDoc(dir) {
+    var btns = Array.prototype.slice.call(document.querySelectorAll('.side-btn'));
+    var currentIdx = -1;
+    for (var i = 0; i < btns.length; i++) {
+      if (btns[i].classList.contains('active')) {
+        currentIdx = i;
+        break;
+      }
+    }
+    var nextIdx = currentIdx + dir;
+    if (nextIdx >= 0 && nextIdx < btns.length) {
+      btns[nextIdx].click();
+    }
+  }
+
+  function filterSidebar() {
+    var q = document.getElementById('wikiSearchInput').value.toLowerCase();
+    var groups = document.querySelectorAll('.cat-group');
+    for (var g = 0; g < groups.length; g++) {
+      var items = groups[g].querySelectorAll('.nav-list li');
+      var visibleCount = 0;
+      for (var i = 0; i < items.length; i++) {
+        var text = items[i].innerText.toLowerCase();
+        var match = text.indexOf(q) !== -1;
+        items[i].style.display = match ? 'block' : 'none';
+        if (match) visibleCount++;
+      }
+      groups[g].style.display = visibleCount > 0 ? 'block' : 'none';
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) {
+      e.preventDefault();
+      var art = el.closest('article.wiki-doc');
+      if (art && !art.classList.contains('active')) {
+        var sideBtn = document.querySelector('.side-btn[onclick*="openDoc(\'' + art.id + '\'"]');
+        openDoc(art.id, sideBtn || null);
+        setTimeout(function() {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 80);
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
+</script>
+
+</body>
+
+</html>
